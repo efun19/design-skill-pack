@@ -1,0 +1,1512 @@
+[
+  {
+    "id": "claude",
+    "name": "Claude",
+    "theme": "light",
+    "vibe": [
+      "编辑感",
+      "温暖",
+      "衬线标题",
+      "克制"
+    ],
+    "scenarios": [
+      "ai",
+      "landing",
+      "marketing",
+      "blog",
+      "portfolio",
+      "docs"
+    ],
+    "blurb": "米白画布、衬线大标题、珊瑚强调色 —— 文学感、克制的编辑声音。",
+    "design_md": "design-md/claude/DESIGN.md"
+  },
+  {
+    "id": "cohere",
+    "name": "Cohere",
+    "theme": "light",
+    "vibe": [
+      "克制",
+      "企业感",
+      "极简",
+      "近黑"
+    ],
+    "scenarios": [
+      "ai",
+      "enterprise",
+      "landing",
+      "saas",
+      "marketing",
+      "developer",
+      "blog"
+    ],
+    "blurb": "白底画布、近黑 CTA、企业绿与蓝色链接 —— 克制的 AI 平台。",
+    "design_md": "design-md/cohere/DESIGN.md"
+  },
+  {
+    "id": "elevenlabs",
+    "name": "ElevenLabs",
+    "theme": "light",
+    "vibe": [
+      "编辑感",
+      "温暖",
+      "轻衬线",
+      "渐变光晕"
+    ],
+    "scenarios": [
+      "ai",
+      "landing",
+      "marketing",
+      "media",
+      "blog",
+      "portfolio"
+    ],
+    "blurb": "暖白画布、轻衬线标题、柔和渐变光晕 —— 语音 AI 的杂志感。",
+    "design_md": "design-md/elevenlabs/DESIGN.md"
+  },
+  {
+    "id": "minimax",
+    "name": "MiniMax",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "多彩",
+      "高密度",
+      "工程感"
+    ],
+    "scenarios": [
+      "ai",
+      "landing",
+      "developer",
+      "saas",
+      "dashboard",
+      "marketing",
+      "docs"
+    ],
+    "blurb": "白底画布、黑色胶囊 CTA、多彩模型卡 —— 高密度 AI 基建。",
+    "design_md": "design-md/minimax/DESIGN.md"
+  },
+  {
+    "id": "mistral-ai",
+    "name": "Mistral AI",
+    "theme": "light",
+    "vibe": [
+      "编辑感",
+      "衬线标题",
+      "日落渐变",
+      "温暖"
+    ],
+    "scenarios": [
+      "ai",
+      "landing",
+      "marketing",
+      "blog",
+      "portfolio",
+      "developer"
+    ],
+    "blurb": "白底画布、衬线展示标题、饱和橙色 CTA、日落渐变条纹 —— 编辑感的 AI 平台。",
+    "design_md": "design-md/mistral.ai/DESIGN.md"
+  },
+  {
+    "id": "ollama",
+    "name": "Ollama",
+    "theme": "light",
+    "vibe": [
+      "极简",
+      "黑白",
+      "全圆角",
+      "文档感"
+    ],
+    "scenarios": [
+      "ai",
+      "developer",
+      "docs",
+      "landing",
+      "blog",
+      "marketing"
+    ],
+    "blurb": "白纸画布、纯黑胶囊 CTA、全圆角几何 —— 文档级极简主义。",
+    "design_md": "design-md/ollama/DESIGN.md"
+  },
+  {
+    "id": "opencode-ai",
+    "name": "OpenCode AI",
+    "theme": "light",
+    "vibe": [
+      "暖奶油",
+      "等宽字体",
+      "终端感",
+      "工程感"
+    ],
+    "scenarios": [
+      "ai",
+      "developer",
+      "landing",
+      "docs",
+      "marketing",
+      "saas"
+    ],
+    "blurb": "暖奶油画布、100% 等宽字体、ASCII 终端风格 —— 开发者工具。",
+    "design_md": "design-md/opencode.ai/DESIGN.md"
+  },
+  {
+    "id": "replicate",
+    "name": "Replicate",
+    "theme": "light",
+    "vibe": [
+      "暖奶油",
+      "炽橙",
+      "大字号",
+      "工作室感"
+    ],
+    "scenarios": [
+      "ai",
+      "developer",
+      "landing",
+      "marketing",
+      "portfolio",
+      "saas"
+    ],
+    "blurb": "暖奶油画布、炽热橙 CTA、大字号展示体 —— AI 模型工作室。",
+    "design_md": "design-md/replicate/DESIGN.md"
+  },
+  {
+    "id": "runwayml",
+    "name": "Runway",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "紧凑编辑字体",
+      "零阴影",
+      "影视感"
+    ],
+    "scenarios": [
+      "ai",
+      "media",
+      "landing",
+      "marketing",
+      "portfolio",
+      "blog"
+    ],
+    "blurb": "纯黑画布、紧凑编辑字体、零阴影 —— 影视制作 AI。",
+    "design_md": "design-md/runwayml/DESIGN.md"
+  },
+  {
+    "id": "together-ai",
+    "name": "Together AI",
+    "theme": "light",
+    "vibe": [
+      "暗色",
+      "三色渐变",
+      "等宽标签",
+      "平台感"
+    ],
+    "scenarios": [
+      "ai",
+      "developer",
+      "landing",
+      "saas",
+      "enterprise",
+      "dashboard",
+      "docs"
+    ],
+    "blurb": "深色画布、三色渐变、mono标签 —— AI云基建的平台感。",
+    "design_md": "design-md/together.ai/DESIGN.md"
+  },
+  {
+    "id": "voltagent",
+    "name": "VoltAgent",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "电光绿",
+      "发丝线",
+      "工程感"
+    ],
+    "scenarios": [
+      "ai",
+      "developer",
+      "landing",
+      "saas",
+      "dashboard",
+      "docs"
+    ],
+    "blurb": "纯黑画布、电光绿 CTA、发丝线卡片 —— 工程师的 AI 平台。",
+    "design_md": "design-md/voltagent/DESIGN.md"
+  },
+  {
+    "id": "x-ai",
+    "name": "xAI",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "超大字间距",
+      "极简",
+      "前沿研究"
+    ],
+    "scenarios": [
+      "ai",
+      "landing",
+      "marketing",
+      "portfolio",
+      "media",
+      "blog"
+    ],
+    "blurb": "纯黑画布、白色胶囊按钮、超大字间距 —— 前沿 AI 实验室。",
+    "design_md": "design-md/x.ai/DESIGN.md"
+  },
+  {
+    "id": "vercel",
+    "name": "Vercel",
+    "theme": "light",
+    "vibe": [
+      "极简",
+      "黑白",
+      "锥形渐变",
+      "工程感"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "saas",
+      "docs",
+      "marketing",
+      "ai",
+      "portfolio"
+    ],
+    "blurb": "黑白二元、Geist 字体、单一锥形渐变作为全部装饰系统。",
+    "design_md": "design-md/vercel/DESIGN.md"
+  },
+  {
+    "id": "cursor",
+    "name": "Cursor",
+    "theme": "light",
+    "vibe": [
+      "暖奶油",
+      "橙色",
+      "编辑感",
+      "粉彩"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "saas",
+      "ai",
+      "marketing",
+      "blog"
+    ],
+    "blurb": "暖奶油画布、橙色 CTA、粉彩时间线 —— 编辑感的开发者工具。",
+    "design_md": "design-md/cursor/DESIGN.md"
+  },
+  {
+    "id": "expo",
+    "name": "Expo",
+    "theme": "light",
+    "vibe": [
+      "极简",
+      "纯黑",
+      "白底",
+      "克制"
+    ],
+    "scenarios": [
+      "developer",
+      "docs",
+      "landing",
+      "saas",
+      "blog",
+      "marketing"
+    ],
+    "blurb": "白底画布、极简纯黑 —— 移动端框架的极简主义。",
+    "design_md": "design-md/expo/DESIGN.md"
+  },
+  {
+    "id": "lovable",
+    "name": "Lovable",
+    "theme": "light",
+    "vibe": [
+      "温暖",
+      "羊皮纸",
+      "手作感",
+      "亲和"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "saas",
+      "ai",
+      "marketing",
+      "blog",
+      "portfolio"
+    ],
+    "blurb": "暖羊皮纸画布、炭灰强调、内阴影按钮 —— 亲和的手作感。",
+    "design_md": "design-md/lovable/DESIGN.md"
+  },
+  {
+    "id": "raycast",
+    "name": "Raycast",
+    "theme": "dark",
+    "vibe": [
+      "暗色",
+      "近黑",
+      "效率",
+      "命令行感"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "saas",
+      "marketing",
+      "ai",
+      "dashboard"
+    ],
+    "blurb": "近黑画布、白色 CTA —— 命令行式效率启动器。",
+    "design_md": "design-md/raycast/DESIGN.md"
+  },
+  {
+    "id": "superhuman",
+    "name": "Superhuman",
+    "theme": "light",
+    "vibe": [
+      "杂志感",
+      "靛蓝",
+      "紫罗兰",
+      "编辑感"
+    ],
+    "scenarios": [
+      "saas",
+      "landing",
+      "marketing",
+      "blog",
+      "portfolio",
+      "developer"
+    ],
+    "blurb": "白底画布、靛蓝 Hero、紫罗兰 pill CTA —— 三幕式邮件杂志。",
+    "design_md": "design-md/superhuman/DESIGN.md"
+  },
+  {
+    "id": "warp",
+    "name": "Warp",
+    "theme": "dark",
+    "vibe": [
+      "暖暗色",
+      "米白强调",
+      "极窄圆角",
+      "安静自信"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "saas",
+      "ai",
+      "marketing",
+      "dashboard"
+    ],
+    "blurb": "暖暗画布、米白强调、极窄圆角 —— 安静自信的终端。",
+    "design_md": "design-md/warp/DESIGN.md"
+  },
+  {
+    "id": "supabase",
+    "name": "Supabase",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "祖母绿",
+      "紧凑负字距",
+      "技术感"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "saas",
+      "docs",
+      "dashboard",
+      "ai",
+      "marketing"
+    ],
+    "blurb": "白底画布、单一祖母绿 CTA、紧凑负字距 —— 安静的技术感。",
+    "design_md": "design-md/supabase/DESIGN.md"
+  },
+  {
+    "id": "clickhouse",
+    "name": "ClickHouse",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "电黄",
+      "极致性能",
+      "工程感"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "enterprise",
+      "dashboard",
+      "saas",
+      "docs",
+      "marketing"
+    ],
+    "blurb": "纯黑画布、电黄色强调 —— 数据库的极致性能。",
+    "design_md": "design-md/clickhouse/DESIGN.md"
+  },
+  {
+    "id": "composio",
+    "name": "Composio",
+    "theme": "dark",
+    "vibe": [
+      "暗色",
+      "深蓝",
+      "终端感",
+      "工程感"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "saas",
+      "ai",
+      "docs",
+      "marketing"
+    ],
+    "blurb": "近黑画布、深蓝电压 CTA、终端风格 —— 开发者集成工具包。",
+    "design_md": "design-md/composio/DESIGN.md"
+  },
+  {
+    "id": "hashicorp",
+    "name": "HashiCorp",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "权威",
+      "工程感",
+      "企业感"
+    ],
+    "scenarios": [
+      "developer",
+      "enterprise",
+      "landing",
+      "saas",
+      "docs",
+      "dashboard",
+      "marketing"
+    ],
+    "blurb": "纯黑画布、白色 CTA、产品色卡片 —— 基础设施即代码的权威。",
+    "design_md": "design-md/hashicorp/DESIGN.md"
+  },
+  {
+    "id": "mongodb",
+    "name": "MongoDB",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "亮绿",
+      "活力",
+      "技术感"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "saas",
+      "docs",
+      "enterprise",
+      "dashboard",
+      "marketing"
+    ],
+    "blurb": "白底画布、亮绿胶囊 CTA、深 teal footer —— 文档数据库的活力。",
+    "design_md": "design-md/mongodb/DESIGN.md"
+  },
+  {
+    "id": "posthog",
+    "name": "PostHog",
+    "theme": "light",
+    "vibe": [
+      "暖奶油",
+      "橙黄",
+      "友好",
+      "工程感"
+    ],
+    "scenarios": [
+      "developer",
+      "dashboard",
+      "landing",
+      "saas",
+      "marketing",
+      "docs",
+      "blog"
+    ],
+    "blurb": "暖奶油画布、橄榄灰文字、黄橙 CTA —— 友好的开发者分析工具。",
+    "design_md": "design-md/posthog/DESIGN.md"
+  },
+  {
+    "id": "sanity",
+    "name": "Sanity",
+    "theme": "dark",
+    "vibe": [
+      "近黑",
+      "珊瑚红",
+      "极紧负字距",
+      "工程感"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "saas",
+      "blog",
+      "docs",
+      "marketing"
+    ],
+    "blurb": "近黑画布、珊瑚红 CTA、极紧负字距 —— 开发者的内容平台。",
+    "design_md": "design-md/sanity/DESIGN.md"
+  },
+  {
+    "id": "sentry",
+    "name": "Sentry",
+    "theme": "dark",
+    "vibe": [
+      "午夜紫",
+      "祖母绿",
+      "青柠",
+      "权威"
+    ],
+    "scenarios": [
+      "developer",
+      "dashboard",
+      "landing",
+      "saas",
+      "enterprise",
+      "docs",
+      "marketing"
+    ],
+    "blurb": "午夜紫画布、祖母绿 CTA、青柠强调 —— 开发者监控的权威。",
+    "design_md": "design-md/sentry/DESIGN.md"
+  },
+  {
+    "id": "linear",
+    "name": "Linear",
+    "theme": "dark",
+    "vibe": [
+      "暗色",
+      "几何无衬线",
+      "紧凑",
+      "技术感"
+    ],
+    "scenarios": [
+      "saas",
+      "developer",
+      "landing",
+      "dashboard",
+      "marketing",
+      "ai",
+      "docs"
+    ],
+    "blurb": "近黑表面、紧凑几何无衬线、薰衣草强调 —— 安静的软件手艺。",
+    "design_md": "design-md/linear/DESIGN.md"
+  },
+  {
+    "id": "notion",
+    "name": "Notion",
+    "theme": "light",
+    "vibe": [
+      "友好",
+      "粉彩",
+      "自信",
+      "亲和"
+    ],
+    "scenarios": [
+      "saas",
+      "landing",
+      "marketing",
+      "blog",
+      "docs",
+      "portfolio"
+    ],
+    "blurb": "navy hero 横幅、紫色胶囊 CTA、粉彩卡片 —— 自信而友好。",
+    "design_md": "design-md/notion/DESIGN.md"
+  },
+  {
+    "id": "cal",
+    "name": "Cal.com",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "黑色",
+      "极简",
+      "开发者友好"
+    ],
+    "scenarios": [
+      "saas",
+      "developer",
+      "landing",
+      "marketing",
+      "docs",
+      "dashboard"
+    ],
+    "blurb": "白底画布、黑色 CTA、浅灰卡片 —— 开发者友好的日程 SaaS。",
+    "design_md": "design-md/cal/DESIGN.md"
+  },
+  {
+    "id": "intercom",
+    "name": "Intercom",
+    "theme": "light",
+    "vibe": [
+      "暖奶油",
+      "炭灰",
+      "编辑感",
+      "温暖"
+    ],
+    "scenarios": [
+      "saas",
+      "landing",
+      "marketing",
+      "blog",
+      "ai",
+      "portfolio"
+    ],
+    "blurb": "奶油画布、白色浮卡、炭灰 CTA、Fin Orange 点睛 —— 编辑感的客户消息平台。",
+    "design_md": "design-md/intercom/DESIGN.md"
+  },
+  {
+    "id": "mintlify",
+    "name": "Mintlify",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "祖母绿",
+      "清晰",
+      "渐变"
+    ],
+    "scenarios": [
+      "docs",
+      "developer",
+      "landing",
+      "saas",
+      "blog",
+      "marketing",
+      "ai"
+    ],
+    "blurb": "白底画布、祖母绿强调、pill 按钮、天空渐变 Hero —— 文档平台的清晰。",
+    "design_md": "design-md/mintlify/DESIGN.md"
+  },
+  {
+    "id": "resend",
+    "name": "Resend",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "衬线标题",
+      "氛围光感",
+      "编辑感"
+    ],
+    "scenarios": [
+      "developer",
+      "landing",
+      "saas",
+      "blog",
+      "marketing",
+      "portfolio"
+    ],
+    "blurb": "纯黑画布、衬线大标题、彩色氛围光晕 —— 开发者邮件 API 的编辑感。",
+    "design_md": "design-md/resend/DESIGN.md"
+  },
+  {
+    "id": "slack",
+    "name": "Slack",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "茄紫",
+      "粉彩渐变",
+      "协作感"
+    ],
+    "scenarios": [
+      "saas",
+      "landing",
+      "marketing",
+      "enterprise",
+      "dashboard",
+      "blog"
+    ],
+    "blurb": "白底画布、Aubergine pill CTA、粉彩 mesh 渐变 Hero —— 频道式团队协作。",
+    "design_md": "design-md/slack/DESIGN.md"
+  },
+  {
+    "id": "zapier",
+    "name": "Zapier",
+    "theme": "light",
+    "vibe": [
+      "暖奶油",
+      "焦橙",
+      "活力",
+      "自动化"
+    ],
+    "scenarios": [
+      "saas",
+      "landing",
+      "marketing",
+      "developer",
+      "ai",
+      "blog"
+    ],
+    "blurb": "暖奶油画布、焦橙 CTA、咖啡墨水、大写眉题 —— 工作流自动化的活力。",
+    "design_md": "design-md/zapier/DESIGN.md"
+  },
+  {
+    "id": "figma",
+    "name": "Figma",
+    "theme": "light",
+    "vibe": [
+      "色块",
+      "编辑感",
+      "饱和粉彩",
+      "技术感"
+    ],
+    "scenarios": [
+      "saas",
+      "landing",
+      "marketing",
+      "portfolio",
+      "blog",
+      "media",
+      "developer"
+    ],
+    "blurb": "黑白框架被超大饱和粉彩色块打断 —— 技术又欢快。",
+    "design_md": "design-md/figma/DESIGN.md"
+  },
+  {
+    "id": "airtable",
+    "name": "Airtable",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "墨黑",
+      "编辑感",
+      "奶油色块"
+    ],
+    "scenarios": [
+      "saas",
+      "landing",
+      "marketing",
+      "blog",
+      "dashboard",
+      "enterprise"
+    ],
+    "blurb": "白底画布、近黑 CTA、奶油色块 —— 编辑感数据库平台。",
+    "design_md": "design-md/airtable/DESIGN.md"
+  },
+  {
+    "id": "clay",
+    "name": "Clay",
+    "theme": "light",
+    "vibe": [
+      "暖奶油",
+      "饱和彩色",
+      "黏土感",
+      "活力"
+    ],
+    "scenarios": [
+      "saas",
+      "landing",
+      "marketing",
+      "ai",
+      "dashboard",
+      "portfolio"
+    ],
+    "blurb": "暖奶油画布、饱和彩色卡片、大黄油CTA —— 黏土风格的数据平台。",
+    "design_md": "design-md/clay/DESIGN.md"
+  },
+  {
+    "id": "framer",
+    "name": "Framer",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "极端负字距",
+      "渐变聚光",
+      "海报感"
+    ],
+    "scenarios": [
+      "landing",
+      "portfolio",
+      "marketing",
+      "saas",
+      "media",
+      "blog",
+      "developer"
+    ],
+    "blurb": "纯黑画布、极端负字距、渐变聚光卡片 —— 海报级建站工具。",
+    "design_md": "design-md/framer/DESIGN.md"
+  },
+  {
+    "id": "miro",
+    "name": "Miro",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "金黄",
+      "粉彩便签",
+      "协作感"
+    ],
+    "scenarios": [
+      "saas",
+      "landing",
+      "marketing",
+      "enterprise",
+      "dashboard",
+      "portfolio"
+    ],
+    "blurb": "白底画布、金黄强调、粉彩便签卡片 —— 可视化协作白板。",
+    "design_md": "design-md/miro/DESIGN.md"
+  },
+  {
+    "id": "webflow",
+    "name": "Webflow",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "五彩分类",
+      "工程感",
+      "大写眉题"
+    ],
+    "scenarios": [
+      "saas",
+      "landing",
+      "marketing",
+      "portfolio",
+      "blog",
+      "developer",
+      "ecommerce"
+    ],
+    "blurb": "白底画布、近黑矩形 CTA、五色分类卡片、大写眉题 —— 工程感建站平台。",
+    "design_md": "design-md/webflow/DESIGN.md"
+  },
+  {
+    "id": "stripe",
+    "name": "Stripe",
+    "theme": "light",
+    "vibe": [
+      "渐变",
+      "细体标题",
+      "氛围光感",
+      "金融科技"
+    ],
+    "scenarios": [
+      "landing",
+      "fintech",
+      "saas",
+      "developer",
+      "marketing",
+      "enterprise",
+      "docs"
+    ],
+    "blurb": "纤细标题字体、靛蓝主色、hero 上的氛围渐变 mesh。",
+    "design_md": "design-md/stripe/DESIGN.md"
+  },
+  {
+    "id": "binance",
+    "name": "Binance",
+    "theme": "dark",
+    "vibe": [
+      "暗色",
+      "金黄",
+      "自信",
+      "金融科技"
+    ],
+    "scenarios": [
+      "fintech",
+      "landing",
+      "dashboard",
+      "enterprise",
+      "marketing",
+      "saas"
+    ],
+    "blurb": "近黑画布、金黄 CTA、永久亮色 footer —— 加密交易所的自信。",
+    "design_md": "design-md/binance/DESIGN.md"
+  },
+  {
+    "id": "coinbase",
+    "name": "Coinbase",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "编辑感",
+      "机构感",
+      "克制"
+    ],
+    "scenarios": [
+      "fintech",
+      "landing",
+      "marketing",
+      "enterprise",
+      "blog",
+      "portfolio"
+    ],
+    "blurb": "白底画布、80px weight-400 展示体、蓝色 pill CTA —— 机构级编辑感。",
+    "design_md": "design-md/coinbase/DESIGN.md"
+  },
+  {
+    "id": "kraken",
+    "name": "Kraken",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "紫色",
+      "可信赖",
+      "金融科技"
+    ],
+    "scenarios": [
+      "fintech",
+      "landing",
+      "dashboard",
+      "saas",
+      "marketing",
+      "enterprise"
+    ],
+    "blurb": "白底画布、紫色 12px 圆角按钮、IBM Plex Sans、whisper 阴影 —— 可信赖的交易所。",
+    "design_md": "design-md/kraken/DESIGN.md"
+  },
+  {
+    "id": "mastercard",
+    "name": "Mastercard",
+    "theme": "light",
+    "vibe": [
+      "暖奶油",
+      "墨黑",
+      "极端圆角",
+      "编辑感"
+    ],
+    "scenarios": [
+      "fintech",
+      "landing",
+      "marketing",
+      "enterprise",
+      "blog",
+      "ecommerce"
+    ],
+    "blurb": "暖奶油画布、墨黑胶囊、极端圆角 —— 机构的温度。",
+    "design_md": "design-md/mastercard/DESIGN.md"
+  },
+  {
+    "id": "revolut",
+    "name": "Revolut",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "白色pill",
+      "大字号展示体",
+      "气势"
+    ],
+    "scenarios": [
+      "fintech",
+      "landing",
+      "marketing",
+      "ecommerce",
+      "portfolio",
+      "saas"
+    ],
+    "blurb": "纯黑画布、80px weight-500 展示体、白色 pill CTA —— 数字银行的气势。",
+    "design_md": "design-md/revolut/DESIGN.md"
+  },
+  {
+    "id": "wise",
+    "name": "Wise",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "薄荷绿",
+      "粗体展示体",
+      "杂志感"
+    ],
+    "scenarios": [
+      "fintech",
+      "landing",
+      "marketing",
+      "blog",
+      "portfolio",
+      "ecommerce"
+    ],
+    "blurb": "白底鼠尾草、lime-green pill CTA、weight-900 展示体 —— 北欧 fintech 杂志感。",
+    "design_md": "design-md/wise/DESIGN.md"
+  },
+  {
+    "id": "airbnb",
+    "name": "Airbnb",
+    "theme": "light",
+    "vibe": [
+      "温暖",
+      "柔和圆角",
+      "慷慨留白",
+      "亲和"
+    ],
+    "scenarios": [
+      "ecommerce",
+      "landing",
+      "marketing",
+      "portfolio",
+      "blog",
+      "media"
+    ],
+    "blurb": "干净白底、Rausch 珊瑚、处处柔和圆角、慷慨留白。",
+    "design_md": "design-md/airbnb/DESIGN.md"
+  },
+  {
+    "id": "meta",
+    "name": "Meta",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "蓝色",
+      "克制",
+      "连接感"
+    ],
+    "scenarios": [
+      "landing",
+      "marketing",
+      "enterprise",
+      "ai",
+      "media",
+      "saas"
+    ],
+    "blurb": "白底画布、黑色 + 蓝色双 CTA、100px pill —— 社交平台的克制与连接感。",
+    "design_md": "design-md/meta/DESIGN.md"
+  },
+  {
+    "id": "nike",
+    "name": "Nike",
+    "theme": "light",
+    "vibe": [
+      "黑白",
+      "极致字体对比",
+      "零阴影",
+      "编辑感"
+    ],
+    "scenarios": [
+      "ecommerce",
+      "landing",
+      "marketing",
+      "blog",
+      "portfolio",
+      "media"
+    ],
+    "blurb": "极致的字体对比、黑色胶囊 CTA、零阴影 —— 编辑式电商。",
+    "design_md": "design-md/nike/DESIGN.md"
+  },
+  {
+    "id": "shopify",
+    "name": "Shopify",
+    "theme": "light",
+    "vibe": [
+      "双画布",
+      "细体大标题",
+      "电影感",
+      "编辑感"
+    ],
+    "scenarios": [
+      "ecommerce",
+      "landing",
+      "marketing",
+      "saas",
+      "blog",
+      "portfolio"
+    ],
+    "blurb": "黑色 cinematic Hero、奶油交易区、weight-330 细体大标题、白色描边 pill —— 双画布商家平台。",
+    "design_md": "design-md/shopify/DESIGN.md"
+  },
+  {
+    "id": "starbucks",
+    "name": "Starbucks",
+    "theme": "light",
+    "vibe": [
+      "温暖",
+      "咖啡奶油",
+      "绿色",
+      "零售旗舰"
+    ],
+    "scenarios": [
+      "ecommerce",
+      "landing",
+      "marketing",
+      "blog",
+      "media",
+      "portfolio"
+    ],
+    "blurb": "暖咖啡奶油、四级绿、胶囊按钮 —— 零售旗舰的温度。",
+    "design_md": "design-md/starbucks/DESIGN.md"
+  },
+  {
+    "id": "apple",
+    "name": "Apple",
+    "theme": "light",
+    "vibe": [
+      "画廊感",
+      "极简",
+      "居中标题",
+      "克制"
+    ],
+    "scenarios": [
+      "landing",
+      "marketing",
+      "media",
+      "ecommerce",
+      "portfolio",
+      "blog"
+    ],
+    "blurb": "居中标题、单一 Action Blue、克制的 chrome —— 像美术馆的营销。",
+    "design_md": "design-md/apple/DESIGN.md"
+  },
+  {
+    "id": "spotify",
+    "name": "Spotify",
+    "theme": "dark",
+    "vibe": [
+      "暗色",
+      "沉浸",
+      "单一绿色",
+      "几何"
+    ],
+    "scenarios": [
+      "media",
+      "landing",
+      "marketing",
+      "portfolio",
+      "blog",
+      "ecommerce"
+    ],
+    "blurb": "近黑沉浸茧、单一绿色强调、胶囊 + 圆形几何、大写标签。",
+    "design_md": "design-md/spotify/DESIGN.md"
+  },
+  {
+    "id": "ibm",
+    "name": "IBM",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "蓝色",
+      "方形美学",
+      "企业克制"
+    ],
+    "scenarios": [
+      "enterprise",
+      "landing",
+      "marketing",
+      "developer",
+      "saas",
+      "docs",
+      "dashboard"
+    ],
+    "blurb": "白底画布、IBM Blue 方形美学、重量 300 展示体 —— Carbon Design 的企业克制。",
+    "design_md": "design-md/ibm/DESIGN.md"
+  },
+  {
+    "id": "nvidia",
+    "name": "NVIDIA",
+    "theme": "light",
+    "vibe": [
+      "双色",
+      "算力绿",
+      "工程感",
+      "锐利圆角"
+    ],
+    "scenarios": [
+      "enterprise",
+      "landing",
+      "marketing",
+      "developer",
+      "ai",
+      "saas",
+      "media"
+    ],
+    "blurb": "深色 Hero 与白纸正文交替、NVIDIA 绿 2px 圆角 —— 工程级设计语言。",
+    "design_md": "design-md/nvidia/DESIGN.md"
+  },
+  {
+    "id": "pinterest",
+    "name": "Pinterest",
+    "theme": "light",
+    "vibe": [
+      "暖奶油",
+      "红色",
+      "大圆角",
+      "温暖"
+    ],
+    "scenarios": [
+      "media",
+      "landing",
+      "marketing",
+      "ecommerce",
+      "portfolio",
+      "blog"
+    ],
+    "blurb": "暖奶油画布、Pinterest 红 pill CTA、16px 大圆角 —— 视觉发现的温度。",
+    "design_md": "design-md/pinterest/DESIGN.md"
+  },
+  {
+    "id": "playstation",
+    "name": "PlayStation",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "蓝色",
+      "细体展示体",
+      "空气感"
+    ],
+    "scenarios": [
+      "media",
+      "landing",
+      "marketing",
+      "ecommerce",
+      "portfolio",
+      "blog"
+    ],
+    "blurb": "纯黑画布、PS Blue pill CTA、weight-300 展示体 —— 游戏主机的空气感。",
+    "design_md": "design-md/playstation/DESIGN.md"
+  },
+  {
+    "id": "spacex",
+    "name": "SpaceX",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "白色文字",
+      "雄心",
+      "极简"
+    ],
+    "scenarios": [
+      "landing",
+      "marketing",
+      "media",
+      "portfolio",
+      "blog",
+      "enterprise"
+    ],
+    "blurb": "黑色画布、白色文字 —— 太空探索的雄心。",
+    "design_md": "design-md/spacex/DESIGN.md"
+  },
+  {
+    "id": "theverge",
+    "name": "The Verge",
+    "theme": "dark",
+    "vibe": [
+      "近黑",
+      "酸性薄荷",
+      "胶囊卡片",
+      "编辑感"
+    ],
+    "scenarios": [
+      "media",
+      "blog",
+      "landing",
+      "marketing",
+      "portfolio",
+      "ai"
+    ],
+    "blurb": "近黑画布、酸性薄荷 + 紫外、胶囊卡片 —— 编辑式狂欢。",
+    "design_md": "design-md/theverge/DESIGN.md"
+  },
+  {
+    "id": "uber",
+    "name": "Uber",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "纯黑pill",
+      "极简",
+      "圆角卡片"
+    ],
+    "scenarios": [
+      "landing",
+      "marketing",
+      "media",
+      "ecommerce",
+      "enterprise",
+      "blog"
+    ],
+    "blurb": "白底画布、纯黑 pill CTA、16px 圆角卡片 —— 出行平台的极简 duet。",
+    "design_md": "design-md/uber/DESIGN.md"
+  },
+  {
+    "id": "vodafone",
+    "name": "Vodafone",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "红色",
+      "粗体大写",
+      "广告牌气势"
+    ],
+    "scenarios": [
+      "landing",
+      "marketing",
+      "enterprise",
+      "ecommerce",
+      "media",
+      "saas"
+    ],
+    "blurb": "白底画布、Vodafone 红 60px pill CTA、大写 weight 800 hero —— 电信的 billboard 气势。",
+    "design_md": "design-md/vodafone/DESIGN.md"
+  },
+  {
+    "id": "wired",
+    "name": "WIRED",
+    "theme": "light",
+    "vibe": [
+      "白纸",
+      "墨黑",
+      "衬线",
+      "杂志编辑感"
+    ],
+    "scenarios": [
+      "media",
+      "blog",
+      "landing",
+      "marketing",
+      "portfolio",
+      "docs"
+    ],
+    "blurb": "白色画布、纯黑字标、Playfair 衬线 —— 杂志编辑的黑白二重奏。",
+    "design_md": "design-md/wired/DESIGN.md"
+  },
+  {
+    "id": "bmw",
+    "name": "BMW",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "BMW蓝",
+      "零圆角",
+      "工程感"
+    ],
+    "scenarios": [
+      "automotive",
+      "landing",
+      "marketing",
+      "enterprise",
+      "ecommerce",
+      "media"
+    ],
+    "blurb": "白色画布、BMW 蓝 CTA、零圆角卡片 —— 企业汽车的沉稳工程感。",
+    "design_md": "design-md/bmw/DESIGN.md"
+  },
+  {
+    "id": "bmw-m",
+    "name": "BMW M",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "M三色",
+      "大写标题",
+      "赛车张力"
+    ],
+    "scenarios": [
+      "automotive",
+      "landing",
+      "marketing",
+      "media",
+      "portfolio",
+      "ecommerce"
+    ],
+    "blurb": "纯黑画布、BMW Type Next 大写标题、M 三色条 —— 赛车工程的克制张力。",
+    "design_md": "design-md/bmw-m/DESIGN.md"
+  },
+  {
+    "id": "bugatti",
+    "name": "Bugatti",
+    "theme": "dark",
+    "vibe": [
+      "纯黑",
+      "宽字距大写",
+      "极简",
+      "高定克制"
+    ],
+    "scenarios": [
+      "automotive",
+      "landing",
+      "marketing",
+      "portfolio",
+      "media",
+      "ecommerce"
+    ],
+    "blurb": "纯黑画布、白色宽字距大写、无强调色无装饰 —— 极简高定的昂贵克制。",
+    "design_md": "design-md/bugatti/DESIGN.md"
+  },
+  {
+    "id": "ferrari",
+    "name": "Ferrari",
+    "theme": "dark",
+    "vibe": [
+      "近黑",
+      "电影感",
+      "Rosso红",
+      "编辑张力"
+    ],
+    "scenarios": [
+      "automotive",
+      "landing",
+      "marketing",
+      "media",
+      "portfolio",
+      "blog"
+    ],
+    "blurb": "近黑电影感画布、Rosso Corsa 稀疏强调、零圆角 CTA —— 跃马的 editorial 张力。",
+    "design_md": "design-md/ferrari/DESIGN.md"
+  },
+  {
+    "id": "lamborghini",
+    "name": "Lamborghini",
+    "theme": "dark",
+    "vibe": [
+      "绝对黑",
+      "金色",
+      "超大写标题",
+      "夜间舞台"
+    ],
+    "scenarios": [
+      "automotive",
+      "landing",
+      "marketing",
+      "media",
+      "portfolio",
+      "ecommerce"
+    ],
+    "blurb": "绝对黑画布、Lamborghini Gold、超大写标题与零圆角 —— 夜间超跑舞台。",
+    "design_md": "design-md/lamborghini/DESIGN.md"
+  },
+  {
+    "id": "renault",
+    "name": "Renault",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "Sunlight黄",
+      "故事感",
+      "清晰节奏"
+    ],
+    "scenarios": [
+      "automotive",
+      "landing",
+      "marketing",
+      "blog",
+      "media",
+      "ecommerce"
+    ],
+    "blurb": "白色目录画布、黑色 storytelling hero、Sunlight Yellow 稀疏强调 —— 大众汽车的清晰节奏。",
+    "design_md": "design-md/renault/DESIGN.md"
+  },
+  {
+    "id": "tesla",
+    "name": "Tesla",
+    "theme": "light",
+    "vibe": [
+      "白底",
+      "极简",
+      "电光蓝",
+      "产品优先"
+    ],
+    "scenarios": [
+      "automotive",
+      "landing",
+      "marketing",
+      "ecommerce",
+      "portfolio",
+      "media"
+    ],
+    "blurb": "白底画布、单一 Electric Blue、4px 圆角和近零装饰 —— 产品优先的极简展厅。",
+    "design_md": "design-md/tesla/DESIGN.md"
+  }
+]
