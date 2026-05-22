@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acme — OpenCode AI design preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#201d1d; --on-primary:#fdfcfc;
+  --ink:#201d1d; --ink-deep:#0f0000; --charcoal:#302c2c;
+  --body:#424245; --mute:#646262; --stone:#6e6e73; --ash:#9a9898;
+  --canvas:#fdfcfc; --surface-soft:#f8f7f7; --surface-card:#f1eeee;
+  --surface-dark:#201d1d; --surface-dark-elevated:#302c2c;
+  --hairline:rgba(15,0,0,0.12); --hairline-strong:#646262;
+  --on-dark:#fdfcfc; --on-dark-mute:#9a9898;
+  --accent:#007aff; --accent-hover:#0056b3;
+  --warning:#ff9f0a; --warning-hover:#cc7f08;
+  --danger:#ff3b30; --danger-hover:#d70015;
+  --success:#30d158;
+  --code-bg:#f1eeee; --code-fg:#201d1d;
+  --font-mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  --r-none:0px; --r-sm:4px; --r-full:9999px;
+}
+[data-theme="dark"]{
+  --ink:#fdfcfc; --ink-deep:#fdfcfc; --charcoal:#d8d4cb;
+  --body:#c8c4bb; --mute:#a09d96; --stone:#807d76; --ash:#62605a;
+  --canvas:#1a1918; --surface-soft:#252320; --surface-card:#2f2c2c;
+  --surface-dark:#0f0000; --surface-dark-elevated:#1a1918;
+  --hairline:rgba(253,252,252,0.12); --hairline-strong:#646262;
+  --on-dark:#fdfcfc; --on-dark-mute:#807d76;
+  --code-bg:#2f2c2c; --code-fg:#fdfcfc;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--canvas);color:var(--body);font-family:var(--font-mono);
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  transition:background .2s,color .2s}
+h1,h2,h3,h4{color:var(--ink);font-weight:700;line-height:1.5}
+h1{font-size:38px;letter-spacing:0}
+h2{font-size:16px}
+h3{font-size:16px;font-weight:500}
+h4{font-size:14px;font-weight:400;color:var(--mute)}
+a{color:var(--ink);text-decoration:underline}
+a:hover{color:var(--ink-deep)}
+.wrap{max-width:960px;margin:0 auto;padding:0 32px}
+section{padding:96px 0}
+
+.btn{font-family:var(--font-mono);font-weight:500;font-size:16px;line-height:2;
+  border:1px solid transparent;border-radius:var(--r-sm);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  text-decoration:none;padding:4px 20px;height:36px;transition:background .15s,border-color .15s}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--ink-deep)}
+.btn-secondary{background:var(--canvas);color:var(--ink);border-color:var(--hairline-strong)}
+.btn-secondary:hover{border-color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed;background:var(--surface-card);color:var(--ash);border-color:transparent}
+
+.badge{display:inline-block;font-size:14px;font-weight:400;line-height:2;
+  padding:2px 8px;border-radius:var(--r-sm)}
+.badge-dark{background:var(--surface-dark);color:var(--on-dark)}
+.badge-neutral{background:var(--surface-card);color:var(--mute)}
+
+.announce{background:var(--surface-dark);color:var(--on-dark);font-size:14px;text-align:center;
+  padding:10px 28px;font-weight:400}
+.announce a{color:var(--on-dark);text-decoration:underline}
+
+header{position:sticky;top:0;z-index:20;background:var(--canvas);
+  border-bottom:1px solid var(--hairline);height:56px}
+.nav{display:flex;align-items:center;gap:24px;height:100%}
+.logo{font-size:14px;color:var(--ink);font-weight:700;letter-spacing:0;
+  font-family:var(--font-mono);white-space:pre;line-height:1.2}
+.nav-links{display:flex;gap:16px;margin-left:16px}
+.nav-links a{color:var(--body);text-decoration:none;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--ink);text-decoration:none}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.theme-btn{background:transparent;border:1px solid var(--hairline-strong);color:var(--body);
+  border-radius:var(--r-sm);font-size:14px;padding:4px 12px;cursor:pointer;font-family:var(--font-mono);
+  height:32px;line-height:1.5}
+.theme-btn:hover{border-color:var(--ink);color:var(--ink)}
+
+.hero{padding:96px 0 64px}
+.hero .eyebrow{font-size:14px;font-weight:500;color:var(--mute);margin-bottom:16px;display:inline-block}
+.hero h1{margin-bottom:16px;max-width:700px}
+.hero p{font-size:16px;color:var(--body);max-width:600px;margin-bottom:28px;line-height:1.5}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+
+.hero-tui{background:var(--surface-dark);color:var(--on-dark);padding:64px 32px;
+  margin:48px 0 0;border-radius:var(--r-none);text-align:center}
+.tui-wordmark{font-size:14px;line-height:1.2;margin-bottom:32px;letter-spacing:2px}
+.tui-prompt{background:var(--surface-dark-elevated);color:var(--on-dark);
+  padding:8px 12px;border-radius:var(--r-sm);display:inline-block;
+  font-size:14px;text-align:left;max-width:600px;width:100%}
+.tui-prompt .pipe{color:var(--success);margin-right:8px}
+.tui-prompt .model{color:var(--accent);margin:0 8px}
+.tui-hints{margin-top:24px;font-size:14px;color:var(--on-dark-mute)}
+.tui-hints span{margin:0 12px}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;text-align:center;
+  padding:48px 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+.stat .num{font-size:38px;color:var(--ink);font-weight:700;line-height:1.5}
+.stat .lbl{color:var(--mute);font-size:14px;margin-top:4px}
+
+.lead{font-size:16px;color:var(--mute);max-width:620px;margin:16px 0 40px;line-height:1.5}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--hairline)}
+.card{padding:24px 0;border-bottom:1px solid var(--hairline)}
+.card .icon{font-size:16px;margin-bottom:12px;color:var(--ink);font-weight:700}
+.card h3{margin-bottom:8px}
+.card p{font-size:14px;color:var(--body);margin-bottom:12px;line-height:1.5}
+.card .learn-more{color:var(--ink);font-size:14px;font-weight:500;text-decoration:underline}
+
+.prose{max-width:640px}
+.prose p{margin:16px 0}
+.prose a{color:var(--ink);text-decoration:underline}
+.prose code{font-family:var(--font-mono);font-size:.9em;background:var(--surface-card);
+  padding:2px 6px;border-radius:var(--r-sm);color:var(--ink)}
+pre{background:var(--code-bg);color:var(--code-fg);border-radius:var(--r-sm);
+  padding:16px;overflow-x:auto;margin:20px 0;border:1px solid var(--hairline)}
+pre code{font-family:var(--font-mono);font-size:14px;line-height:1.5;background:none;padding:0}
+.lists{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px;max-width:640px}
+.lists h4{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:12px}
+.lists ul,.lists ol{padding-left:0;list-style:none}
+.lists li{margin:8px 0;font-size:14px;color:var(--body)}
+.lists li::before{margin-right:8px;font-weight:700;color:var(--ink)}
+.lists ul li::before{content:"[+]"}
+.lists ol li::before{content:counter(list-item)"."}
+.lists ol{counter-reset:list-item}
+.lists ol li{counter-increment:list-item}
+
+blockquote{max-width:720px;margin:0 auto;text-align:left}
+blockquote p{font-size:16px;line-height:1.5;color:var(--body)}
+blockquote cite{display:block;margin-top:16px;font-style:normal;font-size:14px;color:var(--mute)}
+
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--hairline-strong);margin:24px 0}
+.tab{background:transparent;border:none;border-bottom:2px solid transparent;
+  color:var(--mute);font-family:var(--font-mono);font-size:14px;font-weight:500;
+  cursor:pointer;padding:8px 16px;margin-bottom:-1px;transition:color .15s}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--ink);border-bottom-color:var(--ink)}
+.panel{display:none;padding:24px 0}
+.panel.active{display:block}
+.panel>p{font-size:14px;color:var(--body);line-height:1.5}
+.notice{display:flex;gap:12px;padding:8px 12px;border-radius:var(--r-sm);
+  font-size:14px;margin:8px 0;border:1px solid var(--hairline);line-height:1.5}
+.notice-info{background:var(--surface-soft);color:var(--body)}
+.notice-success{background:var(--surface-soft);color:var(--success)}
+.notice-warning{background:var(--surface-soft);color:var(--warning)}
+.notice-error{background:var(--surface-soft);color:var(--danger)}
+
+table{width:100%;border-collapse:collapse;margin-top:20px}
+th,td{text-align:left;padding:12px 14px;font-size:14px;border-bottom:1px solid var(--hairline)}
+th{color:var(--mute);font-weight:500;font-size:14px;text-transform:none;letter-spacing:0}
+tbody tr:hover{background:var(--surface-soft)}
+
+.form{max-width:520px;border:1px solid var(--hairline);
+  border-radius:var(--r-none);padding:32px;margin-top:28px;background:var(--canvas)}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:14px;font-weight:500;color:var(--ink);margin-bottom:8px}
+.field input[type=text],.field input[type=email],.field select,.field textarea{
+  width:100%;font-family:var(--font-mono);font-size:14px;color:var(--ink);
+  background:var(--surface-soft);border:1px solid var(--hairline);border-radius:var(--r-sm);
+  padding:8px 12px;height:40px}
+.field textarea{min-height:80px;height:auto;resize:vertical}
+.field select{appearance:auto}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;
+  background:var(--canvas);border-color:var(--ink)}
+.field.err input{border-color:var(--danger)}
+.err-text{color:var(--danger);font-size:14px;margin-top:6px}
+.radio-row,.check-row{display:flex;align-items:center;gap:8px;margin:8px 0}
+.radio-row label,.check-row label{margin:0;font-weight:400;color:var(--body);font-size:14px}
+.toggle{position:relative;width:40px;height:22px;flex:none}
+.toggle input{opacity:0;width:0;height:0}
+.toggle .track{position:absolute;inset:0;background:var(--surface-card);border:1px solid var(--hairline);
+  border-radius:var(--r-sm);transition:background .15s}
+.toggle .track::before{content:"";position:absolute;width:16px;height:16px;left:2px;top:2px;
+  background:var(--on-dark);border-radius:var(--r-sm);transition:transform .15s}
+.toggle input:checked+.track{background:var(--primary);border-color:var(--primary)}
+.toggle input:checked+.track::before{transform:translateX(18px)}
+.form-actions{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.hint{font-size:14px;color:var(--mute)}
+
+.cta{border:1px solid var(--hairline);border-radius:var(--r-none);padding:64px 40px;text-align:center;margin:40px 0;background:var(--canvas)}
+.cta h2{font-size:16px;margin-bottom:12px}
+.cta p{font-size:14px;color:var(--mute);margin-bottom:28px}
+
+footer{padding:32px 0;border-top:1px solid var(--hairline)}
+.foot-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.foot-links a{color:var(--body);text-decoration:none;font-size:14px}
+.foot-links a:hover{color:var(--ink);text-decoration:underline}
+.foot-util{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.foot-util span{font-size:14px;color:var(--mute)}
+.foot-util a{font-size:14px;color:var(--mute);text-decoration:none;margin-left:16px}
+.foot-util a:hover{color:var(--ink)}
+
+@media (max-width:860px){
+  h1{font-size:28px}h2{font-size:16px}
+  .nav-links{display:none}
+  .stats,.cards,.lists{grid-template-columns:1fr}
+  .hero{padding:64px 0 48px}
+  .hero-btns{flex-direction:column;align-items:flex-start}
+  .wrap{padding:0 20px}
+  .cta{padding:40px 24px}
+  .stat .num{font-size:28px}
+  section{padding:64px 0}
+  .tui-wordmark{font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- A. Announcement bar -->
+<div class="announce">Acme 2.5 is now available — explore what's new <a href="#">Read the changelog →</a></div>
+
+<!-- B. Header -->
+<header>
+  <div class="wrap nav">
+    <span class="logo">  ___                   ____  ____   __
+ / _ \ _ __   ___ _ __ |  _ \|  _ \ / /
+| | | | '_ \ / _ \ '_ \| | | | |_) / / 
+| |_| | |_) |  __/ | | | |_| |  __/_/  
+ \___/| .__/ \___|_| |_|____/|_|  (_)  
+     |_|</span>
+    <nav class="nav-links">
+      <a href="#">Product</a><a href="#">Pricing</a><a href="#">Docs</a><a href="#">Blog</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-btn" id="themeBtn">Dark</button>
+      <a href="#" class="btn btn-primary">Get started</a>
+    </div>
+  </div>
+</header>
+
+<!-- C. Hero -->
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">[x] Now in public beta</span>
+    <h1>Ship your ideas faster</h1>
+    <p>Acme is the collaborative workspace where modern teams plan, track, and ship — all in one place.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn btn-primary">Start free trial</a>
+      <a href="#" class="btn btn-secondary">Watch demo</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="hero-tui">
+      <pre class="tui-wordmark">  ___                   ____  ____   __
+ / _ \ _ __   ___ _ __ |  _ \|  _ \ / /
+| | | | '_ \ / _ \ '_ \| | | | |_) / / 
+| |_| | |_) |  __/ | | | |_| |  __/_/  
+ \___/| .__/ \___|_| |_|____/|_|  (_)  
+     |_|</pre>
+      <div class="tui-prompt">
+        <span class="pipe">│</span>Build<span class="model">Claude Opus 4.5</span>OpenCode Zen
+      </div>
+      <div class="tui-hints">
+        <span>tab switch agent</span>
+        <span>ctrl-p commands</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- D. Stats bar -->
+<section>
+  <div class="wrap stats">
+    <div class="stat"><div class="num">12,000+</div><div class="lbl">teams onboard</div></div>
+    <div class="stat"><div class="num">99.98%</div><div class="lbl">uptime last year</div></div>
+    <div class="stat"><div class="num">4.9 / 5</div><div class="lbl">average customer rating</div></div>
+  </div>
+</section>
+
+<!-- E. Features -->
+<section>
+  <div class="wrap">
+    <h2>[+] Everything your team needs</h2>
+    <p class="lead">From the first spec to the final release, Acme keeps every moving piece in one shared, always-current workspace.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="icon">[+]</div>
+        <h3>Plan <span class="badge badge-dark">New</span></h3>
+        <p>Break big goals into projects, milestones, and issues your team can act on.</p>
+        <a href="#" class="learn-more">Learn more →</a>
+      </div>
+      <div class="card">
+        <div class="icon">[-]</div>
+        <h3>Track <span class="badge badge-neutral">Beta</span></h3>
+        <p>See progress in real time with boards, timelines, and automatic status rollups.</p>
+        <a href="#" class="learn-more">Learn more →</a>
+      </div>
+      <div class="card">
+        <div class="icon">[x]</div>
+        <h3>Ship</h3>
+        <p>Cut releases with confidence using changelogs, approvals, and release notes.</p>
+        <a href="#" class="learn-more">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- F. Developer section -->
+<section>
+  <div class="wrap">
+    <h2>[+] Built for the way developers work</h2>
+    <div class="prose">
+      <p>Acme keeps your team aligned with a single source of truth. Body text should stay comfortable to read across long passages, with a measure of roughly 65 characters per line and generous line height.</p>
+      <p>Wire it into your stack in minutes — <a href="#">read the documentation</a> to get started.</p>
+      <p>Install the CLI with <code>npm install acme</code> and you're ready to ship.</p>
+      <pre><code>function ship(idea) {
+  return idea.plan().track().release();
+}</code></pre>
+    </div>
+    <div class="lists">
+      <div>
+        <h4>Included in every plan</h4>
+        <ul>
+          <li>Real-time collaboration</li>
+          <li>Keyboard-first navigation</li>
+          <li>Offline support</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get started in three steps</h4>
+        <ol>
+          <li>Create a project</li>
+          <li>Invite your team</li>
+          <li>Ship your first release</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- G. Customer quote -->
+<section>
+  <div class="wrap">
+    <blockquote>
+      <p>"Acme cut our release cycle from three weeks to four days. It's the first tool the whole team actually agreed on."</p>
+      <cite>Jordan Lee · Head of Engineering, Northwind</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- H. Workspace tabs -->
+<section>
+  <div class="wrap">
+    <h2>[+] Explore your workspace</h2>
+    <div class="tabs">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="activity">Activity</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </div>
+    <div class="panel active" id="overview">
+      <p>A snapshot of your workspace — projects, members, and recent activity, all on one page.</p>
+    </div>
+    <div class="panel" id="activity">
+      <p>Every change across your projects, in one chronological feed:</p>
+      <div class="notice notice-info">[i] A new version of Acme is available.</div>
+      <div class="notice notice-success">[✓] Your changes have been saved.</div>
+      <div class="notice notice-warning">[!] Your trial ends in 3 days.</div>
+      <div class="notice notice-error">[x] We couldn't process your payment.</div>
+    </div>
+    <div class="panel" id="settings">
+      <p>Manage your workspace name, members, and billing preferences from a single control panel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- I. Releases table -->
+<section>
+  <div class="wrap">
+    <h3>Recent releases</h3>
+    <table>
+      <thead><tr><th>Release</th><th>Owner</th><th>Status</th><th>Date</th></tr></thead>
+      <tbody>
+        <tr><td>v2.5 Borealis</td><td>Priya Shah</td><td><span class="badge badge-dark">Shipped</span></td><td>May 14</td></tr>
+        <tr><td>v2.6 Cosmos</td><td>Marco Diaz</td><td><span class="badge badge-neutral">In review</span></td><td>May 16</td></tr>
+        <tr><td>v2.7 Drift</td><td>Aria Kim</td><td><span class="badge badge-neutral">In progress</span></td><td>May 20</td></tr>
+        <tr><td>v2.8 Ember</td><td>Sam Olsen</td><td><span class="badge badge-neutral">Planned</span></td><td>May 24</td></tr>
+        <tr><td>v1.9 Legacy API</td><td>Jordan Lee</td><td><span class="badge badge-neutral">Deprecated</span></td><td>Apr 02</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- J. Signup form -->
+<section>
+  <div class="wrap">
+    <h2>[+] Create your workspace</h2>
+    <p class="lead" style="margin-bottom:0">Set up your team in under a minute.</p>
+    <form class="form" onsubmit="return false">
+      <div class="field">
+        <label for="fn">Full name</label>
+        <input type="text" id="fn" placeholder="Jane Appleseed">
+      </div>
+      <div class="field">
+        <label for="em">Work email</label>
+        <input type="email" id="em" placeholder="jane@company.com">
+      </div>
+      <div class="field">
+        <label for="ts">Team size</label>
+        <select id="ts">
+          <option>1–10</option><option>11–50</option><option>51–200</option><option>200+</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="ab">What are you building?</label>
+        <textarea id="ab" placeholder="Tell us a little about your project…"></textarea>
+      </div>
+      <div class="field err">
+        <label for="wu">Workspace URL</label>
+        <input type="text" id="wu" value="acme">
+        <div class="err-text">This workspace name is already taken.</div>
+      </div>
+      <div class="field">
+        <label>Plan</label>
+        <div class="radio-row"><input type="radio" name="plan" id="p1"><label for="p1">Starter</label></div>
+        <div class="radio-row"><input type="radio" name="plan" id="p2" checked><label for="p2">Pro</label> <span class="badge badge-dark">Pro</span></div>
+      </div>
+      <div class="field">
+        <div class="check-row"><input type="checkbox" id="upd"><label for="upd">Send me product updates</label></div>
+      </div>
+      <div class="field">
+        <div class="check-row">
+          <span class="toggle"><input type="checkbox" id="tfa" checked><span class="track"></span></span>
+          <label for="tfa">Enable two-factor authentication</label>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Create account</button>
+        <button class="btn btn-secondary" type="button" disabled>Continue with SSO</button>
+        <span class="hint">Available on Enterprise plans.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- K. Closing CTA -->
+<section>
+  <div class="wrap">
+    <div class="cta">
+      <h2>[x] Start shipping with Acme today</h2>
+      <p>Free for up to 10 members. No credit card required.</p>
+      <a href="#" class="btn btn-primary">Get started</a>
+    </div>
+  </div>
+</section>
+
+<!-- L. Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="#">GitHub [150K]</a>
+      <a href="#">Docs</a>
+      <a href="#">Changelog</a>
+      <a href="#">Discord</a>
+      <a href="#">X</a>
+    </div>
+    <div class="foot-util">
+      <span>© 2026 Acme, Inc. All rights reserved.</span>
+      <div>
+        <a href="#">Brand</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">English ▼</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+var root=document.documentElement,tb=document.getElementById('themeBtn');
+function setTheme(t){root.setAttribute('data-theme',t);tb.textContent=t==='dark'?'Light':'Dark';}
+tb.addEventListener('click',function(){
+  setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');
+});
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('active')});
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

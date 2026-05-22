@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acme — PlayStation Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-display:"Inter","sst",Arial,Helvetica,sans-serif;
+  --font-body:"Inter","sst",Arial,Helvetica,sans-serif;
+  --primary:#0070d1;
+  --primary-pressed:#0064b7;
+  --primary-active:#004d8d;
+  --on-primary:#ffffff;
+  --commerce:#d53b00;
+  --commerce-pressed:#aa2f00;
+  --on-commerce:#ffffff;
+  /* theme-dependent (dark default) */
+  --canvas:#000000;
+  --ink:#ffffff;
+  --body:rgba(255,255,255,0.7);
+  --muted:#cccccc;
+  --hairline:rgba(229,229,229,0.2);
+  --card:#181818;
+  --surface-elevated:#121314;
+  --code-bg:#181818;
+  --code-fg:#cccccc;
+  --link:#53b1ff;
+  --track-bg:rgba(255,255,255,0.16);
+  --track-thumb:#cccccc;
+  /* always-light (for light-theme override targets) */
+  --ink-deep:#121314;
+  --mute-light:#6b6b6b;
+  --ash-light:#cccccc;
+  --hairline-light:#f3f3f3;
+  --canvas-light:#ffffff;
+  --surface-soft:#f3f3f3;
+  --surface-card:#f5f7fa;
+  --link-light:#0064b7;
+  /* always-dark (for header/hero/footer) */
+  --canvas-dark:#000000;
+  --body-dark:rgba(255,255,255,0.7);
+  --on-dark:#ffffff;
+  --on-dark-mute:#cccccc;
+  --hairline-dark:rgba(229,229,229,0.2);
+  --mute-dark:rgba(229,229,229,0.55);
+  --surface-dark-elevated:#121314;
+  --surface-dark-card:#181818;
+  --link-dark:#53b1ff;
+  --warning:#c81b3a;
+  --success:#0064b7;
+  --r-pill:9999px;
+  --r-card:8px;
+  --r-input:4px;
+}
+[data-theme="light"]{
+  --canvas:#ffffff;
+  --ink:#000000;
+  --body:rgba(0,0,0,0.6);
+  --muted:#6b6b6b;
+  --hairline:#f3f3f3;
+  --card:#f5f7fa;
+  --surface-elevated:#f3f3f3;
+  --code-bg:#f3f3f3;
+  --code-fg:#121314;
+  --link:#0064b7;
+  --track-bg:rgba(0,0,0,0.1);
+  --track-thumb:#999999;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--body);font-family:var(--font-body);font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0.1px;-webkit-font-smoothing:antialiased;transition:background .25s ease,color .25s ease}
+h1,h2,h3,h4{color:var(--ink);font-family:var(--font-display);font-weight:300;letter-spacing:0.1px;transition:color .25s ease}
+h1{font-size:54px;font-weight:300;line-height:1.25;letter-spacing:-0.1px}
+h2{font-size:44px;font-weight:300;line-height:1.25;letter-spacing:0.1px}
+h3{font-size:28px;font-weight:300;line-height:1.25;letter-spacing:0.1px}
+h4{font-size:18px;font-weight:600;line-height:1}
+a{color:var(--link);text-decoration:none;transition:color .15s}
+a:hover{text-decoration:underline}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+
+.btn{font-family:var(--font-body);font-size:18px;font-weight:700;line-height:1.25;letter-spacing:0.45px;border:none;border-radius:var(--r-pill);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none;transition:background .15s,color .15s;padding:12px 28px;min-height:48px}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-pressed)}
+.btn-secondary-dark{background:transparent;color:var(--on-dark);border:1px solid var(--hairline-dark)}
+.btn-secondary-dark:hover{background:rgba(255,255,255,0.08)}
+.btn-ghost{background:transparent;color:var(--primary);border:none;padding:0;border-radius:0;font-size:18px;font-weight:400;letter-spacing:0}
+.btn-ghost:hover{text-decoration:underline}
+.btn-lg{font-size:18px;padding:12px 28px;min-height:48px}
+.btn:disabled,.btn[disabled]{background:var(--surface-soft);color:var(--ash-light);cursor:not-allowed;border-radius:var(--r-pill)}
+
+.badge{display:inline-block;font-size:12px;font-weight:500;line-height:1.5;padding:4px 10px;border-radius:var(--r-pill)}
+.badge-primary{background:var(--primary);color:var(--on-primary)}
+.badge-neutral{background:rgba(255,255,255,0.1);color:var(--on-dark-mute)}
+[data-theme="light"] .badge-neutral{background:rgba(0,0,0,0.07);color:var(--muted)}
+
+/* === A. 公告条 === */
+.announce{background:var(--canvas-dark);border-bottom:1px solid var(--hairline-dark);padding:10px 0;font-size:14px;text-align:center;color:var(--body-dark);transition:border-color .25s ease}
+.announce a{color:var(--link-dark);font-weight:500}
+.announce a:hover{text-decoration:underline}
+
+/* === B. 顶部导航 === */
+header{background:var(--canvas-dark);border-bottom:1px solid var(--hairline-dark);position:sticky;top:0;z-index:20;transition:border-color .25s ease}
+.nav{display:flex;align-items:center;height:48px;gap:32px}
+.logo{font-family:var(--font-display);font-weight:500;font-size:20px;color:var(--on-dark);letter-spacing:0.4px}
+.nav-links{display:flex;gap:24px;list-style:none;font-size:18px;font-weight:500;line-height:1.25;letter-spacing:0.4px}
+.nav-links a{color:var(--body-dark);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--on-dark);text-decoration:none}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.theme-btn{background:transparent;border:1px solid var(--hairline-dark);color:var(--on-dark);border-radius:var(--r-pill);height:40px;padding:0 20px;font-family:var(--font-body);font-size:14px;font-weight:700;line-height:1.25;letter-spacing:0.324px;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+.theme-btn:hover{background:rgba(255,255,255,0.08);border-color:var(--on-dark-mute)}
+
+/* === C. Hero === */
+.hero{background:var(--canvas-dark);padding:96px 48px}
+.hero .eyebrow{display:inline-block;font-size:14px;font-weight:400;letter-spacing:0;color:var(--body-dark);margin-bottom:16px}
+.hero h1{font-size:54px;font-weight:300;line-height:1.25;letter-spacing:-0.1px;max-width:800px;margin-bottom:20px;color:var(--on-dark)}
+.hero p.sub{font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0.1px;color:var(--body-dark);max-width:600px;margin-bottom:36px}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+
+/* === D. 数据条 === */
+.section{padding:96px 0;transition:padding .25s ease}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--hairline);border-radius:var(--r-card);overflow:hidden;transition:border-color .25s ease}
+.stat{text-align:center;padding:32px 24px;background:var(--surface-elevated);border-right:1px solid var(--hairline);transition:background .25s ease,border-color .25s ease}
+.stat:last-child{border-right:none}
+.stat-num{font-family:var(--font-display);font-size:44px;font-weight:300;line-height:1.25;letter-spacing:0.1px;color:var(--ink)}
+.stat-lbl{font-size:16px;font-weight:400;line-height:1.5;color:var(--body);margin-top:6px}
+
+/* === E. 特性区 === */
+.lead{font-size:18px;color:var(--body);max-width:640px;margin:16px 0 44px;line-height:1.5;letter-spacing:0.1px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:var(--card);border:none;border-radius:var(--r-card);padding:24px;transition:background .25s ease}
+.card .icon{width:40px;height:40px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:var(--on-primary);font-size:18px;margin-bottom:16px}
+.card h3{font-size:22px;font-weight:300;line-height:1.25;letter-spacing:0.1px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card p{font-size:16px;font-weight:400;line-height:1.5;color:var(--body);margin-bottom:16px}
+
+/* === F. 开发者区 === */
+.prose{max-width:640px}
+.prose p{margin:18px 0}
+.prose a{color:var(--link)}
+.prose code{font-family:ui-monospace,SFMono-Regular,monospace;font-size:.88em;background:var(--code-bg);padding:2px 6px;border-radius:var(--r-input);color:var(--ink)}
+pre{background:var(--surface-elevated);color:var(--code-fg);border-radius:var(--r-card);padding:24px;overflow:auto;margin:22px 0;border:1px solid var(--hairline);transition:border-color .25s ease}
+pre code{font-family:ui-monospace,SFMono-Regular,monospace;font-size:14px;line-height:1.6}
+.lists{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:36px;max-width:640px}
+.lists h4{font-size:18px;font-weight:600;line-height:1;margin-bottom:12px}
+.lists ul,.lists ol{padding-left:20px}
+.lists li{margin:7px 0;font-size:16px;line-height:1.5;color:var(--body)}
+
+/* === G. 客户评价 === */
+blockquote{max-width:700px;margin:0 auto;text-align:center}
+blockquote p{font-family:var(--font-display);font-size:35px;font-weight:300;line-height:1.25;color:var(--ink);transition:color .25s ease}
+blockquote cite{display:block;margin-top:20px;font-style:normal;font-size:16px;font-weight:400;line-height:1.5;color:var(--body)}
+
+/* === H. Tabs === */
+.tabs{display:flex;gap:8px;border-bottom:1px solid var(--hairline);margin:24px 0;transition:border-color .25s ease}
+.tab{background:transparent;border:none;border-bottom:2px solid transparent;padding:12px 20px;font-family:var(--font-body);font-size:14px;font-weight:700;line-height:1.25;letter-spacing:0.324px;color:var(--body);cursor:pointer;margin-bottom:-1px;transition:color .15s,border-color .15s}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--ink);border-bottom-color:var(--primary)}
+.panel{display:none}
+.panel.active{display:block}
+.panel p{margin-bottom:12px;font-size:16px;line-height:1.5;color:var(--body)}
+
+.notice{padding:12px 16px;font-size:16px;margin:8px 0;border-radius:var(--r-card);border-left:3px solid;background:var(--surface-elevated);transition:background .25s ease}
+.notice-info{border-left-color:var(--primary);color:var(--body)}
+.notice-success{border-left-color:#4ade80;color:var(--body)}
+.notice-warning{border-left-color:var(--warning);color:var(--body)}
+.notice-error{border-left-color:var(--commerce);color:var(--body)}
+
+/* === I. 表格 === */
+table{width:100%;border-collapse:collapse;margin-top:18px;border-radius:var(--r-card);overflow:hidden;border:1px solid var(--hairline)}
+th,td{text-align:left;padding:12px 14px;font-size:14px;border-bottom:1px solid var(--hairline);transition:border-color .25s ease}
+tr:last-child td{border-bottom:none}
+th{color:var(--muted);font-weight:500;font-size:12px;background:var(--surface-elevated)}
+td{background:var(--canvas);color:var(--body)}
+
+/* === J. 表单 === */
+.form{max-width:560px;background:var(--surface-elevated);border:1px solid var(--hairline);border-radius:var(--r-card);padding:32px;margin-top:32px;transition:border-color .25s ease,background .25s ease}
+.field{margin-bottom:20px}
+.field label{display:block;font-size:16px;font-weight:500;line-height:1.5;color:var(--muted);margin-bottom:6px}
+.field input[type=text],.field input[type=email],.field select,.field textarea{width:100%;font-family:var(--font-body);font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0.1px;color:var(--ink);background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-input);padding:12px 16px;min-height:48px;transition:border-color .2s,background .25s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--primary);border-width:2px}
+.field textarea{min-height:88px;resize:vertical}
+.field.err input{border-color:var(--warning)}
+.err-text{color:var(--warning);font-size:14px;margin-top:6px}
+.radio-row,.check-row{display:flex;align-items:center;gap:9px;margin:8px 0}
+.radio-row label,.check-row label{margin:0;font-weight:400;color:var(--body);font-size:16px}
+.toggle{position:relative;width:44px;height:24px;flex:none}
+.toggle input{opacity:0;width:0;height:0}
+.toggle .track{position:absolute;inset:0;background:var(--track-bg);border-radius:var(--r-pill);transition:background .15s}
+.toggle .track::before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:var(--track-thumb);border-radius:50%;transition:transform .15s,background .15s}
+.toggle input:checked+.track{background:var(--primary)}
+.toggle input:checked+.track::before{transform:translateX(20px);background:var(--on-primary)}
+.form-actions{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.hint{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* === K. CTA区 === */
+.cta{background:var(--primary);text-align:center;padding:96px 48px;transition:background .25s ease}
+.cta h2{color:var(--on-primary);font-size:35px;font-weight:300;line-height:1.25}
+.cta p{color:rgba(255,255,255,0.8);font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0.1px;margin:14px 0 28px}
+.cta .btn-primary{background:var(--on-primary);color:var(--primary)}
+.cta .btn-primary:hover{background:rgba(255,255,255,0.9)}
+
+/* === L. 页脚 === */
+footer{background:var(--primary);color:rgba(255,255,255,0.8);padding:48px 0;transition:background .25s ease}
+footer .logo{color:var(--on-primary)}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;max-width:1280px;margin:0 auto;padding:0 32px}
+.foot-grid h4{font-size:14px;font-weight:400;color:var(--on-primary);margin-bottom:14px}
+.foot-grid a{display:block;color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;font-weight:400;line-height:1.5;margin:8px 0;transition:color .15s}
+.foot-grid a:hover{color:var(--on-primary);text-decoration:none}
+.foot-tag{color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;max-width:240px;line-height:1.5}
+.copyright{margin-top:32px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.2);font-size:12px;font-weight:500;line-height:1.5;color:rgba(255,255,255,0.6);max-width:1280px;margin-left:auto;margin-right:auto;padding-left:32px;padding-right:32px}
+
+@media (max-width:860px){
+  h1{font-size:36px}h2{font-size:32px}
+  .hero h1{font-size:36px}
+  .hero p.sub{font-size:16px}
+  .nav-links{display:none}
+  .stats,.cards,.lists,.foot-grid{grid-template-columns:1fr}
+  .hero{padding:48px 24px}
+  .hero-btns{flex-direction:column}
+  .section{padding:64px 0}
+  .cta{padding:64px 24px}
+  .wrap{padding:0 20px}
+  .copyright{padding-left:20px;padding-right:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- A. 公告条 -->
+<div class="announce">Acme 2.5 is now available — explore what's new <a href="#">Read the changelog →</a></div>
+
+<!-- B. 顶部导航 -->
+<header>
+  <div class="wrap nav">
+    <span class="logo">Acme</span>
+    <nav class="nav-links">
+      <a href="#">Product</a><a href="#">Pricing</a><a href="#">Docs</a><a href="#">Blog</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-btn" id="themeBtn">Light</button>
+      <a href="#" class="btn btn-primary">Get started</a>
+    </div>
+  </div>
+</header>
+
+<!-- C. Hero -->
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Now in public beta</span>
+    <h1>Ship your ideas faster</h1>
+    <p class="sub">Acme is the collaborative workspace where modern teams plan, track, and ship — all in one place.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn btn-primary btn-lg">Start free trial</a>
+      <a href="#" class="btn btn-secondary-dark btn-lg">Watch demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- D. 数据条 -->
+<section class="section">
+  <div class="wrap stats">
+    <div class="stat"><div class="stat-num">12,000+</div><div class="stat-lbl">teams onboard</div></div>
+    <div class="stat"><div class="stat-num">99.98%</div><div class="stat-lbl">uptime last year</div></div>
+    <div class="stat"><div class="stat-num">4.9 / 5</div><div class="stat-lbl">average customer rating</div></div>
+  </div>
+</section>
+
+<!-- E. 特性区 -->
+<section class="section">
+  <div class="wrap">
+    <h2>Everything your team needs</h2>
+    <p class="lead">From the first spec to the final release, Acme keeps every moving piece in one shared, always-current workspace.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="icon">◆</div>
+        <h3>Plan <span class="badge badge-primary">New</span></h3>
+        <p>Break big goals into projects, milestones, and issues your team can act on.</p>
+        <a href="#" class="btn btn-ghost">Learn more →</a>
+      </div>
+      <div class="card">
+        <div class="icon">◑</div>
+        <h3>Track <span class="badge badge-neutral">Beta</span></h3>
+        <p>See progress in real time with boards, timelines, and automatic status rollups.</p>
+        <a href="#" class="btn btn-ghost">Learn more →</a>
+      </div>
+      <div class="card">
+        <div class="icon">▲</div>
+        <h3>Ship</h3>
+        <p>Cut releases with confidence using changelogs, approvals, and release notes.</p>
+        <a href="#" class="btn btn-ghost">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- F. 开发者区 -->
+<section class="section">
+  <div class="wrap">
+    <h2>Built for the way developers work</h2>
+    <div class="prose">
+      <p>Acme keeps your team aligned with a single source of truth. Body text should stay comfortable to read across long passages, with a measure of roughly 65 characters per line and generous line height.</p>
+      <p>Wire it into your stack in minutes — <a href="#">read the documentation</a> to get started.</p>
+      <p>Install the CLI with <code>npm install acme</code> and you're ready to ship.</p>
+      <pre><code>function ship(idea) {
+  return idea.plan().track().release();
+}</code></pre>
+    </div>
+    <div class="lists">
+      <div>
+        <h4>Included in every plan</h4>
+        <ul>
+          <li>Real-time collaboration</li>
+          <li>Keyboard-first navigation</li>
+          <li>Offline support</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get started in three steps</h4>
+        <ol>
+          <li>Create a project</li>
+          <li>Invite your team</li>
+          <li>Ship your first release</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- G. 客户评价 -->
+<section class="section">
+  <div class="wrap">
+    <blockquote>
+      <p>"Acme cut our release cycle from three weeks to four days. It's the first tool the whole team actually agreed on."</p>
+      <cite>Jordan Lee · Head of Engineering, Northwind</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- H. Tabs -->
+<section class="section">
+  <div class="wrap">
+    <h2>Explore your workspace</h2>
+    <div class="tabs">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="activity">Activity</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </div>
+    <div class="panel active" id="overview">
+      <p>A snapshot of your workspace — projects, members, and recent activity, all on one page.</p>
+    </div>
+    <div class="panel" id="activity">
+      <p>Every change across your projects, in one chronological feed:</p>
+      <div class="notice notice-info">A new version of Acme is available.</div>
+      <div class="notice notice-success">Your changes have been saved.</div>
+      <div class="notice notice-warning">Your trial ends in 3 days.</div>
+      <div class="notice notice-error">We couldn't process your payment.</div>
+    </div>
+    <div class="panel" id="settings">
+      <p>Manage your workspace name, members, and billing preferences from a single control panel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- I. 表格 -->
+<section class="section">
+  <div class="wrap">
+    <h3>Recent releases</h3>
+    <table>
+      <thead><tr><th>Release</th><th>Owner</th><th>Status</th><th>Date</th></tr></thead>
+      <tbody>
+        <tr><td>v2.5 Borealis</td><td>Priya Shah</td><td><span class="badge badge-primary">Shipped</span></td><td>May 14</td></tr>
+        <tr><td>v2.6 Cosmos</td><td>Marco Diaz</td><td><span class="badge badge-neutral">In review</span></td><td>May 16</td></tr>
+        <tr><td>v2.7 Drift</td><td>Aria Kim</td><td><span class="badge badge-neutral">In progress</span></td><td>May 20</td></tr>
+        <tr><td>v2.8 Ember</td><td>Sam Olsen</td><td><span class="badge badge-neutral">Planned</span></td><td>May 24</td></tr>
+        <tr><td>v1.9 Legacy API</td><td>Jordan Lee</td><td><span class="badge badge-neutral">Deprecated</span></td><td>Apr 02</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- J. 注册表单 -->
+<section class="section">
+  <div class="wrap">
+    <h2>Create your workspace</h2>
+    <p class="lead" style="margin-bottom:0">Set up your team in under a minute.</p>
+    <form class="form" onsubmit="return false">
+      <div class="field">
+        <label for="fn">Full name</label>
+        <input type="text" id="fn" placeholder="Jane Appleseed">
+      </div>
+      <div class="field">
+        <label for="em">Work email</label>
+        <input type="email" id="em" placeholder="jane@company.com">
+      </div>
+      <div class="field">
+        <label for="ts">Team size</label>
+        <select id="ts">
+          <option>1–10</option><option>11–50</option><option>51–200</option><option>200+</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="ab">What are you building?</label>
+        <textarea id="ab" placeholder="Tell us a little about your project…"></textarea>
+      </div>
+      <div class="field err">
+        <label for="wu">Workspace URL</label>
+        <input type="text" id="wu" value="acme">
+        <div class="err-text">This workspace name is already taken.</div>
+      </div>
+      <div class="field">
+        <label>Plan</label>
+        <div class="radio-row"><input type="radio" name="plan" id="p1"><label for="p1">Starter</label></div>
+        <div class="radio-row"><input type="radio" name="plan" id="p2" checked><label for="p2">Pro</label> <span class="badge badge-primary">Pro</span></div>
+      </div>
+      <div class="field">
+        <div class="check-row"><input type="checkbox" id="upd"><label for="upd">Send me product updates</label></div>
+      </div>
+      <div class="field">
+        <div class="check-row">
+          <span class="toggle"><input type="checkbox" id="tfa" checked><span class="track"></span></span>
+          <label for="tfa">Enable two-factor authentication</label>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Create account</button>
+        <button class="btn" type="button" disabled>Continue with SSO</button>
+        <span class="hint">Available on Enterprise plans.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- K. 结尾CTA -->
+<section class="cta">
+  <div class="wrap">
+    <h2>Start shipping with Acme today</h2>
+    <p>Free for up to 10 members. No credit card required.</p>
+    <a href="#" class="btn btn-primary btn-lg">Get started</a>
+  </div>
+</section>
+
+<!-- L. 页脚 -->
+<footer>
+  <div class="foot-grid">
+    <div>
+      <span class="logo">Acme</span>
+      <p class="foot-tag">The collaborative workspace for modern teams.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <a href="#">Features</a><a href="#">Pricing</a><a href="#">Changelog</a>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <a href="#">About</a><a href="#">Careers</a><a href="#">Contact</a>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <a href="#">Docs</a><a href="#">Community</a><a href="#">Support</a>
+    </div>
+  </div>
+  <div class="copyright">© 2026 Acme, Inc. All rights reserved.</div>
+</footer>
+
+<script>
+var root=document.documentElement,tb=document.getElementById('themeBtn');
+function setTheme(t){root.setAttribute('data-theme',t);tb.textContent=t==='dark'?'Light':'Dark';}
+tb.addEventListener('click',function(){setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('active')});
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

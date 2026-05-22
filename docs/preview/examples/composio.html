@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acme — Composio design preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0007cd; --primary-active:#0005a3; --on-primary:#ffffff;
+  --ink:#111111; --body:#444444; --muted:#777777; --muted-soft:#999999;
+  --hairline:#dddddd;
+  --canvas:#f7f7f7; --surface-soft:#ffffff; --surface-card:#ffffff; --surface-strong:#eeeeee;
+  --surface-dark:#0f0f0f; --on-dark:#ffffff;
+  --spotlight:#1a26ff;
+  --success:#33d17a; --warning:#ffcf25; --error:#ff4d4d;
+  --font-display:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,monospace;
+  --r-sm:4px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-pill:9999px;
+  --shadow:none;
+}
+[data-theme="dark"]{
+  --primary:#0007cd; --primary-active:#0005a3; --on-primary:#ffffff;
+  --ink:#ffffff; --body:#a8a8a8; --muted:#888888; --muted-soft:#666666;
+  --hairline:#222222;
+  --canvas:#0f0f0f; --surface-soft:#121212; --surface-card:#181818; --surface-strong:#222222;
+  --surface-dark:#000000; --on-dark:#ffffff;
+  --spotlight:#1a26ff;
+  --success:#33d17a; --warning:#ffcf25; --error:#ff4d4d;
+  --shadow:none;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--canvas);color:var(--body);font-family:var(--font-body);
+  font-size:16px;font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;
+  transition:background .25s ease,color .25s ease}
+h1,h2,h3,h4{color:var(--ink);font-family:var(--font-display);font-weight:500;line-height:1.05}
+h1{font-size:64px;letter-spacing:-2px;line-height:1.05}
+h2{font-size:44px;letter-spacing:-1.32px;line-height:1.1}
+h3{font-size:24px;letter-spacing:-.5px;line-height:1.25}
+h4{font-size:18px;font-weight:600;letter-spacing:0;line-height:1.4}
+a{color:var(--primary)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+section{padding:80px 0;border-bottom:1px solid var(--hairline)}
+section:last-of-type{border-bottom:none}
+
+.btn{font-family:var(--font-body);font-weight:500;border:1px solid transparent;
+  border-radius:var(--r-md);cursor:pointer;display:inline-flex;align-items:center;
+  gap:8px;text-decoration:none;transition:background .15s,transform .05s}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-active)}
+.btn-secondary{background:var(--surface-card);color:var(--ink);border-color:var(--hairline)}
+.btn-secondary:hover{background:var(--surface-strong)}
+.btn-ghost{background:transparent;color:var(--primary);border:none;padding:0;border-radius:0}
+.btn-ghost:hover{color:var(--primary-active)}
+.btn-md{font-size:14px;padding:10px 18px}
+.btn-lg{font-size:16px;padding:13px 26px}
+.btn:disabled,.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+.badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.88px;
+  text-transform:uppercase;padding:4px 10px;border-radius:var(--r-pill);
+  background:var(--surface-card);color:var(--ink)}
+.badge-primary{background:var(--primary);color:var(--on-primary)}
+.badge-neutral{background:var(--surface-strong);color:var(--muted)}
+
+.announce{background:var(--surface-soft);border-bottom:1px solid var(--hairline);
+  font-size:13.5px;text-align:center;padding:10px 32px;color:var(--body)}
+.announce a{font-weight:500}
+
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--canvas) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--hairline)}
+.nav{display:flex;align-items:center;gap:28px;padding:16px 0}
+.logo{font-family:var(--font-display);font-size:22px;color:var(--primary);font-weight:500;letter-spacing:-.66px}
+.nav-links{display:flex;gap:24px;margin-left:8px}
+.nav-links a{color:var(--body);text-decoration:none;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--ink)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.theme-btn{background:transparent;border:1px solid var(--hairline);color:var(--body);
+  border-radius:var(--r-md);font-size:13px;padding:7px 14px;cursor:pointer;font-family:var(--font-body)}
+.theme-btn:hover{background:var(--surface-soft)}
+
+.hero{text-align:center;padding:96px 0;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:50%;left:50%;width:700px;height:700px;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,color-mix(in srgb,var(--spotlight) 20%,transparent) 0%,transparent 70%);
+  pointer-events:none}
+.hero h1{margin-top:20px;position:relative}
+.hero p.sub{font-size:18px;color:var(--muted);max-width:600px;margin:22px auto 34px;position:relative}
+.hero-btns{display:flex;gap:14px;justify-content:center;position:relative}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center}
+.stat .num{font-family:var(--font-display);font-size:56px;color:var(--primary);font-weight:500;letter-spacing:-1.68px;line-height:1}
+.stat .lbl{color:var(--muted);font-size:14px;margin-top:8px}
+
+.lead{font-size:16px;color:var(--muted);max-width:640px;margin:16px 0 44px}
+.lead.compact{margin-bottom:0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:var(--surface-card);border:1px solid var(--hairline);
+  border-radius:var(--r-xl);padding:28px}
+.card .icon{width:40px;height:40px;border-radius:var(--r-md);background:var(--surface-strong);
+  display:flex;align-items:center;justify-content:center;color:var(--ink);
+  font-size:18px;margin-bottom:16px}
+.card h3{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.card p{font-size:15px;margin-bottom:16px}
+.card .tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.88px;
+  text-transform:uppercase;background:var(--surface-strong);color:var(--muted);
+  padding:2px 8px;border-radius:var(--r-pill)}
+
+.quote{text-align:center;max-width:640px;margin:0 auto}
+.quote blockquote{font-size:18px;color:var(--ink);font-weight:400;font-style:normal;line-height:1.6}
+.quote cite{display:block;margin-top:16px;font-size:14px;font-style:normal;color:var(--muted)}
+.quote cite strong{color:var(--ink);font-weight:500}
+
+.tabs{background:var(--surface-card);border:1px solid var(--hairline);border-radius:var(--r-lg);overflow:hidden}
+.tab-hd{display:flex;border-bottom:1px solid var(--hairline);font-size:13px;font-weight:500}
+.tab-hd div{padding:12px 24px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent}
+.tab-hd div.active{color:var(--ink);border-color:var(--primary)}
+.tab-pd{padding:24px;display:none}
+.tab-pd.active{display:block}
+.tab-pd h4{margin-bottom:12px}
+.tab-pd ul{list-style:none;padding:0}
+.tab-pd li{padding:10px 0;border-bottom:1px solid var(--hairline);font-size:15px;
+  display:flex;align-items:center;gap:12px}
+.tab-pd li:last-child{border-bottom:none}
+.tab-pd li .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tab-pd li .s-label{color:var(--muted);font-size:12px}
+
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:left;padding:10px 14px;color:var(--ink);font-weight:500;font-size:13px;
+  letter-spacing:.88px;text-transform:uppercase;border-bottom:1px solid var(--hairline)}
+td{padding:12px 14px;border-bottom:1px solid var(--hairline)}
+.t-badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.6px;
+  text-transform:uppercase;border-radius:var(--r-pill);padding:2px 8px}
+.t-badge.ok{background:var(--success);color:var(--surface-dark)}
+.t-badge.warn{background:var(--warning);color:var(--surface-dark)}
+.t-badge.err{background:var(--error);color:var(--on-dark)}
+.t-badge.blue{background:var(--primary);color:var(--on-primary)}
+
+form{max-width:520px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:14px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.form-group .help{font-size:12px;color:var(--muted);margin-top:4px}
+.form-group .help.err{color:var(--error)}
+input[type=text],input[type=email],input[type=number],select,textarea{width:100%;
+  background:var(--surface-card);color:var(--ink);border:1px solid var(--hairline);
+  border-radius:var(--r-md);padding:12px 16px;font-size:14px;font-family:var(--font-body);
+  outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--primary)}
+input.error{border-color:var(--error)}
+textarea{min-height:100px;resize:vertical}
+.radio-group{display:flex;flex-direction:column;gap:8px}
+.radio-group label{display:flex;align-items:center;gap:8px;font-weight:400;font-size:14px;cursor:pointer}
+.check-group{display:flex;flex-direction:column;gap:8px}
+.check-group label{display:flex;align-items:center;gap:8px;font-weight:400;font-size:14px;cursor:pointer}
+.toggle-group{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.toggle-group label{font-size:14px;cursor:pointer}
+.toggle{position:relative;display:inline-block;width:42px;height:24px;background:var(--surface-strong);
+  border-radius:var(--r-pill);cursor:pointer;border:none;transition:background .2s}
+.toggle.on{background:var(--primary)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;
+  background:#fff;border-radius:50%;transition:transform .2s}
+.toggle.on::after{transform:translateX(18px)}
+.form-actions{display:flex;align-items:center;gap:14px;margin-top:24px}
+.form-actions .hint{font-size:12px;color:var(--muted)}
+
+.cta{text-align:center;padding:80px 0}
+.cta h2{margin-bottom:16px}
+.cta p{color:var(--muted);font-size:18px;max-width:520px;margin:0 auto 32px}
+
+footer{background:var(--surface-dark);color:var(--on-dark);padding:64px 0 48px}
+footer a{color:var(--muted);text-decoration:none;font-size:13px}
+footer a:hover{color:var(--on-dark)}
+.foot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-bottom:48px}
+.foot-col h4{color:var(--on-dark);font-size:14px;font-weight:500;margin-bottom:14px;letter-spacing:0}
+.foot-col ul{list-style:none;padding:0}
+.foot-col li{margin-bottom:8px}
+.foot-col a{color:var(--muted-soft)}
+.foot-col a:hover{color:var(--on-dark)}
+.foot-bot{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;
+  display:flex;justify-content:space-between;font-size:13px;color:var(--muted-soft)}
+
+@media (max-width:860px){
+  h1{font-size:36px;letter-spacing:-1px}h2{font-size:28px}
+  .nav-links{display:none}
+  .stats,.cards,.foot-grid{grid-template-columns:1fr}
+  .hero{padding:56px 0}
+  .hero-btns{flex-direction:column;align-items:center}
+  .tab-hd{flex-wrap:wrap}
+  .tab-hd div{padding:10px 16px;font-size:12px}
+  .hero::before{width:400px;height:400px}
+}
+
+/* terminal mockup */
+.terminal-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
+.term-pane{background:var(--surface-card);border:1px solid var(--hairline);
+  border-radius:var(--r-lg);padding:20px;font-family:var(--font-mono);font-size:13px;color:var(--body);
+  line-height:1.6;min-height:120px}
+.term-pane .cmt{color:var(--muted-soft)}
+.term-pane .key{color:var(--primary)}
+.term-pane .str{color:var(--success)}
+.term-pane .fn{color:var(--on-primary)}
+@media (max-width:860px){.terminal-grid{grid-template-columns:1fr}}
+
+/* code block */
+.code-block{background:var(--surface-dark);border:1px solid var(--hairline);
+  border-radius:var(--r-lg);padding:20px;font-family:var(--font-mono);font-size:13px;
+  color:var(--body);line-height:1.6;overflow-x:auto;margin:16px 0}
+.code-block .cmt{color:var(--muted-soft)}
+.code-block .key{color:var(--primary)}
+
+/* list styling in developer section */
+.lists{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:24px}
+.lists h4{margin-bottom:12px}
+.lists ul{padding-left:20px;color:var(--body);font-size:15px}
+.lists ol{padding-left:20px;color:var(--body);font-size:15px}
+.lists li{margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<!-- A: Announcement -->
+<div class="announce">Acme 2.5 is now available — explore what's new <a href="#">Read the changelog →</a></div>
+
+<!-- B: Navigation -->
+<header>
+<div class="nav wrap">
+  <div class="logo">Acme</div>
+  <div class="nav-links">
+    <a href="#">Product</a>
+    <a href="#">Docs</a>
+    <a href="#">Pricing</a>
+    <a href="#">Blog</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()">Light</button>
+    <a href="#" class="btn btn-primary btn-md">Get started</a>
+  </div>
+</div>
+</header>
+
+<!-- C: Hero -->
+<section class="hero">
+<div class="wrap">
+  <span class="badge badge-primary">Now in public beta</span>
+  <h1>Ship your ideas faster</h1>
+  <p class="sub">Connect your AI agents to 200+ tools with one SDK. Build, deploy, and scale in minutes.</p>
+  <div class="hero-btns">
+    <a href="#" class="btn btn-primary btn-lg">Start free trial</a>
+    <a href="#" class="btn btn-secondary btn-lg">Watch demo</a>
+  </div>
+</div>
+</section>
+
+<!-- D: Stats -->
+<section>
+<div class="wrap">
+<div class="stats">
+  <div class="stat">
+    <div class="num">12,000+</div>
+    <div class="lbl">teams onboard</div>
+  </div>
+  <div class="stat">
+    <div class="num">99.98%</div>
+    <div class="lbl">uptime last year</div>
+  </div>
+  <div class="stat">
+    <div class="num">4.9 / 5</div>
+    <div class="lbl">average customer rating</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- E: Features -->
+<section>
+<div class="wrap">
+<h2>Everything you need to ship</h2>
+<p class="lead">From prototyping to production — a toolchain that grows with you.</p>
+<div class="cards">
+  <div class="card">
+    <div class="icon">&#9889;</div>
+    <h3>Plan New</h3>
+    <p>Map out your architecture with visual agent workflows and dependency graphs in seconds.</p>
+    <span class="tag">Coming soon</span>
+  </div>
+  <div class="card">
+    <div class="icon">&#9881;</div>
+    <h3>Track Beta</h3>
+    <p>Monitor tool execution, token usage, and latency across all your deployed agents in real time.</p>
+    <span class="tag">Beta</span>
+  </div>
+  <div class="card">
+    <div class="icon">&#9654;</div>
+    <h3>Ship</h3>
+    <p>Deploy to production with a single CLI command. Auto-scaling, logging, and alerting included.</p>
+    <span class="tag">Live</span>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- F: Developer -->
+<section>
+<div class="wrap">
+<h2>Built for developers</h2>
+<p class="lead">Designed for modern AI workflows — minimal boilerplate, maximal control. Here's what the API looks like:</p>
+
+<div class="terminal-grid">
+  <div class="term-pane">
+    <span class="cmt"># install</span><br>
+    $ npm install @composio/sdk<br><br>
+    <span class="cmt"># authenticate</span><br>
+    <span class="key">import</span> { Composio } <span class="key">from</span> <span class="str">"@composio/sdk"</span><br><br>
+    <span class="key">const</span> composio = <span class="key">new</span> Composio({<br>
+    &nbsp;&nbsp;apiKey: <span class="str">"sk_..."</span><br>
+    })
+  </div>
+  <div class="term-pane">
+    <span class="cmt"># connect tools</span><br>
+    <span class="key">await</span> composio.tools.connect([<br>
+    &nbsp;&nbsp;<span class="str">"slack"</span>,<br>
+    &nbsp;&nbsp;<span class="str">"github"</span>,<br>
+    &nbsp;&nbsp;<span class="str">"gmail"</span>,<br>
+    &nbsp;&nbsp;<span class="str">"notion"</span><br>
+    ])<br><br>
+    <span class="cmt"># 200+ integrations</span>
+  </div>
+</div>
+
+<p style="margin-top:28px;font-size:15px">Inline code example: run <code style="background:var(--surface-card);padding:2px 6px;border-radius:var(--r-sm);font-family:var(--font-mono);font-size:13px">npx composio init</code> to bootstrap a new project.</p>
+
+<div class="code-block">
+  <span class="cmt"># Full terminal example</span><br>
+  $ composio deploy --env production<br>
+  <span class="key">✓</span> Deploying agent "customer-support"<br>
+  <span class="key">✓</span> Connecting 6 tools<br>
+  <span class="key">✓</span> Deployed to composio.io/app/agents/customer-support<br><br>
+  <span class="cmt"># Status: live · Region: us-east-1 · Latency: 142ms</span>
+</div>
+
+<h4 style="margin-top:32px">Supported operations</h4>
+<div class="lists">
+  <div>
+    <h4>Ordered list</h4>
+    <ol>
+      <li>Install the SDK via npm</li>
+      <li>Generate an API key from the dashboard</li>
+      <li>Connect your tools using <code style="background:var(--surface-card);padding:1px 4px;border-radius:var(--r-sm);font-family:var(--font-mono);font-size:13px">composio.tools.connect()</code></li>
+      <li>Build your agent logic</li>
+      <li>Deploy with <code style="background:var(--surface-card);padding:1px 4px;border-radius:var(--r-sm);font-family:var(--font-mono);font-size:13px">composio deploy</code></li>
+    </ol>
+  </div>
+  <div>
+    <h4>Unordered list</h4>
+    <ul>
+      <li>Support for 200+ third-party tools</li>
+      <li>Automatic rate limiting and retry logic</li>
+      <li>Built-in observability dashboards</li>
+      <li>Role-based access control (RBAC)</li>
+      <li>SOC 2 compliant infrastructure</li>
+    </ul>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- G: Quote -->
+<section>
+<div class="wrap">
+<div class="quote">
+  <blockquote>"Acme cut our release cycle from two weeks to two days. The agent tooling is light-years ahead of anything we've used."</blockquote>
+  <cite>Jordan Lee · Head of Engineering, Northwind</cite>
+</div>
+</div>
+</section>
+
+<!-- H: Tabs -->
+<section>
+<div class="wrap">
+<h2>Workspace overview</h2>
+<p class="lead compact">Stay on top of everything happening across your agents and integrations.</p>
+<div class="tabs">
+  <div class="tab-hd">
+    <div class="active" onclick="switchTab(this,'tab-overview')">Overview</div>
+    <div onclick="switchTab(this,'tab-activity')">Activity</div>
+    <div onclick="switchTab(this,'tab-settings')">Settings</div>
+  </div>
+  <div id="tab-overview" class="tab-pd active">
+    <h4>Quick summary</h4>
+    <ul>
+      <li>Active agents: <strong>12</strong> <span class="s-label">— 8 running, 4 idle</span></li>
+      <li>Connected tools: <strong>34</strong> <span class="s-label">— 2 need re-auth</span></li>
+      <li>API calls today: <strong>142K</strong> <span class="s-label">— +12% vs yesterday</span></li>
+    </ul>
+  </div>
+  <div id="tab-activity" class="tab-pd">
+    <h4>Recent activity</h4>
+    <ul>
+      <li><span class="dot" style="background:var(--success)"></span> Tool sync completed <span class="s-label">— 2 min ago</span></li>
+      <li><span class="dot" style="background:var(--primary)"></span> New deployment: customer-support <span class="s-label">— 15 min ago</span></li>
+      <li><span class="dot" style="background:var(--warning)"></span> Rate limit warning: GitHub API <span class="s-label">— 1 hr ago</span></li>
+      <li><span class="dot" style="background:var(--error)"></span> Auth expired: Salesforce <span class="s-label">— 3 hr ago</span></li>
+    </ul>
+  </div>
+  <div id="tab-settings" class="tab-pd">
+    <h4>Preferences</h4>
+    <ul>
+      <li>Default region: <strong>us-east-1</strong> <span class="s-label">— change</span></li>
+      <li>Log retention: <strong>30 days</strong> <span class="s-label">— change</span></li>
+      <li>Notification email: <strong>admin@acme.com</strong> <span class="s-label">— change</span></li>
+    </ul>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- I: Table -->
+<section>
+<div class="wrap">
+<h2>Recent releases</h2>
+<p class="lead compact">Track the latest versions of our platform components.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Version</th><th>Release</th><th>Status</th><th>Date</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>v3.2.0</td><td>Multi-region failover</td><td><span class="t-badge ok">Stable</span></td><td>Mar 15, 2026</td></tr>
+    <tr><td>v3.1.0</td><td>Webhook relay</td><td><span class="t-badge ok">Stable</span></td><td>Feb 28, 2026</td></tr>
+    <tr><td>v3.0.0</td><td>Agent SDK rewrite</td><td><span class="t-badge ok">Stable</span></td><td>Feb 1, 2026</td></tr>
+    <tr><td>v2.9.0</td><td>Custom tool builder</td><td><span class="t-badge blue">Beta</span></td><td>Jan 20, 2026</td></tr>
+    <tr><td>v1.9 Legacy API</td><td>Jordan Lee</td><td><span class="t-badge warn">Deprecated</span></td><td>Apr 02</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+</section>
+
+<!-- J: Form -->
+<section>
+<div class="wrap">
+<h2>Create your workspace</h2>
+<p class="lead compact">Get started with a free account — no credit card required.</p>
+<form>
+  <div class="form-group">
+    <label for="fn">Full name</label>
+    <input id="fn" type="text" placeholder="Jane Doe">
+  </div>
+  <div class="form-group">
+    <label for="em">Email</label>
+    <input id="em" type="email" placeholder="jane@acme.com">
+  </div>
+  <div class="form-group">
+    <label for="ts">Team size</label>
+    <select id="ts">
+      <option>Just me</option>
+      <option>2–5</option>
+      <option>6–20</option>
+      <option>21–100</option>
+      <option>100+</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="msg">Project description</label>
+    <textarea id="msg" placeholder="Tell us about your use case…"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="ws">Workspace URL</label>
+    <input id="ws" type="text" class="error" placeholder="my-org" value="invalid url!">
+    <div class="help err">Invalid workspace URL. Use only lowercase letters and hyphens.</div>
+  </div>
+  <div class="form-group">
+    <label>Plan</label>
+    <div class="radio-group">
+      <label><input type="radio" name="plan" checked> Free — up to 3 agents</label>
+      <label><input type="radio" name="plan"> Pro — $49/mo, unlimited agents</label>
+      <label><input type="radio" name="plan"> Enterprise — custom pricing</label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="check-group">
+      <label><input type="checkbox" checked> I agree to the Terms of Service</label>
+      <label><input type="checkbox"> Send me product updates</label>
+    </div>
+  </div>
+  <div class="toggle-group">
+    <span class="toggle on" onclick="this.classList.toggle('on')"></span>
+    <label>Enable two-factor authentication (recommended)</label>
+  </div>
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Create account</button>
+    <span class="hint">SSO disabled · Free tier, no card needed</span>
+  </div>
+</form>
+</div>
+</section>
+
+<!-- K: CTA -->
+<section class="cta">
+<div class="wrap">
+<h2>Start shipping with Acme today</h2>
+<p>Join thousands of teams already building with the most powerful agent toolkit on the market.</p>
+<a href="#" class="btn btn-primary btn-lg">Get started for free</a>
+</div>
+</section>
+
+<!-- L: Footer -->
+<footer>
+<div class="wrap">
+<div class="foot-grid">
+  <div class="foot-col">
+    <h4>Product</h4>
+    <ul><li><a href="#">Overview</a></li><li><a href="#">Pricing</a></li><li><a href="#">Integrations</a></li><li><a href="#">Changelog</a></li></ul>
+  </div>
+  <div class="foot-col">
+    <h4>Developers</h4>
+    <ul><li><a href="#">Documentation</a></li><li><a href="#">API Reference</a></li><li><a href="#">SDKs</a></li><li><a href="#">CLI</a></li></ul>
+  </div>
+  <div class="foot-col">
+    <h4>Company</h4>
+    <ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul>
+  </div>
+  <div class="foot-col">
+    <h4>Legal</h4>
+    <ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Security</a></li><li><a href="#">SOC 2</a></li></ul>
+  </div>
+</div>
+<div class="foot-bot">
+  <span>&copy; 2026 Acme Corp</span>
+  <span>Built with &#9825;</span>
+</div>
+</div>
+</footer>
+
+<script>
+function toggleTheme(){
+  const h=document.documentElement;
+  const b=h.querySelector('.theme-btn');
+  if(h.getAttribute('data-theme')==='dark'){
+    h.setAttribute('data-theme','light');b.textContent='Dark'
+  }else{
+    h.setAttribute('data-theme','dark');b.textContent='Light'
+  }
+}
+function switchTab(el,id){
+  document.querySelectorAll('.tab-hd div').forEach(d=>d.classList.remove('active'));
+  document.querySelectorAll('.tab-pd').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active')
+}
+</script>
+</body>
+</html>
