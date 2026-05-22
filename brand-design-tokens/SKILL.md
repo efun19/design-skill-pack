@@ -56,8 +56,8 @@ description: >
 必须把本 skill 目录的 `index.html` 直接提供给用户,并在环境允许时直接帮用户打开浏览器预览 71 套真实效果。选定后转路径 1 第 3 步。
 
 执行要求:
-1. 优先直接打开 `index.html`。本地命令可用时执行 `open preview/index.html` 或等价方式。
-2. 无法直接打开时,必须给出可点击/可复制的 HTML 路径,例如 `preview/index.html`。
+1. 优先直接打开 `index.html`。本地命令可用时执行 `open docs/index.html` 或等价方式。
+2. 无法直接打开时,必须给出可点击/可复制的 HTML 路径,例如 `docs/index.html`。
 3. 明确告诉用户:预览页只用于人工挑选风格,生成时仍只读取对应 `DESIGN.md`,不要从预览 HTML 抽结构、样式或代码。
 4. 打开或提供链接后暂停,等待用户选定品牌。不要替用户默认选择。
 

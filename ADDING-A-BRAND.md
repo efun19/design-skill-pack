@@ -1,8 +1,8 @@
 # 新增品牌预览页 — 给 AI 工具的操作文档
 
-本文档让任意 AI 工具给 `preview/examples/` 新增一个品牌 HTML 页,并接入 `preview/index.html`。
+本文档让任意 AI 工具给 `docs/examples/` 新增一个品牌 HTML 页,并接入 `docs/index.html`。
 
-`preview/index.html` 当前已列 71 个品牌、9 个分类,全部完成。新增品牌 = 写一个新
+`docs/index.html` 当前已列 71 个品牌、9 个分类,全部完成。新增品牌 = 写一个新
 `examples/<BRAND>.html` + 在 index 里新增一张卡片 + 加一条 `.s-<BRAND>` 色板。
 
 ---
@@ -45,7 +45,7 @@
 
 ### 3. 写 HTML 页
 
-写 `preview/examples/<BRAND>.html`,自包含单文件(内联 `<style>` `<script>`,
+写 `docs/examples/<BRAND>.html`,自包含单文件(内联 `<style>` `<script>`,
 无构建步骤,浏览器直接打开):
 
 - 文案、12 区块、DOM 顺序逐字照搬 CONTENT-SPEC.md,**英文不动**。
@@ -75,7 +75,7 @@
 
 ### 4. 接入 index.html
 
-在 `preview/index.html` 里给新品牌新增一张卡片:
+在 `docs/index.html` 里给新品牌新增一张卡片:
 
 1. 选定分类。9 个分类各有一个 `<section class="cat" id="cat-...">`,内部 `<div class="grid">`。
    把新卡片插到该分类 `.grid` 里(挑风格 / 行业最贴近的分类)。
@@ -170,14 +170,14 @@
    **立刻判断起始主题**：canvas 为白色/奶油/浅色 → data-theme="light"；
    canvas 为黑色/近黑/深色 → data-theme="dark"。
 2. 读 CONTENT-SPEC.md —— 文案和结构的唯一来源。
-3. 写 preview/examples/<BRAND>.html：自包含单文件，内联 style/script。
+3. 写 docs/examples/<BRAND>.html：自包含单文件，内联 style/script。
    文案、12 区块 A–L、DOM 顺序逐字照搬 CONTENT-SPEC.md（英文不动）；
    CSS token 全来自 DESIGN.md；特征色先定义变量再用 var(...) 引用；
    不写内联 style；专有字体用最接近的 Google Fonts + 系统兜底；
    亮/暗双主题都按 DESIGN.md 规范还原,不是机械反色；
    <html data-theme> 初始值按步骤 1 的判断。
    参考 examples/claude.html / stripe.html / linear.html。
-4. 在 preview/index.html 接入新品牌：
+4. 在 docs/index.html 接入新品牌：
    - 在最贴近的分类 .grid 里新增一张 <a class="tile" href="examples/<BRAND>.html"> 卡片
      （结构照抄同分类已有卡片，<h3> 写准品牌名供搜索匹配）；
    - 在 <style> 的「各品牌色板」段加一条 .s-<BRAND> 规则；
