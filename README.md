@@ -17,9 +17,7 @@ design-skill-pack/
 ├── brand-design-tokens/
 │   ├── SKILL.md
 │   ├── brands.json
-│   ├── index.html
-│   ├── design-md/<brand>/DESIGN.md
-│   └── examples/<brand>.html
+│   └── design-md/<brand>/DESIGN.md
 │
 ├── brand-slides/
 │   ├── SKILL.md
@@ -29,10 +27,13 @@ design-skill-pack/
 │   ├── transitions/TRANSITIONS.md
 │   └── tokens/DESIGN-TO-SLIDE.md
 │
-├── BRAND-SLIDES-SPEC.md
+├── docs/                        ← 预览站（GitHub Pages 部署）
+│   ├── index.html
+│   └── examples/<brand>.html
+│
 ├── ADDING-A-BRAND.md
 ├── CONTENT-SPEC.md
-└── ROADMAP.md
+└── README.md
 ```
 
 ## `brand-design-tokens`
@@ -43,8 +44,6 @@ design-skill-pack/
 
 - 71 套品牌 `DESIGN.md`
 - `brands.json` 品牌索引，包含 `id`、`name`、`theme`、`vibe`、`scenarios`、`blurb`、`design_md`
-- `index.html` 预览总索引
-- `examples/<brand>.html` 自包含品牌预览页
 - `SKILL.md` 品牌路由规则
 
 适用场景：
@@ -148,7 +147,7 @@ cut
 ## 两个 Skill 的关系
 
 ```text
-用户: “用 Stripe 风格做一个 pitch deck”
+用户: "用 Stripe 风格做一个 pitch deck"
         │
         ▼
 brand-slides
@@ -179,13 +178,13 @@ brand-design-tokens
 
 ### 预览品牌风格
 
-直接打开：
+在线预览（71 套品牌效果）：
 
-```text
-brand-design-tokens/index.html
+```
+https://efun19.github.io/design-skill-pack/
 ```
 
-这里可以浏览 71 套品牌预览效果。使用 skill 时,如果用户没点名品牌,AI 必须把这个 HTML 入口直接提供给用户；环境允许时应直接帮用户打开。预览页只用于人工选择风格，不作为代码生成依据。
+使用 skill 时，如果用户没点名品牌，AI 必须把这个链接直接提供给用户。预览页只用于人工选择风格，不作为代码生成依据。
 
 ### 使用品牌 token 写 UI
 
@@ -215,7 +214,7 @@ brand-design-tokens/index.html
 2. 检查同级 `brand-design-tokens` 是否存在。
 3. 选择 design 风格，流程和 `brand-design-tokens` 一样：
    - 点名品牌：直接匹配 `id` / `name`。
-   - 浏览选择：如果用户没点名品牌，优先提供 `brand-design-tokens/index.html` 链接；环境允许时直接帮用户打开，等用户看完 71 套预览后再选。
+   - 浏览选择：如果用户没点名品牌，提供在线预览链接 `https://efun19.github.io/design-skill-pack/`，等用户看完 71 套预览后再选。
    - 场景推荐：按 `scenarios`、`vibe`、`theme` 推荐 2-3 个品牌。
 4. 读取选定品牌的 `DESIGN.md`。
 5. 询问内容和 design；如果用户已提供则不重复追问。
@@ -226,18 +225,18 @@ brand-design-tokens/index.html
 
 ## 新增品牌
 
-新增品牌时只改 `brand-design-tokens`：
+新增品牌时改动 `brand-design-tokens` 和 `docs`：
 
 1. 把该品牌的 `DESIGN.md` 放到 `brand-design-tokens/design-md/<brand>/DESIGN.md`。
-2. 按 `ADDING-A-BRAND.md` 手写 `brand-design-tokens/examples/<brand>.html`。
-3. 在 `brand-design-tokens/brands.json` 加品牌索引。
-4. 在 `brand-design-tokens/index.html` 接入品牌卡片。
+2. 在 `brand-design-tokens/brands.json` 加品牌索引。
+3. 按 `ADDING-A-BRAND.md` 手写 `docs/examples/<brand>.html`。
+4. 在 `docs/index.html` 接入品牌卡片。
 
 不要在 `brand-slides` 中复制品牌 token。`brand-slides` 永远从 `brand-design-tokens` 读取数据。
 
 ## 设计来源与风险声明
 
-- 设计 token 来源参考 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)。
+- 设计 token 来源参考 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)，MIT License。
 - 本项目只使用设计 token 和抽象视觉气质，不使用真实品牌 logo、官网文案或专有页面结构。
 - 部分品牌字体是付费或专有字体，生成时必须保留 fallback 字体链。
 - `DESIGN.md` 原本面向网页，不是幻灯片；用于 slides 时必须经过 Token Cropping，避免信息密度和留白比例失控。
@@ -248,6 +247,8 @@ brand-design-tokens/index.html
 |------|------|------|
 | `brand-design-tokens` | 已完成 | 71 套品牌 token、预览站和 skill |
 | `brand-slides` | 已搭建 | 轻量 HTML slides skill、layout、transition、runtime |
-| 模板驱动 PPT | 未开始 | 见 `ROADMAP.md` 想法 4 |
+| 模板驱动 PPT | 未开始 | 从预制模板挑选并改内容 |
 
-更多规划见 `ROADMAP.md`。
+## License
+
+MIT License — see [LICENSE](LICENSE).
