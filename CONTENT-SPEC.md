@@ -166,4 +166,4 @@ logo、文案,规避 IP 风险。
 
 1. 拷该品牌 DESIGN.md 到 `brand-design-tokens/design-md/<brand>/DESIGN.md`
 2. 按本文档手写 `brand-design-tokens/examples/<brand>.html`(文案逐字照搬,只换样式)
-3. 在 `brand-design-tokens/index.html` 加一张卡片
+3. 在 `docs/brands.html` 加一张卡片

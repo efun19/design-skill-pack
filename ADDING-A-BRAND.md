@@ -4,7 +4,7 @@
 1. 写 DESIGN.md          → brand-design-tokens/design-md/<brand>/DESIGN.md
 2. 加 brands.json 条目   → brand-design-tokens/brands.json
 3. 写预览页              → docs/examples/<brand>.html
-4. 接入 index.html       → docs/index.html
+4. 接入 brands.html      → docs/brands.html
 ```
 
 **`<brand>`** = 目录名，用 kebab-case（如 `supabase`、`mistral-ai`）。
@@ -106,7 +106,7 @@ rounded:
 
 ---
 
-## 步骤 4：接入 index.html
+## 步骤 4：接入 brands.html
 
 **1. 新增卡片**（在最贴近的分类 `.grid` 里）：
 
@@ -142,7 +142,7 @@ rounded:
 - [ ] 包含 5 个共享文案串：`Create your workspace`、`Recent releases`、`Jordan Lee`、`Continue with SSO`、`Workspace URL`
 - [ ] 12 区块标记 `<!-- A.` 到 `<!-- L.` 齐全
 - [ ] `<div>` 开闭数量相等
-- [ ] `index.html` 卡片链接正确，计数和总数已 +1
+- [ ] `brands.html` 卡片链接正确，计数和总数已 +1
 - [ ] 色板背景色与 DESIGN.md `canvas` 一致，小标签用 `primary` 色
 - [ ] 搜索栏输入品牌名能命中新卡片
 
@@ -204,6 +204,6 @@ cp -r /tmp/awesome-design-md/design-md/<brand> brand-design-tokens/design-md/<br
 
 ### 第四步：接入本项目
 
-对每个新品牌，依次执行本文的**步骤 2–4**（brands.json → docs/examples/ → docs/index.html）。
+对每个新品牌，依次执行本文的**步骤 2–4**（brands.json → docs/examples/ → docs/brands.html）。
 
 ⚠️ 串行操作，一次处理一个品牌，完成自检后再开始下一个。

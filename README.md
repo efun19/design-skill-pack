@@ -26,7 +26,7 @@ brand-design-tokens  ──→  brand-slides
 
 - 71 套真实品牌 `DESIGN.md`（Claude、Stripe、Linear、Vercel、Notion、Apple 等）
 - `brands.json` 索引，包含 `id`、`name`、`theme`、`vibe`、`scenarios`、`blurb` 字段
-- 三种选品牌方式：点名品牌、浏览[预览站](https://efun19.github.io/design-skill-pack/)、按场景/气质推荐
+- 三种选品牌方式：点名品牌、浏览[预览站](https://efun19.github.io/design-skill-pack/brands.html)、按场景/气质推荐
 - 多品牌对比：通过 `generate-demo.js` 生成对比 Demo
 
 ### `brand-slides`
@@ -45,7 +45,7 @@ brand-design-tokens  ──→  brand-slides
 在线浏览全部 71 套品牌效果：
 
 ```
-https://efun19.github.io/design-skill-pack/
+https://efun19.github.io/design-skill-pack/brands.html
 ```
 
 ## 安装
@@ -81,7 +81,8 @@ design-skill-pack/
 │       └── extract-pptx.py
 │
 └── docs/                             （GitHub Pages 预览站）
-    ├── index.html
+    ├── index.html                        （项目介绍演示文稿，GitHub Pages 首页）
+    ├── brands.html                       （71 套品牌卡片，可搜索）
     └── examples/<brand>.html
 ```
 
@@ -92,7 +93,7 @@ design-skill-pack/
 1. 将 `DESIGN.md` 放入 `brand-design-tokens/design-md/<brand>/`
 2. 在 `brands.json` 中添加品牌索引条目
 3. 在 `docs/examples/<brand>.html` 添加预览页
-4. 在 `docs/index.html` 接入品牌卡片
+4. 在 `docs/brands.html` 接入品牌卡片
 
 ## 致谢
 

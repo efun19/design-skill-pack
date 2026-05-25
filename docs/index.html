@@ -1,840 +1,1047 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>设计风格预览 — 同一个 Acme 页面,71 套设计系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Skill Pack — 71 套品牌设计系统</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --ink:#141413; --body:#3d3d3a; --muted:#6c6a64; --muted-soft:#8e8b82;
-  --hairline:#e6dfd8; --canvas:#faf9f5; --card:#ffffff; --surface:#f5f0e8;
-  --accent:#cc785c; --accent-active:#a9583e;
-  --font-display:"Newsreader",Georgia,"Times New Roman",serif;
-  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --r:14px;
+
+/* === THEME — Claude Design Tokens === */
+:root {
+  --canvas:               #faf9f5;
+  --surface-soft:         #f5f0e8;
+  --surface-card:         #efe9de;
+  --surface-cream-strong: #e8e0d2;
+  --surface-dark:         #181715;
+  --surface-dark-elevated:#252320;
+  --ink:                  #141413;
+  --body:                 #3d3d3a;
+  --muted:                #6c6a64;
+  --muted-soft:           #8e8b82;
+  --hairline:             #e6dfd8;
+  --primary:              #cc785c;
+  --primary-active:       #a9583e;
+  --on-primary:           #ffffff;
+  --on-dark:              #faf9f5;
+  --on-dark-soft:         #a09d96;
+
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-reveal: 0.6s;
+  --dur-nav: 0.45s;
+
+  /* viewport-base clamp scales */
+  --slide-padding: clamp(1.5rem, 5vw, 5rem);
+  --body-size:     clamp(0.8rem, 1.4vw, 1.05rem);
+  --small-size:    clamp(0.65rem, 0.9vw, 0.8rem);
 }
-[data-theme="dark"]{
-  --ink:#faf9f5; --body:#d8d4cb; --muted:#a09d96; --muted-soft:#807d76;
-  --hairline:#34302a; --canvas:#181715; --card:#252320; --surface:#1f1e1b;
-  --accent:#cc785c; --accent-active:#e0987c;
+
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* === viewport-base.css — mandatory base === */
+html, body {
+  height: 100%;
+  overflow: hidden; /* no scroll — JS controls navigation */
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--canvas);color:var(--body);font-family:var(--font-body);
-  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
-  transition:background .25s ease,color .25s ease}
-.wrap{max-width:1140px;margin:0 auto;padding:0 32px}
-
-header.top{display:flex;align-items:center;height:70px;
-  border-bottom:1px solid var(--hairline);position:sticky;top:0;z-index:10;
-  background:color-mix(in srgb,var(--canvas) 88%,transparent);backdrop-filter:blur(10px)}
-.logo{font-family:var(--font-display);font-weight:500;font-size:22px;color:var(--ink)}
-.theme-toggle{margin-left:auto;background:transparent;border:1px solid var(--hairline);
-  color:var(--ink);border-radius:9999px;height:38px;padding:0 18px;
-  font-size:13px;font-weight:500;font-family:inherit;cursor:pointer}
-.theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
-
-.intro{padding:80px 0 48px}
-.intro h1{font-family:var(--font-display);font-size:54px;line-height:1.06;
-  letter-spacing:-1.5px;color:var(--ink);font-weight:400;white-space:nowrap}
-.intro p{font-size:18px;color:var(--body);max-width:62ch;margin-top:20px}
-.intro .note{font-size:14px;color:var(--muted);margin-top:16px;max-width:66ch}
-.intro .note a{color:var(--accent)}
-
-.cat{padding:8px 0 16px;scroll-margin-top:96px}
-.cat.hidden,.tile.hidden{display:none}
-
-.searchbar{position:relative;max-width:520px}
-.searchbar .search-icon{position:absolute;left:16px;top:50%;
-  transform:translateY(-50%);color:var(--muted-soft);pointer-events:none}
-.searchbar input{width:100%;height:48px;padding:0 44px;
-  background:var(--card);border:1px solid var(--hairline);border-radius:9999px;
-  color:var(--ink);font-family:inherit;font-size:15px;outline:none;
-  transition:border-color .15s}
-.searchbar input:focus{border-color:var(--accent)}
-.searchbar input::placeholder{color:var(--muted-soft)}
-.search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);
-  width:32px;height:32px;border:none;background:transparent;cursor:pointer;
-  color:var(--muted);font-size:22px;line-height:1;border-radius:9999px;display:none}
-.search-clear:hover{color:var(--ink);background:var(--surface)}
-.search-clear.show{display:block}
-.search-empty{display:none;font-size:15px;color:var(--muted);margin-top:32px}
-.search-empty.show{display:block}
-
-.sidenav{position:fixed;top:50%;transform:translateY(-50%);
-  left:max(16px,calc((100vw - 1140px)/2 - 172px));width:156px;display:none;z-index:9}
-.sidenav .sn-title{font-size:11px;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--muted-soft);padding:0 12px 8px}
-.sidenav.sidenav a{display:block;font-size:13px;color:var(--muted);text-decoration:none;
-  padding:7px 12px;border-left:2px solid var(--hairline);line-height:1.35;
-  transition:color .15s,border-color .15s}
-.sidenav.sidenav a:hover{color:var(--ink)}
-.sidenav.sidenav a.active{color:var(--accent);border-left-color:var(--accent);font-weight:600}
-@media (min-width:1360px){.sidenav{display:block}}
-.cat-head{display:flex;align-items:baseline;gap:12px;margin:48px 0 22px;
-  padding-bottom:14px;border-bottom:1px solid var(--hairline)}
-.cat-head h2{font-family:var(--font-display);font-size:30px;font-weight:400;
-  color:var(--ink);letter-spacing:-.5px}
-.cat-head .count{font-size:13px;color:var(--muted);
-  background:var(--surface);border:1px solid var(--hairline);
-  padding:3px 10px;border-radius:9999px}
-
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.tile-shell{position:relative}
-.tile-shell.hidden{display:none}
-.tile{display:block;text-decoration:none;color:inherit;
-  background:var(--card);border:1px solid var(--hairline);
-  border-radius:var(--r);overflow:hidden;
-  transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
-.tile:hover{transform:translateY(-3px);
-  box-shadow:0 14px 32px rgba(20,20,19,.12);border-color:var(--accent)}
-.tile.soon{opacity:.5;pointer-events:none}
-.swatch{height:110px;display:flex;align-items:flex-end;padding:14px}
-.swatch span{font-size:12px;font-weight:600;letter-spacing:.3px;
-  padding:4px 10px;border-radius:9999px}
-.tile-body{padding:20px}
-.tile-body h3{font-family:var(--font-display);font-size:21px;color:var(--ink);font-weight:500}
-.tile-body p{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.5}
-.tile-body .go{font-size:13px;font-weight:600;color:var(--accent);
-  margin-top:12px;display:inline-block}
-.tile-body .go.soon-label{color:var(--muted-soft)}
-.copy-brand{position:absolute;right:10px;top:10px;z-index:2;border:1px solid var(--hairline);
-  background:color-mix(in srgb,var(--card) 88%,transparent);color:var(--muted);
-  border-radius:9999px;padding:5px 10px;font-family:inherit;font-size:12px;font-weight:600;
-  cursor:pointer;opacity:0;transform:translateY(-2px);backdrop-filter:blur(8px);
-  transition:opacity .15s ease,transform .15s ease,color .15s ease,border-color .15s ease}
-.tile-shell:hover .copy-brand,.copy-brand:focus-visible{opacity:1;transform:translateY(0)}
-.copy-brand:hover{color:var(--accent);border-color:var(--accent)}
-.copy-brand.copied{color:var(--accent);border-color:var(--accent)}
-
-/* 各品牌色板 */
-.s-claude{background:#faf9f5;border-bottom:1px solid var(--hairline)} .s-claude span{background:#cc785c;color:#fff}
-.s-linear{background:#010102} .s-linear span{background:#5e6ad2;color:#fff}
-.s-stripe{background:linear-gradient(120deg,#80e9ff,#533afd 55%,#f96bee)} .s-stripe span{background:#fff;color:#533afd}
-.s-vercel{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-vercel span{background:#171717;color:#fff}
-.s-notion{background:#0a1530} .s-notion span{background:#5645d4;color:#fff}
-.s-figma{background:#dceeb1} .s-figma span{background:#000;color:#fff}
-.s-spotify{background:#121212} .s-spotify span{background:#1ed760;color:#000}
-.s-apple{background:#f5f5f7} .s-apple span{background:#0066cc;color:#fff}
-.s-airbnb{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-airbnb span{background:#ff385c;color:#fff}
-.s-supabase{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-supabase span{background:#3ecf8e;color:#171717}
-.s-nike{background:#111111} .s-nike span{background:#ffffff;color:#111111}
-.s-framer{background:#090909} .s-framer span{background:linear-gradient(135deg,#6a4cf5,#d44df0);color:#fff}
-.s-airtable{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-airtable span{background:#181d26;color:#fff}
-.s-binance{background:#1E2026} .s-binance span{background:#F0B90B;color:#1E2026}
-.s-bmw{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-bmw span{background:#1c69d4;color:#fff}
-.s-bmw-m{background:#000000} .s-bmw-m span{background:linear-gradient(90deg,#0066b1,#1c69d4,#e22718);color:#fff}
-.s-bugatti{background:#000000} .s-bugatti span{background:#ffffff;color:#000}
-.s-cal{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-cal span{background:#111111;color:#fff}
-.s-clay{background:#fffaf0} .s-clay span{background:#e8b94a;color:#0a0a0a}
-.s-clickhouse{background:#0a0a0a} .s-clickhouse span{background:#faff69;color:#0a0a0a}
-.s-cohere{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-cohere span{background:#39D98A;color:#1C1C1C}
-.s-coinbase{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-coinbase span{background:#0052FF;color:#fff}
-.s-composio{background:#0f0f0f} .s-composio span{background:#0007cd;color:#fff}
-.s-cursor{background:#f7f7f4;border-bottom:1px solid var(--hairline)} .s-cursor span{background:#f54e00;color:#fff}
-.s-elevenlabs{background:#f5f5f5;border-bottom:1px solid var(--hairline)} .s-elevenlabs span{background:linear-gradient(135deg,#a7e5d3,#f4c5a8 45%,#c8b8e0);color:#292524}
-.s-expo{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-expo span{background:#000000;color:#fff}
-.s-ferrari{background:#181818} .s-ferrari span{background:#da291c;color:#fff}
-.s-hashicorp{background:#000000} .s-hashicorp span{background:#ffffff;color:#000}
-.s-ibm{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-ibm span{background:#0F62FE;color:#fff}
-.s-intercom{background:#f5f1ec;border-bottom:1px solid var(--hairline)} .s-intercom span{background:#111111;color:#fff}
-.s-meta{background:#1877F2} .s-meta span{background:#fff;color:#1877F2}
-.s-minimax{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-minimax span{background:linear-gradient(135deg,#ff5530,#ea5ec1 45%,#1456f0);color:#fff}
-.s-mintlify{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-mintlify span{background:#10B981;color:#fff}
-.s-miro{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-miro span{background:#FFD02F;color:#1C1C1C}
-.s-mistral-ai{background:#fff8e0;border-bottom:1px solid var(--hairline)} .s-mistral-ai span{background:#fa520f;color:#fff}
-.s-mongodb{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-mongodb span{background:#00ED64;color:#001E2B}
-.s-nvidia{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-nvidia span{background:#76B900;color:#000000}
-.s-ollama{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-ollama span{background:#000000;color:#fff}
-.s-opencode-ai{background:#fdfcfc;border-bottom:1px solid var(--hairline)} .s-opencode-ai span{background:#201d1d;color:#fdfcfc}
-.s-pinterest{background:#FFFFFF;border-bottom:1px solid var(--hairline)} .s-pinterest span{background:#E60023;color:#fff}
-.s-playstation{background:#000000} .s-playstation span{background:#00439C;color:#fff}
-.s-posthog{background:#eeefe9;border-bottom:1px solid var(--hairline)} .s-posthog span{background:#f7a501;color:#23251d}
-.s-raycast{background:#07080a} .s-raycast span{background:#ffffff;color:#000}
-.s-renault{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-renault span{background:#ffed00;color:#000000}
-.s-replicate{background:#f9f7f3;border-bottom:1px solid var(--hairline)} .s-replicate span{background:#ea2804;color:#fff}
-.s-resend{background:#000000} .s-resend span{background:#FFFFFF;color:#000}
-.s-revolut{background:#FFFFFF;border-bottom:1px solid var(--hairline)} .s-revolut span{background:#0075EB;color:#fff}
-.s-sentry{background:#1f1633} .s-sentry span{background:#c2ef4e;color:#1f1633}
-.s-shopify{background:#fbfbf5} .s-shopify span{background:#000000;color:#fff}
-.s-slack{background:#FFFFFF;border-bottom:1px solid var(--hairline)} .s-slack span{background:#4A154B;color:#fff}
-.s-spacex{background:#000000} .s-spacex span{background:#FFFFFF;color:#000}
-.s-starbucks{background:#f2f0eb} .s-starbucks span{background:#00754A;color:#fff}
-.s-superhuman{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-superhuman span{background:#1b1938;color:#fff}
-.s-tesla{background:#FFFFFF;border-bottom:1px solid var(--hairline)} .s-tesla span{background:#3E6AE1;color:#fff}
-.s-theverge{background:#131313} .s-theverge span{background:#3cffd0;color:#000}
-.s-together-ai{background:#000000} .s-together-ai span{background:#3B82F6;color:#fff}
-.s-uber{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-uber span{background:#000000;color:#fff}
-.s-vodafone{background:#FFFFFF;border-bottom:1px solid var(--hairline)} .s-vodafone span{background:#E60000;color:#fff}
-.s-voltagent{background:#0A0A0A} .s-voltagent span{background:#7C3AED;color:#fff}
-.s-warp{background:#2b2622} .s-warp span{background:#f7f5f0;color:#2b2622}
-.s-webflow{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-webflow span{background:#7a3dff;color:#fff}
-.s-wired{background:#ffffff;border-bottom:1px solid var(--hairline)} .s-wired span{background:#000000;color:#fff}
-.s-wise{background:#FFFFFF;border-bottom:1px solid var(--hairline)} .s-wise span{background:#9FE870;color:#1C1C1C}
-.s-x-ai{background:#000000} .s-x-ai span{background:#FFFFFF;color:#000}
-.s-zapier{background:#FFFFFF;border-bottom:1px solid var(--hairline)} .s-zapier span{background:#FF4F00;color:#fff}
-.s-kraken{background:#FFFFFF;border-bottom:1px solid var(--hairline)} .s-kraken span{background:#7132F5;color:#fff}
-.s-lamborghini{background:#000000} .s-lamborghini span{background:#FFC000;color:#000}
-.s-lovable{background:#f7f4ed} .s-lovable span{background:#1c1c1c;color:#fcfbf8}
-.s-mastercard{background:#F3F0EE} .s-mastercard span{background:#141413;color:#F3F0EE}
-.s-runwayml{background:#000000} .s-runwayml span{background:#FFFFFF;color:#000}
-.s-sanity{background:#0b0b0b} .s-sanity span{background:#f36458;color:#fff}
-
-footer{border-top:1px solid var(--hairline);padding:36px 0;margin-top:56px;
-  font-size:13px;color:var(--muted)}
-footer code{font-size:12px;background:var(--card);border:1px solid var(--hairline);
-  padding:1px 6px;border-radius:5px}
-
-@media (max-width:820px){
-  .grid{grid-template-columns:1fr}
-  .intro h1{font-size:30px;white-space:normal}
-  .wrap{padding:0 20px}
+body {
+  background: var(--canvas);
+  color: var(--body);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* === SLIDE LAYER === */
+.slide {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  /* default hidden state — fades in when .active is added */
+  transition: opacity var(--dur-nav) var(--ease-out-expo);
+}
+.slide.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* === SLIDE CONTENT WRAPPER === */
+.slide-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-padding);
+  max-height: 100%;
+  overflow: hidden;
+}
+
+/* === REVEAL ANIMATIONS (staggered per-slide) === */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--dur-reveal) var(--ease-out-expo),
+              transform var(--dur-reveal) var(--ease-out-expo);
+}
+.slide.active .reveal              { opacity: 1; transform: translateY(0); }
+.slide.active .reveal:nth-child(1) { transition-delay: 0.08s; }
+.slide.active .reveal:nth-child(2) { transition-delay: 0.18s; }
+.slide.active .reveal:nth-child(3) { transition-delay: 0.28s; }
+.slide.active .reveal:nth-child(4) { transition-delay: 0.38s; }
+.slide.active .reveal:nth-child(5) { transition-delay: 0.46s; }
+.slide.active .reveal:nth-child(6) { transition-delay: 0.54s; }
+
+/* === TYPOGRAPHY === */
+.display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6.5vw, 5.5rem);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 3.25rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.display-md {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.8vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: clamp(0.6rem, 1vw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+/* === SLIDE 1 — TITLE === */
+.slide-title { background: var(--canvas); }
+.title-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(1.5rem, 4vh, 3rem);
+}
+.spike {
+  width: 18px; height: 18px;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.title-tagline {
+  font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+  color: var(--body);
+  line-height: 1.6;
+  max-width: 50ch;
+  margin-top: clamp(0.8rem, 2vh, 1.5rem);
+}
+.badge-row {
+  display: flex;
+  gap: clamp(6px, 1vw, 10px);
+  flex-wrap: wrap;
+  margin-top: clamp(1.5rem, 4vh, 3rem);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: var(--surface-card);
+  border: 1px solid var(--hairline);
+  font-size: var(--small-size);
+  font-weight: 500;
+  color: var(--ink);
+}
+.badge-coral {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: transparent;
+}
+
+/* === SLIDE 2 — WHAT === */
+.slide-what { background: var(--canvas); }
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.6rem, 1.4vw, 1.1rem);
+  margin-top: clamp(0.8rem, 2.5vh, 1.8rem);
+  flex: 1;
+  max-height: 70vh;
+}
+.card-light {
+  background: var(--surface-card);
+  border-radius: 12px;
+  padding: clamp(0.9rem, 2vw, 1.75rem);
+  display: flex; flex-direction: column; gap: 0.5em;
+}
+.card-dark {
+  background: var(--surface-dark);
+  border-radius: 12px;
+  padding: clamp(0.9rem, 2vw, 1.75rem);
+  display: flex; flex-direction: column; gap: 0.5em;
+  color: var(--on-dark);
+}
+.card-skill-tag {
+  font-size: clamp(0.58rem, 0.85vw, 0.7rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.card-dark .card-skill-tag { color: var(--on-dark-soft); }
+.card-skill-name {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 1.4vw, 1rem);
+  font-weight: 500;
+  color: var(--ink);
+}
+.card-dark .card-skill-name { color: var(--on-dark); }
+.card-desc {
+  font-size: clamp(0.7rem, 1.1vw, 0.875rem);
+  line-height: 1.55;
+  color: var(--muted);
+  flex: 1;
+}
+.card-dark .card-desc { color: var(--on-dark-soft); }
+.card-note {
+  font-size: var(--small-size);
+  color: var(--muted-soft);
+  margin-top: clamp(0.5rem, 1.5vh, 1rem);
+}
+
+/* === SLIDE 3 — WHY === */
+.slide-why { background: var(--surface-soft); }
+.why-quote {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.2vw, 1.6rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.5;
+  max-width: 52ch;
+  border-left: 2px solid var(--hairline);
+  padding-left: clamp(0.9rem, 1.8vw, 1.4rem);
+  margin: clamp(0.8rem, 2vh, 1.5rem) 0;
+}
+.why-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.4rem, 1vh, 0.75rem);
+}
+.why-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: var(--body-size);
+  color: var(--body);
+  line-height: 1.5;
+}
+.why-list li::before {
+  content: "—";
+  color: var(--primary);
+  flex-shrink: 0;
+  font-family: var(--font-display);
+}
+
+/* === SLIDE 4 — USE CASES === */
+.slide-usecases { background: var(--canvas); }
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.5rem, 1.2vw, 1rem);
+  margin-top: clamp(0.8rem, 2.5vh, 1.8rem);
+}
+.feature-item {
+  padding: clamp(0.8rem, 1.8vw, 1.5rem);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+}
+.feature-num {
+  font-size: clamp(0.58rem, 0.85vw, 0.7rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--primary);
+  margin-bottom: 0.5em;
+}
+.feature-name {
+  font-size: clamp(0.82rem, 1.4vw, 1rem);
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.3em;
+}
+.feature-desc {
+  font-size: clamp(0.68rem, 1.05vw, 0.85rem);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* === SLIDE 5 — PREVIEW SITE === */
+.slide-preview { background: var(--surface-dark); }
+.slide-preview .eyebrow { color: var(--on-dark-soft); }
+.slide-preview .display-lg { color: var(--on-dark); margin-top: 0.4em; }
+.preview-num-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: clamp(0.6rem, 2vh, 1.5rem) 0;
+}
+.preview-big-num {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 9vw, 7rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--on-dark);
+}
+.preview-big-label {
+  font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+  color: var(--on-dark-soft);
+}
+.preview-desc {
+  font-size: var(--body-size);
+  color: var(--on-dark-soft);
+  max-width: 46ch;
+  line-height: 1.6;
+  margin-bottom: clamp(1rem, 3vh, 2.5rem);
+}
+.btn-row { display: flex; gap: clamp(8px, 1.2vw, 14px); flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 12px 24px;
+  background: var(--primary);
+  color: var(--on-primary);
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: clamp(0.78rem, 1.2vw, 0.9rem);
+  font-weight: 500;
+  transition: background 0.15s;
+}
+.btn-primary:hover { background: var(--primary-active); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 12px 24px;
+  background: var(--surface-dark-elevated);
+  color: var(--on-dark);
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: clamp(0.78rem, 1.2vw, 0.9rem);
+  font-weight: 500;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: background 0.15s;
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.08); }
+
+/* === SLIDE 6 — INSTALL === */
+.slide-install { background: var(--canvas); }
+.install-sub {
+  font-size: var(--body-size);
+  color: var(--muted);
+  max-width: 46ch;
+  margin-top: 0.5em;
+}
+.code-window {
+  background: var(--surface-dark);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: clamp(1rem, 3vh, 2rem);
+  max-width: min(90vw, 600px);
+}
+.code-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.cdot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.14); }
+.code-bar-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--on-dark-soft);
+  margin-left: 3px;
+}
+.code-body {
+  padding: clamp(0.8rem, 2vw, 1.5rem);
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+  line-height: 1.75;
+  color: var(--on-dark);
+}
+.cc { color: var(--on-dark-soft); }
+.ca { color: var(--primary); }
+.cs { color: #5db8a6; }
+.install-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: var(--body-size);
+  color: var(--muted);
+  margin-top: clamp(0.6rem, 1.5vh, 1rem);
+}
+.step-num {
+  min-width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--surface-card);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: var(--ink);
+  flex-shrink: 0; margin-top: 1px;
+}
+
+/* === SLIDE 7 — HOW TO USE === */
+.slide-howto { background: var(--surface-soft); }
+.howto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.6rem, 1.4vw, 1.1rem);
+  margin-top: clamp(0.8rem, 2.5vh, 2rem);
+  flex: 1;
+  max-height: 70vh;
+}
+.howto-card {
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.howto-head {
+  padding: clamp(0.75rem, 1.4vw, 1.1rem);
+  border-bottom: 1px solid var(--hairline);
+}
+.howto-light { background: var(--surface-card); }
+.howto-dark  { background: var(--surface-dark); }
+.howto-dark .howto-head { border-color: rgba(255,255,255,0.06); background: var(--surface-dark-elevated); }
+.howto-mono {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 1.2vw, 0.9rem);
+  font-weight: 500;
+  color: var(--ink);
+}
+.howto-dark .howto-mono { color: var(--on-dark); }
+.howto-body {
+  padding: clamp(0.75rem, 1.4vw, 1.1rem);
+  flex: 1;
+  display: flex; flex-direction: column; gap: 0.5em;
+}
+.howto-prompt {
+  font-style: italic;
+  font-size: clamp(0.7rem, 1.05vw, 0.85rem);
+  color: var(--muted);
+  line-height: 1.5;
+}
+.howto-dark .howto-prompt { color: var(--on-dark-soft); }
+.howto-result {
+  font-size: clamp(0.68rem, 1.05vw, 0.85rem);
+  color: var(--body);
+  line-height: 1.55;
+}
+.howto-dark .howto-result { color: var(--on-dark-soft); }
+.arrow { color: var(--primary); font-weight: 600; margin-right: 4px; }
+
+/* === SLIDE 8 — OPEN SOURCE === */
+.slide-oss { background: var(--canvas); }
+.oss-list {
+  list-style: none;
+  margin-top: clamp(0.8rem, 2.5vh, 2rem);
+  display: flex; flex-direction: column;
+  gap: clamp(0.6rem, 1.5vh, 1.1rem);
+}
+.oss-item {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  padding: clamp(0.8rem, 1.8vw, 1.4rem);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+}
+.oss-n {
+  font-family: var(--font-mono);
+  font-size: clamp(0.62rem, 0.85vw, 0.72rem);
+  font-weight: 500;
+  color: var(--primary);
+  min-width: 22px;
+  padding-top: 2px;
+}
+.oss-name {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 1.25vw, 0.95rem);
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.25em;
+}
+.oss-desc {
+  font-size: clamp(0.68rem, 1.05vw, 0.85rem);
+  color: var(--muted);
+  line-height: 1.5;
+}
+.oss-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 500;
+  background: var(--surface-card);
+  color: var(--muted);
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.oss-link {
+  font-family: var(--font-body);
+  font-size: clamp(0.62rem, 0.85vw, 0.72rem);
+  font-weight: 500;
+  color: var(--primary);
+  text-decoration: none;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.oss-link:hover { text-decoration: underline; }
+
+/* === SLIDE 9 — CLOSING === */
+.slide-closing {
+  background: var(--surface-dark);
+  align-items: center;
+}
+.closing-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--slide-padding);
+  max-height: 100%;
+  overflow: hidden;
+}
+.slide-closing .eyebrow { color: var(--on-dark-soft); }
+.slide-closing .display-xl { color: var(--on-dark); margin-top: 0.4em; }
+.closing-sub {
+  font-size: var(--body-size);
+  color: var(--on-dark-soft);
+  max-width: 44ch;
+  line-height: 1.6;
+  margin-top: 0.6em;
+}
+.closing-btns {
+  display: flex;
+  gap: clamp(8px, 1.2vw, 14px);
+  flex-wrap: wrap;
+  margin-top: clamp(1.5rem, 4vh, 3rem);
+}
+.closing-meta {
+  font-size: var(--small-size);
+  color: var(--on-dark-soft);
+  margin-top: clamp(1rem, 3vh, 2rem);
+  letter-spacing: 0.04em;
+}
+
+/* === PROGRESS BAR === */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: var(--primary);
+  z-index: 200;
+  transition: width 0.4s var(--ease-out-expo);
+  border-radius: 0 1px 1px 0;
+}
+
+/* === NAV BUTTONS === */
+.nav-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  width: clamp(40px, 4vw, 54px);
+  height: clamp(40px, 4vw, 54px);
+  border-radius: 50%;
+  border: 1.5px solid rgba(128,120,110,.35);
+  background: rgba(250,249,245,.96);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(20,20,19,.12);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink);
+  font-size: clamp(16px, 1.6vw, 22px);
+  line-height: 1;
+  transition: background .15s, border-color .15s, box-shadow .15s, color .15s, transform .15s;
+  opacity: 1;
+}
+.nav-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 4px 20px rgba(204,120,92,.22);
+  transform: translateY(calc(-50% - 1px));
+}
+.nav-btn:disabled { opacity: 0.22; cursor: default; box-shadow: none; }
+.nav-prev { left: clamp(14px, 2.2vw, 28px); }
+.nav-next { right: clamp(14px, 2.2vw, 28px); }
+
+/* Dark slides — flip button style */
+.nav-btn.on-dark {
+  background: rgba(37,35,32,.92);
+  border-color: rgba(255,255,255,.22);
+  color: var(--on-dark);
+  box-shadow: 0 2px 12px rgba(0,0,0,.3);
+}
+.nav-btn.on-dark:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 4px 20px rgba(204,120,92,.3);
+}
+
+/* === DOT INDICATOR === */
+.dot-nav {
+  position: fixed;
+  bottom: clamp(14px, 2.5vh, 22px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--hairline);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background .25s, transform .25s, width .25s;
+}
+.dot.active {
+  background: var(--primary);
+  transform: scale(1.35);
+}
+.dot.on-dark      { background: rgba(255,255,255,.2); }
+.dot.on-dark.active { background: var(--primary); }
+
+/* === REDUCED MOTION === */
+@media (prefers-reduced-motion: reduce) {
+  .slide, .reveal {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 640px) {
+  .two-col, .feature-grid, .howto-grid { grid-template-columns: 1fr; }
+  .nav-btn { display: none; }
+}
+@media (max-height: 580px) {
+  .dot-nav { display: none; }
+  .card-note { display: none; }
+}
+
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="wrap" style="display:flex;align-items:center;width:100%">
-    <span class="logo">设计风格预览</span>
-    <button type="button" class="theme-toggle" id="themeBtn">深色</button>
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Dot indicator (built by JS) -->
+<nav class="dot-nav" id="dotNav" aria-label="幻灯片导航"></nav>
+
+<!-- Prev / Next buttons -->
+<button class="nav-btn nav-prev" id="btnPrev" aria-label="上一张" disabled>&#8592;</button>
+<button class="nav-btn nav-next" id="btnNext" aria-label="下一张">&#8594;</button>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SLIDE 1 — TITLE                                -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="slide slide-title" data-idx="0">
+  <div class="slide-content">
+    <div class="title-brand-row reveal">
+      <!-- Anthropic-style radial spike mark -->
+      <svg class="spike" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+        <line x1="10" y1="1" x2="10" y2="19"/>
+        <line x1="1" y1="10" x2="19" y2="10"/>
+        <line x1="3.64" y1="3.64" x2="16.36" y2="16.36"/>
+        <line x1="16.36" y1="3.64" x2="3.64" y2="16.36"/>
+      </svg>
+      <span class="eyebrow">Design Skill Pack</span>
+    </div>
+
+    <h1 class="display-xl reveal">为 AI 代码助手<br>而生的设计系统。</h1>
+
+    <p class="title-tagline reveal">
+      71 套真实品牌的设计 token，两个 agent skill。<br>
+      让设计风格像代码一样可复用。
+    </p>
+
+    <div class="badge-row reveal">
+      <span class="badge badge-coral">71 套品牌</span>
+      <span class="badge">2 个 Skill</span>
+      <span class="badge">零依赖 HTML</span>
+      <span class="badge">MIT License</span>
+    </div>
+    <p class="reveal" style="margin-top:clamp(0.8rem,2vh,1.5rem);font-size:var(--small-size);color:var(--muted)">
+      本页面采用 <strong style="color:var(--ink);font-weight:600">Claude</strong> 品牌风格 —— 米白画布、Newsreader 衬线标题、珊瑚强调色<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#cc785c;vertical-align:middle;margin-left:5px"></span>
+    </p>
   </div>
-</header>
+</section>
 
-<nav class="sidenav" id="sidenav">
-  <div class="sn-title">分类导航</div>
-  <a href="#cat-ai">AI 与大模型平台</a>
-  <a href="#cat-devtools">开发者工具与 IDE</a>
-  <a href="#cat-backend">后端 / 数据库 / DevOps</a>
-  <a href="#cat-productivity">生产力与 SaaS</a>
-  <a href="#cat-design">设计与创意工具</a>
-  <a href="#cat-fintech">金融科技与加密</a>
-  <a href="#cat-ecommerce">电商与零售</a>
-  <a href="#cat-media">媒体与消费科技</a>
-  <a href="#cat-automotive">汽车</a>
-</nav>
 
-<div class="wrap">
-  <section class="intro">
-    <h1>一个页面,71 套设计系统。</h1>
-    <p>同一个虚构产品页 —— 同样的文案、同样的组件、同样的结构 —— 用 71 套真实品牌的设计系统分别渲染。打开任意卡片,看设计本身如何改变整页的气质,再挑一套适合你项目的风格。</p>
-    <p class="note">设计 token 来自 <a href="https://github.com/VoltAgent/awesome-design-md">VoltAgent/awesome-design-md</a>,分类沿用该项目。页面用虚构品牌「Acme」和通用布局,仅作风格参考,不复刻任何真实品牌官网。71 套设计系统已全部完成。</p>
-  </section>
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SLIDE 2 — WHAT IS IT                           -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="slide slide-what" data-idx="1">
+  <div class="slide-content">
+    <span class="eyebrow reveal">这是什么</span>
+    <h2 class="display-md reveal" style="margin-top:0.4em">两个 agent skill 的集合</h2>
 
-  <div class="searchbar">
-    <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
-      stroke="currentColor" stroke-width="2" stroke-linecap="round">
-      <title>搜索</title>
-      <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    </svg>
-    <input type="text" id="search" autocomplete="off"
-      placeholder="搜索品牌,如 Stripe、Figma、BMW…">
-    <button type="button" class="search-clear" id="searchClear" aria-label="清空">&times;</button>
+    <div class="two-col reveal">
+      <div class="card-light">
+        <div class="card-skill-tag">Skill 01</div>
+        <div class="card-skill-name">brand-design-tokens</div>
+        <div class="card-desc">
+          71 个真实品牌的设计 token 数据库。token 来源于
+          VoltAgent/awesome-design-md——从各品牌公开可见的 CSS 中提取，
+          涵盖颜色、字体、圆角、间距等设计决策，结构化为 Markdown，AI 可直接调用。
+        </div>
+      </div>
+      <div class="card-dark">
+        <div class="card-skill-tag">Skill 02</div>
+        <div class="card-skill-name">brand-slides</div>
+        <div class="card-desc">
+          基于 frontend-slides 改造：在其零依赖、视口适配的基础上，
+          增加品牌 token 套用、风格预设选择、PDF 导出等 agent 工作流。
+          你正在看的这个页面，就是用它生成的。
+        </div>
+      </div>
+    </div>
+
+    <p class="card-note reveal">两个 skill 可独立使用，也可组合——brand-slides 调用 brand-design-tokens 获取品牌 token。</p>
   </div>
-  <p class="search-empty" id="searchEmpty">没有匹配的品牌。</p>
+</section>
 
-  <!-- AI 与大模型平台 -->
-  <section class="cat" id="cat-ai">
-    <div class="cat-head"><h2>AI 与大模型平台</h2><span class="count">12 个</span></div>
-    <div class="grid">
-      <a class="tile" href="examples/claude.html">
-        <div class="swatch s-claude"><span>编辑感 · 暖</span></div>
-        <div class="tile-body"><h3>Claude</h3>
-          <p>米白画布、衬线大标题、珊瑚强调色 —— 文学感、克制的编辑声音。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/cohere.html">
-        <div class="swatch s-cohere"><span>AI · 企业绿</span></div>
-        <div class="tile-body"><h3>Cohere</h3>
-          <p>白底画布、近黑 CTA、企业绿与蓝色链接 —— 克制的 AI 平台。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/elevenlabs.html">
-        <div class="swatch s-elevenlabs"><span>编辑感 · 语音</span></div>
-        <div class="tile-body"><h3>ElevenLabs</h3>
-          <p>暖白画布、轻衬线标题、柔和渐变光晕 —— 语音 AI 的杂志感。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/minimax.html">
-        <div class="swatch s-minimax"><span>白底 · 多彩模型</span></div>
-        <div class="tile-body"><h3>MiniMax</h3>
-          <p>白底画布、黑色胶囊 CTA、多彩模型卡 —— 高密度 AI 基建。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/mistral-ai.html">
-        <div class="swatch s-mistral-ai"><span>白底 · 日落橙</span></div>
-        <div class="tile-body"><h3>Mistral AI</h3>
-          <p>白底画布、衬线展示标题、饱和橙色 CTA、日落渐变条纹 —— 编辑感的 AI 平台。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/ollama.html">
-        <div class="swatch s-ollama"><span>极简 · 本地</span></div>
-        <div class="tile-body"><h3>Ollama</h3>
-          <p>白纸画布、纯黑胶囊 CTA、全圆角几何 —— 文档级极简主义。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/opencode-ai.html">
-        <div class="swatch s-opencode-ai"><span>暖奶油 · 终端</span></div>
-        <div class="tile-body"><h3>OpenCode AI</h3>
-          <p>暖奶油画布、100% 等宽字体、ASCII 终端风格 —— 开发者工具。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/replicate.html">
-        <div class="swatch s-replicate"><span>暖奶油 · 炽橙</span></div>
-        <div class="tile-body"><h3>Replicate</h3>
-          <p>暖奶油画布、炽热橙 CTA、大字号展示体 —— AI 模型工作室。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/runwayml.html">
-        <div class="swatch s-runwayml"><span>暗色 · 影视</span></div>
-        <div class="tile-body"><h3>Runway</h3>
-          <p>纯黑画布、紧凑编辑字体、零阴影 —— 影视制作 AI。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/together-ai.html">
-        <div class="swatch s-together-ai"><span>暗色 · 云</span></div>
-        <div class="tile-body"><h3>Together AI</h3>
-          <p>深色画布、三色渐变、mono标签 —— AI云基建的平台感。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/voltagent.html">
-        <div class="swatch s-voltagent"><span>暗色 · 智能体</span></div>
-        <div class="tile-body"><h3>VoltAgent</h3>
-          <p>纯黑画布、电光绿 CTA、发丝线卡片 —— 工程师的 AI 平台。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/x-ai.html">
-        <div class="swatch s-x-ai"><span>暗色 · 研究</span></div>
-        <div class="tile-body"><h3>xAI</h3>
-          <p>纯黑画布、白色胶囊按钮、超大字间距 —— 前沿 AI 实验室。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-    </div>
-  </section>
 
-  <!-- 开发者工具与 IDE -->
-  <section class="cat" id="cat-devtools">
-    <div class="cat-head"><h2>开发者工具与 IDE</h2><span class="count">7 个</span></div>
-    <div class="grid">
-      <a class="tile" href="examples/vercel.html">
-        <div class="swatch s-vercel"><span>极简 · 黑白</span></div>
-        <div class="tile-body"><h3>Vercel</h3>
-          <p>黑白二元、Geist 字体、单一锥形渐变作为全部装饰系统。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/cursor.html">
-        <div class="swatch s-cursor"><span>暖奶油 · 橙</span></div>
-        <div class="tile-body"><h3>Cursor</h3>
-          <p>暖奶油画布、橙色 CTA、粉彩时间线 —— 编辑感的开发者工具。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/expo.html">
-        <div class="swatch s-expo"><span>极简 · 黑</span></div>
-        <div class="tile-body"><h3>Expo</h3>
-          <p>白底画布、极简纯黑 —— 移动端框架的极简主义。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/lovable.html">
-        <div class="swatch s-lovable"><span>温暖 · 奶油</span></div>
-        <div class="tile-body"><h3>Lovable</h3>
-          <p>暖羊皮纸画布、炭灰强调、内阴影按钮 —— 亲和的手作感。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/raycast.html">
-        <div class="swatch s-raycast"><span>暗色 · 效率</span></div>
-        <div class="tile-body"><h3>Raycast</h3>
-          <p>近黑画布、白色 CTA —— 命令行式效率启动器。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/superhuman.html">
-        <div class="swatch s-superhuman"><span>杂志 · 紫罗兰</span></div>
-        <div class="tile-body"><h3>Superhuman</h3>
-          <p>白底画布、靛蓝 Hero、紫罗兰 pill CTA —— 三幕式邮件杂志。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/warp.html">
-        <div class="swatch s-warp"><span>暖暗色 · 米白</span></div>
-        <div class="tile-body"><h3>Warp</h3>
-          <p>暖暗画布、米白强调、极窄圆角 —— 安静自信的终端。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-    </div>
-  </section>
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SLIDE 3 — WHY                                  -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="slide slide-why" data-idx="2">
+  <div class="slide-content">
+    <span class="eyebrow reveal">为什么有这个项目</span>
+    <h2 class="display-md reveal" style="margin-top:0.4em">设计风格难以用语言描述</h2>
 
-  <!-- 后端 / 数据库 / DevOps -->
-  <section class="cat" id="cat-backend">
-    <div class="cat-head"><h2>后端 / 数据库 / DevOps</h2><span class="count">8 个</span></div>
-    <div class="grid">
-      <a class="tile" href="examples/supabase.html">
-        <div class="swatch s-supabase"><span>开发者 · 祖母绿</span></div>
-        <div class="tile-body"><h3>Supabase</h3>
-          <p>白底画布、单一祖母绿 CTA、紧凑负字距 —— 安静的技术感。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/clickhouse.html">
-        <div class="swatch s-clickhouse"><span>暗色 · 电黄</span></div>
-        <div class="tile-body"><h3>ClickHouse</h3>
-          <p>纯黑画布、电黄色强调 —— 数据库的极致性能。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/composio.html">
-        <div class="swatch s-composio"><span>暗色 · 深蓝</span></div>
-        <div class="tile-body"><h3>Composio</h3>
-          <p>近黑画布、深蓝电压 CTA、终端风格 —— 开发者集成工具包。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/hashicorp.html">
-        <div class="swatch s-hashicorp"><span>暗色 · 基础设施</span></div>
-        <div class="tile-body"><h3>HashiCorp</h3>
-          <p>纯黑画布、白色 CTA、产品色卡片 —— 基础设施即代码的权威。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/mongodb.html">
-        <div class="swatch s-mongodb"><span>亮色 · 绿</span></div>
-        <div class="tile-body"><h3>MongoDB</h3>
-          <p>白底画布、亮绿胶囊 CTA、深 teal footer —— 文档数据库的活力。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/posthog.html">
-        <div class="swatch s-posthog"><span>暖奶油 · 橙黄</span></div>
-        <div class="tile-body"><h3>PostHog</h3>
-          <p>暖奶油画布、橄榄灰文字、黄橙 CTA —— 友好的开发者分析工具。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/sanity.html">
-        <div class="swatch s-sanity"><span>近黑 · 珊瑚红</span></div>
-        <div class="tile-body"><h3>Sanity</h3>
-          <p>近黑画布、珊瑚红 CTA、极紧负字距 —— 开发者的内容平台。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/sentry.html">
-        <div class="swatch s-sentry"><span>午夜紫 · 青柠</span></div>
-        <div class="tile-body"><h3>Sentry</h3>
-          <p>午夜紫画布、祖母绿 CTA、青柠强调 —— 开发者监控的权威。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-    </div>
-  </section>
+    <blockquote class="why-quote reveal">
+      "我想要一个简洁的、现代的、专业的……"
+    </blockquote>
 
-  <!-- 生产力与 SaaS -->
-  <section class="cat" id="cat-productivity">
-    <div class="cat-head"><h2>生产力与 SaaS</h2><span class="count">8 个</span></div>
-    <div class="grid">
-      <a class="tile" href="examples/linear.html">
-        <div class="swatch s-linear"><span>暗色 · 技术</span></div>
-        <div class="tile-body"><h3>Linear</h3>
-          <p>近黑表面、紧凑几何无衬线、薰衣草强调 —— 安静的软件手艺。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/notion.html">
-        <div class="swatch s-notion"><span>友好 · 粉彩</span></div>
-        <div class="tile-body"><h3>Notion</h3>
-          <p>navy hero 横幅、紫色胶囊 CTA、粉彩卡片 —— 自信而友好。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/cal.html">
-        <div class="swatch s-cal"><span>开发者 · 黑</span></div>
-        <div class="tile-body"><h3>Cal.com</h3>
-          <p>白底画布、黑色 CTA、浅灰卡片 —— 开发者友好的日程 SaaS。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/intercom.html">
-        <div class="swatch s-intercom"><span>暖奶油 · 炭灰</span></div>
-        <div class="tile-body"><h3>Intercom</h3>
-          <p>奶油画布、白色浮卡、炭灰 CTA、Fin Orange 点睛 —— 编辑感的客户消息平台。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/mintlify.html">
-        <div class="swatch s-mintlify"><span>开发者 · 文档</span></div>
-        <div class="tile-body"><h3>Mintlify</h3>
-          <p>白底画布、祖母绿强调、pill 按钮、天空渐变 Hero —— 文档平台的清晰。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/resend.html">
-        <div class="swatch s-resend"><span>暗色 · 邮件</span></div>
-        <div class="tile-body"><h3>Resend</h3>
-          <p>纯黑画布、衬线大标题、彩色氛围光晕 —— 开发者邮件 API 的编辑感。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/slack.html">
-        <div class="swatch s-slack"><span>协作 · 紫</span></div>
-        <div class="tile-body"><h3>Slack</h3>
-          <p>白底画布、Aubergine pill CTA、粉彩 mesh 渐变 Hero —— 频道式团队协作。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/zapier.html">
-        <div class="swatch s-zapier"><span>自动化 · 橙</span></div>
-        <div class="tile-body"><h3>Zapier</h3>
-          <p>暖奶油画布、焦橙 CTA、咖啡墨水、大写眉题 —— 工作流自动化的活力。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- 设计与创意工具 -->
-  <section class="cat" id="cat-design">
-    <div class="cat-head"><h2>设计与创意工具</h2><span class="count">6 个</span></div>
-    <div class="grid">
-      <a class="tile" href="examples/figma.html">
-        <div class="swatch s-figma"><span>色块 · 编辑</span></div>
-        <div class="tile-body"><h3>Figma</h3>
-          <p>黑白框架被超大饱和粉彩色块打断 —— 技术又欢快。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/airtable.html">
-        <div class="swatch s-airtable"><span>编辑 · 墨黑</span></div>
-        <div class="tile-body"><h3>Airtable</h3>
-          <p>白底画布、近黑 CTA、奶油色块 —— 编辑感数据库平台。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/clay.html">
-        <div class="swatch s-clay"><span>暖奶油 · 黏土</span></div>
-        <div class="tile-body"><h3>Clay</h3>
-          <p>暖奶油画布、饱和彩色卡片、大黄油CTA —— 黏土风格的数据平台。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/framer.html">
-        <div class="swatch s-framer"><span>暗色 · 渐变</span></div>
-        <div class="tile-body"><h3>Framer</h3>
-          <p>纯黑画布、极端负字距、渐变聚光卡片 —— 海报级建站工具。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/miro.html">
-        <div class="swatch s-miro"><span>协作 · 黄</span></div>
-        <div class="tile-body"><h3>Miro</h3>
-          <p>白底画布、金黄强调、粉彩便签卡片 —— 可视化协作白板。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/webflow.html">
-        <div class="swatch s-webflow"><span>白底 · 五彩</span></div>
-        <div class="tile-body"><h3>Webflow</h3>
-          <p>白底画布、近黑矩形 CTA、五色分类卡片、大写眉题 —— 工程感建站平台。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- 金融科技与加密 -->
-  <section class="cat" id="cat-fintech">
-    <div class="cat-head"><h2>金融科技与加密</h2><span class="count">7 个</span></div>
-    <div class="grid">
-      <a class="tile" href="examples/stripe.html">
-        <div class="swatch s-stripe"><span>渐变 · 金融</span></div>
-        <div class="tile-body"><h3>Stripe</h3>
-          <p>纤细标题字体、靛蓝主色、hero 上的氛围渐变 mesh。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/binance.html">
-        <div class="swatch s-binance"><span>暗色 · 金融</span></div>
-        <div class="tile-body"><h3>Binance</h3>
-          <p>近黑画布、金黄 CTA、永久亮色 footer —— 加密交易所的自信。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/coinbase.html">
-        <div class="swatch s-coinbase"><span>加密 · 机构</span></div>
-        <div class="tile-body"><h3>Coinbase</h3>
-          <p>白底画布、80px weight-400 展示体、蓝色 pill CTA —— 机构级编辑感。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/kraken.html">
-        <div class="swatch s-kraken"><span>加密 · 紫</span></div>
-        <div class="tile-body"><h3>Kraken</h3>
-          <p>白底画布、紫色 12px 圆角按钮、IBM Plex Sans、whisper 阴影 —— 可信赖的交易所。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/mastercard.html">
-        <div class="swatch s-mastercard"><span>编辑 · 奶油</span></div>
-        <div class="tile-body"><h3>Mastercard</h3>
-          <p>暖奶油画布、墨黑胶囊、极端圆角 —— 机构的温度。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/revolut.html">
-        <div class="swatch s-revolut"><span>暗色 · 白pill</span></div>
-        <div class="tile-body"><h3>Revolut</h3>
-          <p>纯黑画布、80px weight-500 展示体、白色 pill CTA —— 数字银行的气势。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/wise.html">
-        <div class="swatch s-wise"><span>白底 · 薄荷绿</span></div>
-        <div class="tile-body"><h3>Wise</h3>
-          <p>白底鼠尾草、lime-green pill CTA、weight-900 展示体 —— 北欧 fintech 杂志感。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- 电商与零售 -->
-  <section class="cat" id="cat-ecommerce">
-    <div class="cat-head"><h2>电商与零售</h2><span class="count">5 个</span></div>
-    <div class="grid">
-      <a class="tile" href="examples/airbnb.html">
-        <div class="swatch s-airbnb"><span>温暖 · 圆角</span></div>
-        <div class="tile-body"><h3>Airbnb</h3>
-          <p>干净白底、Rausch 珊瑚、处处柔和圆角、慷慨留白。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/meta.html">
-        <div class="swatch s-meta"><span>社交 · 蓝</span></div>
-        <div class="tile-body"><h3>Meta</h3>
-          <p>白底画布、黑色 + 蓝色双 CTA、100px pill —— 社交平台的克制与连接感。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/nike.html">
-        <div class="swatch s-nike"><span>运动 · 黑白</span></div>
-        <div class="tile-body"><h3>Nike</h3>
-          <p>极致的字体对比、黑色胶囊 CTA、零阴影 —— 编辑式电商。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/shopify.html">
-        <div class="swatch s-shopify"><span>双画布 · 细体</span></div>
-        <div class="tile-body"><h3>Shopify</h3>
-          <p>黑色 cinematic Hero、奶油交易区、weight-330 细体大标题、白色描边 pill —— 双画布商家平台。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/starbucks.html">
-        <div class="swatch s-starbucks"><span>温暖 · 绿</span></div>
-        <div class="tile-body"><h3>Starbucks</h3>
-          <p>暖咖啡奶油、四级绿、胶囊按钮 —— 零售旗舰的温度。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- 媒体与消费科技 -->
-  <section class="cat" id="cat-media">
-    <div class="cat-head"><h2>媒体与消费科技</h2><span class="count">11 个</span></div>
-    <div class="grid">
-      <a class="tile" href="examples/apple.html">
-        <div class="swatch s-apple"><span>画廊 · 极简</span></div>
-        <div class="tile-body"><h3>Apple</h3>
-          <p>居中标题、单一 Action Blue、克制的 chrome —— 像美术馆的营销。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/spotify.html">
-        <div class="swatch s-spotify"><span>暗色 · 沉浸</span></div>
-        <div class="tile-body"><h3>Spotify</h3>
-          <p>近黑沉浸茧、单一绿色强调、胶囊 + 圆形几何、大写标签。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/ibm.html">
-        <div class="swatch s-ibm"><span>企业 · 蓝</span></div>
-        <div class="tile-body"><h3>IBM</h3>
-          <p>白底画布、IBM Blue 方形美学、重量 300 展示体 —— Carbon Design 的企业克制。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/nvidia.html">
-        <div class="swatch s-nvidia"><span>双色 · 算力绿</span></div>
-        <div class="tile-body"><h3>NVIDIA</h3>
-          <p>深色 Hero 与白纸正文交替、NVIDIA 绿 2px 圆角 —— 工程级设计语言。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/pinterest.html">
-        <div class="swatch s-pinterest"><span>暖奶油 · 红</span></div>
-        <div class="tile-body"><h3>Pinterest</h3>
-          <p>暖奶油画布、Pinterest 红 pill CTA、16px 大圆角 —— 视觉发现的温度。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/playstation.html">
-        <div class="swatch s-playstation"><span>暗色 · 蓝</span></div>
-        <div class="tile-body"><h3>PlayStation</h3>
-          <p>纯黑画布、PS Blue pill CTA、weight-300 展示体 —— 游戏主机的空气感。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/spacex.html">
-        <div class="swatch s-spacex"><span>暗色 · 航天</span></div>
-        <div class="tile-body"><h3>SpaceX</h3>
-          <p>黑色画布、白色文字 —— 太空探索的雄心。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/theverge.html">
-        <div class="swatch s-theverge"><span>暗色 · 酸性薄荷</span></div>
-        <div class="tile-body"><h3>The Verge</h3>
-          <p>近黑画布、酸性薄荷 + 紫外、胶囊卡片 —— 编辑式狂欢。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/uber.html">
-        <div class="swatch s-uber"><span>黑白 · Pill</span></div>
-        <div class="tile-body"><h3>Uber</h3>
-          <p>白底画布、纯黑 pill CTA、16px 圆角卡片 —— 出行平台的极简 duet。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/vodafone.html">
-        <div class="swatch s-vodafone"><span>电信 · Billboard</span></div>
-        <div class="tile-body"><h3>Vodafone</h3>
-          <p>白底画布、Vodafone 红 60px pill CTA、大写 weight 800 hero —— 电信的 billboard 气势。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/wired.html">
-        <div class="swatch s-wired"><span>白纸 · 墨黑</span></div>
-        <div class="tile-body"><h3>WIRED</h3>
-          <p>白色画布、纯黑字标、Playfair 衬线 —— 杂志编辑的黑白二重奏。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- 汽车 -->
-  <section class="cat" id="cat-automotive">
-    <div class="cat-head"><h2>汽车</h2><span class="count">7 个</span></div>
-    <div class="grid">
-      <a class="tile" href="examples/bmw.html">
-        <div class="swatch s-bmw"><span>亮色 · BMW 蓝</span></div>
-        <div class="tile-body"><h3>BMW</h3>
-          <p>白色画布、BMW 蓝 CTA、零圆角卡片 —— 企业汽车的沉稳工程感。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/bmw-m.html">
-        <div class="swatch s-bmw-m"><span>暗色 · M 三色</span></div>
-        <div class="tile-body"><h3>BMW M</h3>
-          <p>纯黑画布、BMW Type Next 大写标题、M 三色条 —— 赛车工程的克制张力。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/bugatti.html">
-        <div class="swatch s-bugatti"><span>纯黑 · 白字标</span></div>
-        <div class="tile-body"><h3>Bugatti</h3>
-          <p>纯黑画布、白色宽字距大写、无强调色无装饰 —— 极简高定的昂贵克制。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/ferrari.html">
-        <div class="swatch s-ferrari"><span>近黑 · Rosso</span></div>
-        <div class="tile-body"><h3>Ferrari</h3>
-          <p>近黑电影感画布、Rosso Corsa 稀疏强调、零圆角 CTA —— 跃马的 editorial 张力。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/lamborghini.html">
-        <div class="swatch s-lamborghini"><span>纯黑 · 金</span></div>
-        <div class="tile-body"><h3>Lamborghini</h3>
-          <p>绝对黑画布、Lamborghini Gold、超大写标题与零圆角 —— 夜间超跑舞台。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/renault.html">
-        <div class="swatch s-renault"><span>白底 · Sunlight</span></div>
-        <div class="tile-body"><h3>Renault</h3>
-          <p>白色目录画布、黑色 storytelling hero、Sunlight Yellow 稀疏强调 —— 大众汽车的清晰节奏。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-      <a class="tile" href="examples/tesla.html">
-        <div class="swatch s-tesla"><span>极简 · 蓝</span></div>
-        <div class="tile-body"><h3>Tesla</h3>
-          <p>白底画布、单一 Electric Blue、4px 圆角和近零装饰 —— 产品优先的极简展厅。</p>
-          <span class="go">查看预览 →</span></div>
-      </a>
-    </div>
-  </section>
-
-</div>
-
-<footer>
-  <div class="wrap">
-    同样的内容,不同的设计。分类沿用 VoltAgent/awesome-design-md。
-    <br>本目录页本身采用 <strong>Claude</strong> 设计系统 —— 米白画布、Newsreader 衬线标题、珊瑚强调色。
-    <br><br>
-    <strong>免责声明：</strong>本站为开源学习项目，与页面中涉及的所有品牌无任何关联或隶属关系。所有品牌名称、商标及视觉标识归各自所有者所有。设计 token 来源于公开可见的 CSS 样式，仅供设计风格学习与参考，不构成对任何品牌的复刻或商业使用。本项目遵循 <a href="https://github.com/VoltAgent/awesome-design-md" style="color:var(--accent)">VoltAgent/awesome-design-md</a>（MIT License）。
+    <ul class="why-list">
+      <li class="reveal">大多数人无法凭空描述设计风格——先看到，才知道自己想要什么</li>
+      <li class="reveal">awesome-design-md 已有结构化的品牌 token 数据，frontend-slides 已有可用的幻灯片生成方案，缺的是把两者连接起来、让 AI 直接驱动的 agent 工作流</li>
+      <li class="reveal">把两个项目封装成 skill，AI 就能在对话中直接查询 token、套用风格、生成演示文稿，无需用户手动查文档或写代码</li>
+    </ul>
   </div>
-</footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SLIDE 4 — WHAT YOU CAN DO                      -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="slide slide-usecases" data-idx="3">
+  <div class="slide-content">
+    <span class="eyebrow reveal">能做什么</span>
+    <h2 class="display-md reveal" style="margin-top:0.4em">四种典型用法</h2>
+
+    <div class="feature-grid">
+      <div class="feature-item reveal">
+        <div class="feature-num">01</div>
+        <div class="feature-name">获取品牌设计 token</div>
+        <div class="feature-desc">点名任意品牌，获取其完整的颜色体系、字体规格、圆角、间距等设计决策</div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-num">02</div>
+        <div class="feature-name">生成品牌风格演示文稿</div>
+        <div class="feature-desc">描述内容，套用品牌 token，输出可直接打开的 HTML 幻灯片，无需任何构建工具</div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-num">03</div>
+        <div class="feature-name">多品牌设计对比</div>
+        <div class="feature-desc">同一内容，用多套品牌设计系统渲染，直观感受不同设计语言的气质差异</div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-num">04</div>
+        <div class="feature-name">设计系统灵感探索</div>
+        <div class="feature-desc">浏览 71 套真实品牌，从产品级设计决策中汲取灵感，找到适合自己项目的风格</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SLIDE 5 — PREVIEW SITE                         -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="slide slide-preview" data-idx="4">
+  <div class="slide-content">
+    <span class="eyebrow reveal">品牌预览站</span>
+    <h2 class="display-lg reveal">同一个页面，<br>71 套设计语言。</h2>
+
+    <div class="preview-num-row reveal">
+      <span class="preview-big-num">71</span>
+      <span class="preview-big-label">套品牌 · 可搜索浏览</span>
+    </div>
+
+    <p class="preview-desc reveal">
+      同样的文案、同样的组件、同样的结构——用 71 套真实品牌的设计系统分别渲染。
+      打开任意卡片，感受设计如何改变一个页面的整体气质。
+    </p>
+
+    <div class="btn-row reveal">
+      <a href="brands.html" class="btn-primary">浏览 71 套品牌 →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SLIDE 6 — INSTALL                              -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="slide slide-install" data-idx="5">
+  <div class="slide-content">
+    <span class="eyebrow reveal">安装</span>
+    <h2 class="display-md reveal" style="margin-top:0.4em">将项目加入 Claude Code 工作区</h2>
+    <p class="install-sub reveal">克隆仓库，作为 Claude Code 工作目录打开，两个 skill 即自动可用。</p>
+
+    <div class="code-window reveal">
+      <div class="code-bar">
+        <div class="cdot"></div><div class="cdot"></div><div class="cdot"></div>
+        <span class="code-bar-title">Terminal</span>
+      </div>
+      <div class="code-body">
+        <div><span class="cc"># 克隆仓库</span></div>
+        <div>git clone <span class="cs">https://github.com/efun19/design-skill-pack</span></div>
+        <br>
+        <div><span class="cc"># 在 Claude Code 中打开</span></div>
+        <div>claude <span class="ca">design-skill-pack/</span></div>
+        <br>
+        <div><span class="cc"># skill 自动加载，直接在对话中使用</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SLIDE 7 — HOW TO USE                           -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="slide slide-howto" data-idx="6">
+  <div class="slide-content">
+    <span class="eyebrow reveal">如何使用</span>
+    <h2 class="display-md reveal" style="margin-top:0.4em">用自然语言描述，AI 处理其余一切</h2>
+
+    <div class="howto-grid reveal">
+      <div class="howto-card howto-light">
+        <div class="howto-head">
+          <div class="howto-mono">brand-design-tokens</div>
+        </div>
+        <div class="howto-body">
+          <div class="howto-prompt">"帮我看看 Stripe 的设计系统"</div>
+          <div class="howto-result">
+            <span class="arrow">→</span>输出颜色体系、字体规格、圆角尺寸、间距比例……
+            所有设计 token，可直接应用于任何前端项目
+          </div>
+          <div class="howto-prompt" style="margin-top:0.75em">"对比 Linear 和 Notion 的设计风格"</div>
+          <div class="howto-result">
+            <span class="arrow">→</span>生成两套品牌的并排对比预览，直观看出差异
+          </div>
+        </div>
+      </div>
+      <div class="howto-card howto-dark">
+        <div class="howto-head">
+          <div class="howto-mono">brand-slides</div>
+        </div>
+        <div class="howto-body">
+          <div class="howto-prompt">"帮我做一个产品发布演示文稿，用 Linear 的风格"</div>
+          <div class="howto-result">
+            <span class="arrow">→</span>引导收集内容、选择风格、确定长度，
+            输出完整 HTML 演示文稿，自动在浏览器打开
+          </div>
+          <div class="howto-prompt" style="margin-top:0.75em">"把这个演示文稿导出为 PDF"</div>
+          <div class="howto-result">
+            <span class="arrow">→</span>调用 Playwright 截图，合并为 PDF 文件
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SLIDE 8 — OPEN SOURCE                          -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="slide slide-oss" data-idx="7">
+  <div class="slide-content">
+    <span class="eyebrow reveal">致谢 &amp; 引用</span>
+    <h2 class="display-md reveal" style="margin-top:0.4em">站在开源项目的肩膀上</h2>
+
+    <ul class="oss-list">
+      <li class="oss-item reveal">
+        <span class="oss-n">01</span>
+        <div>
+          <div class="oss-name">
+            VoltAgent / awesome-design-md<span class="oss-badge">MIT</span>
+            <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank" rel="noopener" class="oss-link">GitHub ↗</a>
+          </div>
+          <div class="oss-desc">
+            一个品牌设计规范收录项目，将真实产品的设计决策（颜色、字体、间距、圆角）
+            从公开 CSS 中提取，以结构化 Markdown 格式保存。
+            本项目的 71 套品牌 token 全部来源于此，按分类整理后供 AI 直接读取调用。
+          </div>
+        </div>
+      </li>
+      <li class="oss-item reveal">
+        <span class="oss-n">02</span>
+        <div>
+          <div class="oss-name">
+            frontend-slides<span class="oss-badge">MIT</span>
+            <a href="https://github.com/anthropics/anthropic-quickstarts/tree/main/frontend-slides" target="_blank" rel="noopener" class="oss-link">GitHub ↗</a>
+          </div>
+          <div class="oss-desc">
+            一个零依赖的 HTML 演示文稿生成方案：单一 HTML 文件，所有 CSS / JS 内联，
+            每张幻灯片严格适配 100dvh，禁止幻灯片内滚动。
+            brand-slides 在此基础上增加了品牌 token 套用、12 套视觉预设、PDF 导出和 agent 工作流。
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SLIDE 9 — CLOSING                              -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="slide slide-closing" data-idx="8">
+  <div class="closing-inner">
+    <span class="eyebrow reveal">开始探索</span>
+    <h2 class="display-xl reveal">设计，即可复用。</h2>
+    <p class="closing-sub reveal">71 套品牌设计系统，两个 Skill，一份属于你的演示文稿。</p>
+
+    <div class="closing-btns reveal">
+      <a href="brands.html" class="btn-primary">浏览品牌预览站 →</a>
+      <a href="https://github.com/efun19/design-skill-pack" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
+    </div>
+
+    <p class="closing-meta reveal">MIT License · 开源 · 免费 · 欢迎贡献</p>
+  </div>
+</section>
+
 
 <script>
-function toggleTheme(){
-  const h=document.documentElement;
-  const dark=h.getAttribute('data-theme')==='dark';
-  h.setAttribute('data-theme',dark?'light':'dark');
-  document.getElementById('themeBtn').textContent=dark?'深色':'浅色';
-}
-document.getElementById('themeBtn').addEventListener('click',toggleTheme);
+/* === SLIDE PRESENTATION CONTROLLER === */
+(function () {
+  const slides    = Array.from(document.querySelectorAll('.slide'));
+  const total     = slides.length;
+  const progress  = document.getElementById('progressBar');
+  const btnPrev   = document.getElementById('btnPrev');
+  const btnNext   = document.getElementById('btnNext');
+  const dotNav    = document.getElementById('dotNav');
 
-// 复制品牌名称
-(()=>{
-  const copyText=(text)=>{
-    if(navigator.clipboard&&window.isSecureContext){
-      return navigator.clipboard.writeText(text);
-    }
-    const area=document.createElement('textarea');
-    area.value=text;
-    area.setAttribute('readonly','');
-    area.style.position='fixed';
-    area.style.top='-9999px';
-    document.body.appendChild(area);
-    area.select();
-    document.execCommand('copy');
-    area.remove();
-    return Promise.resolve();
-  };
+  let current   = 0;
+  let animating = false;
 
-  document.querySelectorAll('.grid>.tile').forEach((tile)=>{
-    const name=tile.querySelector('h3')?.textContent?.trim();
-    if(!name)return;
-
-    const shell=document.createElement('div');
-    shell.className='tile-shell';
-    tile.parentNode.insertBefore(shell,tile);
-    shell.appendChild(tile);
-
-    const button=document.createElement('button');
-    button.type='button';
-    button.className='copy-brand';
-    button.textContent='复制名称';
-    button.setAttribute('aria-label',`复制品牌名称 ${name}`);
-    shell.appendChild(button);
-
-    button.addEventListener('click',()=>{
-      copyText(name).then(()=>{
-        button.textContent='已复制';
-        button.classList.add('copied');
-        window.setTimeout(()=>{
-          button.textContent='复制名称';
-          button.classList.remove('copied');
-        },1200);
-      });
-    });
-  });
-})();
-
-// 侧边栏滚动高亮
-(()=>{
-  const links=document.querySelectorAll('.sidenav a');
-  const map={};
-  links.forEach((a)=>{map[a.getAttribute('href').slice(1)]=a;});
-  const io=new IntersectionObserver((entries)=>{
-    entries.forEach((e)=>{
-      if(e.isIntersecting){
-        links.forEach((a)=>{a.classList.remove('active');});
-        if(map[e.target.id])map[e.target.id].classList.add('active');
-      }
-    });
-  },{rootMargin:'-20% 0px -70% 0px'});
-  document.querySelectorAll('.cat').forEach((s)=>{io.observe(s);});
-})();
-
-// 品牌搜索
-(()=>{
-  const input=document.getElementById('search');
-  const clear=document.getElementById('searchClear');
-  const empty=document.getElementById('searchEmpty');
-  const cats=document.querySelectorAll('.cat');
-  function norm(s){return s.toLowerCase().replace(/\s+/g,'');}
-  function filter(){
-    const q=norm(input.value);
-    clear.classList.toggle('show',q.length>0);
-    let hits=0;
-    cats.forEach((cat)=>{
-      let shown=0;
-      cat.querySelectorAll('.tile').forEach((t)=>{
-        const h3=t.querySelector('h3');
-        const name=norm(h3?h3.textContent:'');
-        const match=q===''||name.indexOf(q)>-1;
-        t.closest('.tile-shell').classList.toggle('hidden',!match);
-        if(match)shown++;
-      });
-      cat.classList.toggle('hidden',shown===0);
-      hits+=shown;
-    });
-    empty.classList.toggle('show',hits===0);
+  /* Dark-surface slides — need inverted button/dot style */
+  const darkSlides = new Set(['slide-preview', 'slide-closing']);
+  function isDark(idx) {
+    return Array.from(slides[idx].classList).some(c => darkSlides.has(c));
   }
-  input.addEventListener('input',filter);
-  clear.addEventListener('click',()=>{input.value='';filter();input.focus();});
+
+  /* Build dot indicators */
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot';
+    d.setAttribute('aria-label', `第 ${i + 1} 张`);
+    d.addEventListener('click', () => goTo(i));
+    dotNav.appendChild(d);
+  });
+
+  function updateUI() {
+    /* Progress bar */
+    progress.style.width = ((current + 1) / total * 100) + '%';
+
+    /* Dots */
+    const dark = isDark(current);
+    dotNav.querySelectorAll('.dot').forEach((d, i) => {
+      d.className = 'dot' + (i === current ? ' active' : '') + (dark ? ' on-dark' : '');
+    });
+
+    /* Prev/next buttons */
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+
+    [btnPrev, btnNext].forEach(b => {
+      b.className = 'nav-btn' + (b === btnPrev ? ' nav-prev' : ' nav-next') + (dark ? ' on-dark' : '');
+      b.disabled = (b === btnPrev && current === 0) || (b === btnNext && current === total - 1);
+    });
+  }
+
+  function goTo(idx) {
+    if (idx === current || animating || idx < 0 || idx >= total) return;
+    animating = true;
+
+    slides[current].classList.remove('active');
+    slides[idx].classList.add('active');
+    current = idx;
+
+    updateUI();
+
+    /* Reset animating flag after transition */
+    setTimeout(() => { animating = false; }, 500);
+  }
+
+  /* Keyboard navigation — Space + arrows */
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      goTo(current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      goTo(current - 1);
+    }
+  });
+
+  /* Disable scroll wheel — intentional, navigation is keyboard/button only */
+  window.addEventListener('wheel', e => e.preventDefault(), { passive: false });
+
+  /* Button navigation */
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+
+  /* Init — show first slide */
+  slides[0].classList.add('active');
+  updateUI();
 })();
 </script>
+
 </body>
 </html>
