@@ -1,272 +1,283 @@
 ---
 name: brand-slides
-description: >
-  当用户需要创建 HTML slides / PPT / deck / 演示稿时使用。它依赖同级
-  brand-design-tokens 的 brands.json 和 DESIGN.md 获取品牌视觉依据，但不使用模板，
-  不做转换，只从用户内容和选定 design 出发，生成 3 个视觉风格预览供用户选择，
-  再创建完整自包含 HTML 幻灯片并打开浏览器。
+description: 从零创建动效丰富的 HTML 演示文稿，支持品牌设计 token 一键套用。适用于：制作演讲 PPT、发布会 Deck、教学幻灯片。通过视觉预览帮助用户发现自己喜欢的风格，而非让用户凭空描述。
 ---
 
-# brand-slides
+# Brand Slides
 
-## Overview
+在浏览器中运行的零依赖、动效丰富的 HTML 演示文稿生成器，可一键套用真实品牌设计系统。
 
-`brand-slides` 是一个创建型 HTML slides skill，不是模板套壳工具。
+## 核心原则
 
-核心流程必须和 `frontend-slides` 的创建流程一致：
+1. **零依赖** — 单一 HTML 文件，CSS/JS 全部内联。无需 npm、无需构建工具。
+2. **先看后选** — 生成视觉预览，而非抽象描述。人们通过「看到」来发现自己想要什么。
+3. **独特设计** — 拒绝「AI 味」的通用美学。每份演示都应像专为这个主题量身定制的。
+4. **视口适配（不可妥协）** — 每张幻灯片必须完全适配 100vh。幻灯片内禁止出现滚动条。内容溢出？拆成多张幻灯片。
 
-1. Ask about your content: slides, messages, images.
-2. Ask about the design you want: named brand, preview first, or recommended brands.
-3. Generate 3 visual style previews for the user to compare.
-4. Create the full presentation in the chosen style.
-5. Open it in the browser.
+## 设计美学
 
-本 skill 只保留核心创建能力。不做 PPT/PDF 转换、不做分享发布、不做模板选择、不把任何 scaffold 当最终视觉来源。
+你容易产出「AI 味」的通用设计。避免这种情况：要有创意，要让人眼前一亮。
 
-## Hard Rules
+重点关注：
 
-- 不使用 `templates/`，本 skill 不应包含或引用固定 HTML 模板。
-- 不复用、照抄、改写模板风格。每次 deck 都必须根据内容、选定 design 和选中的视觉预览从零组织 HTML/CSS。
-- 不读取 `brand-design-tokens/examples/*.html` 作为生成依据；预览页只用于人工浏览品牌效果。
-- 不复制真实品牌 logo、官网文案、插图或页面结构，只使用 `DESIGN.md` 中的 token 和设计气质。
-- 不逐项询问 frame、navigation、transition、layout strategy。它们是生成时的内部设计决策，不是用户配置表单。
-- 不做转换功能：不要生成 PDF、PPTX、图片导出、speaker notes 转换、在线发布或分享链接。
+- **字体**：选择漂亮、独特、有个性的字体。避免 Arial、Inter 等通用字体，选择能提升整体气质的字体。
+- **颜色与主题**：坚持统一的视觉风格，用 CSS 变量保证一致性。主色调 + 鲜明的强调色，优于分散平淡的配色。可以从 IDE 配色方案或文化美学中汲取灵感。
+- **动效**：用动画做进场和微交互。优先 CSS-only 方案。聚焦高价值时刻：一次精心编排的入场动画（staggered reveals）胜过满屏的零散微交互。
+- **背景**：营造氛围与层次感，而非简单的纯色背景。叠加 CSS 渐变、几何图案，或与主题相符的视觉效果。
 
-## Required Layout
+避免以下 AI 通病：
 
-本 skill 必须与 `brand-design-tokens/` 同级安装：
+- 滥用字体（Inter、Roboto、Arial、系统字体）
+- 老套配色（尤其是白底紫色渐变）
+- 千篇一律的布局和组件
+- 缺乏场景感的模板化设计
 
-```text
-design-skill-pack/
-├── brand-design-tokens/
-│   ├── brands.json
-│   └── design-md/<brand>/DESIGN.md
-└── brand-slides/
-    ├── SKILL.md
-    ├── formats/PRESENTATION-FORMATS.md
-    ├── layouts/SLIDE-LAYOUTS.md
-    ├── styles/FRONTEND-SLIDES-PRESETS.md
-    ├── transitions/TRANSITIONS.md
-    └── tokens/DESIGN-TO-SLIDE.md
-```
+要有创意，要出人意料。深色/浅色、不同字体、不同风格都要轮换尝试。你容易重复选择相同字体（如 Space Grotesk），要刻意突破这个惯性！
 
-运行前必须检查：
+## 视口适配规则
 
-1. `../brand-design-tokens/brands.json` 是否存在。
-2. 选定品牌是否能在 `brands.json` 中按 `id` 或 `name` 命中。
-3. 命中品牌的 `design_md` 指向的 `DESIGN.md` 是否存在。
+以下规则适用于每一张幻灯片：
 
-任一缺失时停止生成，并明确告诉用户缺少什么。不要猜品牌，不要改用近似品牌。
+- 每个 `.slide` 必须有 `height: 100vh; height: 100dvh; overflow: hidden;`
+- 所有字体大小和间距必须使用 `clamp(min, preferred, max)` — 禁用固定 px/rem
+- 内容容器需要设置 `max-height`
+- 图片：`max-height: min(50vh, 400px)`
+- 高度断点：700px、600px、500px
+- 支持 `prefers-reduced-motion`
+- 不能直接对 CSS 函数取负值（`-clamp()`、`-min()`、`-max()` 会被静默忽略） — 请用 `calc(-1 * clamp(...))` 代替
 
-## When to Use
+**生成时，读取 `viewport-base.css` 并将其完整内容包含在每份演示文稿中。**
 
-- 用户要求生成 HTML slides、PPT、deck、演示稿、pitch deck、roadmap deck、report deck。
-- 用户想把一段材料、主题、文档或想法变成可直接打开的单文件 HTML 演示稿。
-- 用户需要先比较几个视觉方向，再选择最终 PPT 风格。
+### 单张幻灯片内容密度上限
 
-不适用：用户只是在做网页、组件、落地页或 React/Vue UI，此时使用 `brand-design-tokens` 作为视觉前置层即可。
+| 幻灯片类型 | 最大内容量 |
+| --- | --- |
+| 标题页 | 1 个标题 + 1 个副标题 + 可选标语 |
+| 内容页 | 1 个标题 + 4-6 个要点，或 1 个标题 + 2 段文字 |
+| 功能网格 | 1 个标题 + 最多 6 张卡片（2x3 或 3x2） |
+| 代码页 | 1 个标题 + 8-10 行代码 |
+| 引言页 | 1 段引言（最多 3 行）+ 来源 |
+| 图片页 | 1 个标题 + 1 张图片（最高 60vh） |
 
-## Creation Flow
+**内容超出上限？拆分成多张幻灯片。绝不堆砌，绝不滚动。**
 
-### 1. Ask About Content
+---
 
-先确认演示内容，而不是先问模板或配置。
+## 阶段 0：识别模式
 
-需要了解：
+判断用户需要什么：
 
-- 原始材料：用户粘贴的文本、文档、会议纪要、PRD、网页、数据、图片说明。
-- 核心信息：这套 deck 要让观众记住什么。
-- 使用场景：pitch、产品介绍、roadmap、报告、课程、内部汇报、发布会。
-- 页数偏好：如果用户未指定，默认建议 5-8 页。
+- **模式 A：新建演示文稿** — 从零创建。进入阶段 1。
+- **模式 B：优化已有演示文稿** — 改进已有的 HTML 演示文稿。读取它，理解它，优化它。**遵循模式 B 修改规则。**
 
-如果用户已经提供足够材料，直接进入下一步。不要重复追问。
+### 模式 B：修改规则
 
-如果内容不足，只问一个问题：
+优化已有演示文稿时，视口适配是最大的风险：
 
-```text
-你想把哪些内容放进这套 slides？可以贴材料、列要点、说明主题，或告诉我目标观众和核心信息。
-```
+1. **添加内容前：** 统计已有元素数量，对照密度上限
+2. **添加图片：** 必须加 `max-height: min(50vh, 400px)`。若幻灯片已达内容上限，拆成两张
+3. **添加文字：** 每张最多 4-6 个要点。超出？拆成延续页
+4. **任何修改后验证：** `.slide` 有 `overflow: hidden`，新元素用 `clamp()`，图片有相对视口的最大高度，内容在 1280x720 下能放下
+5. **主动重排：** 若修改会导致溢出，自动拆分内容并告知用户，不要等用户发现
 
-### 2. Ask About Design
+**向已有幻灯片添加图片时：** 先把图片移到新幻灯片，或先减少其他内容。绝不在未检查现有内容是否已满的情况下添加图片。
 
-再确认用户想使用哪套 design 风格。这里复用 `brand-design-tokens` 的三路径路由：点名品牌、先预览再选、按场景或气质推荐。
+---
 
-如果用户已经明确指定品牌或品牌 id，例如“用 Stripe 风格”“Linear deck”“Claude 风格 PPT”，直接按 Brand Token Resolution 的路径 1 读取对应 `DESIGN.md`。
+## 阶段 1：内容收集（新建演示文稿）
 
-如果用户没有指定 design，只问一个问题，并且必须提供预览入口：
+**用一次 AskUserQuestion 同时问所有问题**，让用户一次性填完：
 
-示例问题：
+**问题 1 — 用途**（header: "用途"）：
+这份演示用于什么场景？选项：融资路演 / 教学教程 / 会议演讲 / 内部汇报
 
-```text
-你想用哪套 design 风格？
+**问题 2 — 长度**（header: "长度"）：
+大约需要几张幻灯片？选项：短 5-10 张 / 中 10-20 张 / 长 20+ 张
 
-推荐：先预览再选。我可以打开 ../brand-design-tokens/index.html，让你浏览 71 套品牌预览后选定。
+**问题 3 — 内容**（header: "内容"）：
+你有现成内容吗？选项：内容已准备好 / 有草稿 / 只有主题
 
-也可以直接指定品牌，例如 Stripe / Linear / Claude；或者描述场景和气质，我推荐 2-3 个品牌。
-```
+**问题 4 — 在线编辑**（header: "编辑"）：
+生成后需要在浏览器里直接编辑文字吗？选项：
 
-如果用户选择“先预览再选”，必须打开或提供 `../brand-design-tokens/index.html`，然后暂停等待用户选定品牌。不要继续生成 3 个 visual style previews。
+- "需要（推荐）" — 可在浏览器中编辑文字，自动保存到 localStorage，可导出文件
+- "不需要" — 仅展示用，文件更小
 
-### 3. Generate 3 Visual Style Previews
+**记住用户的编辑选择 — 它决定阶段 3 是否包含编辑相关代码。**
 
-生成完整 deck 前，必须先给用户 3 个视觉风格预览进行比较。
+如果用户有现成内容，请他们分享。
 
-预览不是最终 deck，也不是模板。预览用于表达三个不同视觉方向，每个方向至少包含：
+### 步骤 1.2：图片评估（如果提供了图片）
 
-```text
-Preview A: 名称
-Design direction: 目标设计方向
-Brand basis: 使用的品牌 token 或推荐品牌
-Visual language: 背景、字体、版式、装饰、动效方向
-Best for: 为什么适合这份内容
-Tradeoff: 它可能不适合什么
-```
+如果用户选择"无图片" → 跳到阶段 2。
 
-预览可以是：
+如果用户提供了图片文件夹：
 
-- 简短文本风格卡片；或
-- 一个临时 HTML preview 文件，包含 3 张并排风格卡片。
+1. **扫描** — 列出所有图片文件（.png、.jpg、.svg、.webp 等）
+2. **逐张查看** — 使用 Read 工具（Claude 是多模态的）
+3. **评估** — 每张图片：展示了什么、是否**可用**（含原因）、代表哪个概念、主色调
+4. **共同设计大纲** — 精选图片与文字共同决定幻灯片结构。不是"先规划再加图片"——从一开始就同时围绕两者设计（例如：3 张截图 → 3 张功能页，1 个 Logo → 标题/结尾页）
+5. **通过 AskUserQuestion 确认**（header: "大纲"）："幻灯片大纲和图片选择看起来合适吗？" 选项：看起来不错 / 调整图片 / 调整大纲
 
-如果能创建临时 HTML preview，创建后必须打开浏览器；如果不能打开，提供可点击/可复制路径。
+**预览中的 Logo：** 如果找到了可用的 Logo，在阶段 2 的每个风格预览中嵌入它（base64）—— 用户能看到自己品牌在三种不同风格下的效果。
 
-临时 preview 文件规则：
+---
 
-- 只用于让用户比较 A / B / C，不是最终交付物。
-- 文件名必须明确带 `preview`，例如 `brand-slides-preview.html` 或 `preview-<slug>.html`。
-- 用户选定视觉方向后，必须删除这个临时 preview HTML。
-- 删除 preview 后再创建完整 presentation。不要把 preview 文件留在项目里。
+## 阶段 2：风格探索
 
-必须暂停等待用户选择 A / B / C，或让用户说明“把 A 的结构和 C 的色彩结合”。用户确认前，不生成完整 presentation。
+**这是"先看后选"阶段。** 大多数人无法用语言描述自己的设计偏好。
 
-### 4. Create Full Presentation
+### 步骤 2.0：风格路径选择
 
-用户选定视觉预览后，创建完整自包含 `.html` 文件。
+询问用户想如何选择风格（header: "风格"）：
 
-默认输出位置：
+- "帮我看选项"（推荐）— 根据情绪生成 3 个预览，或直接从预设列表选择
+- "使用品牌设计 Token" — 套用真实品牌的设计系统（需要 `brand-design-tokens` skill）
 
-- 在当前项目根目录下新建一个目录存放最终产物。
-- 目录名使用 deck 主题的 slug，例如 `ai-product-pitch-deck/`、`roadmap-presentation/`；不确定主题时使用 `brand-slides-output/`。
-- 最终 HTML 默认写入该目录的 `index.html`。
-- 如果同名目录已存在，不要覆盖用户文件；改用带序号的目录名，例如 `<slug>-2/`。
-- 除非用户明确指定路径，不要把最终 HTML 写到 `brand-slides/` skill 目录内。
+**如果帮我看选项：** 进入步骤 2.1。在步骤 2.1 中，用户也可以选择跳过情绪引导、直接从预设列表（[STYLE_PRESETS.md](STYLE_PRESETS.md)）挑选。
 
-生成要求：
+**如果使用品牌 Token：** 进入步骤 2.5。
 
-- 从零写 HTML/CSS/JS，不从模板文件复制结构或视觉样式。
-- CSS 写在 `<style>` 内，JS 写在 `<script>` 内。
-- 每页是一个独立 slide，保持演示稿信息密度，每页只表达一个核心观点。
-- 品牌 token 写入 `:root` 的 `--slide-*` CSS variables，映射规则见 `tokens/DESIGN-TO-SLIDE.md`。
-- 可参考 `layouts/SLIDE-LAYOUTS.md`、`formats/PRESENTATION-FORMATS.md`、`transitions/TRANSITIONS.md` 做内部生成决策，但不要把这些作为用户逐项配置。
-- 至少使用 3 种不同页面构图，避免所有页面都是同一种 hero/card/grid。
-- 交互至少支持键盘翻页；可按风格需要加入 dots、touch swipe 或 scroll snap。
-- 内容来自用户材料或根据主题合理组织，不来自品牌官网文案。
+### 步骤 2.5：品牌 Token 路径
 
-推荐内部结构：
+通过 `Skill` 工具**检查 `brand-design-tokens` skill 是否可用**：
 
-```text
-Slide 1: cover
-Slide 2: context / problem / thesis
-Slide 3: insight / opportunity
-Slide 4: solution / product / framework
-Slide 5: proof / metrics / comparison
-Slide 6: roadmap / next step / closing
-```
+- **可用** → 调用 `Skill("brand-design-tokens")` 处理品牌选择、读取 DESIGN.md、（可选）生成 Demo。等待用户确认品牌后，你将获得该品牌的 DESIGN.md token 内容。
+- **不可用** → 告知用户：_"未安装 `brand-design-tokens` skill。安装后可访问 71 个真实品牌设计系统（Claude、Stripe、Linear 等）。将降级为预设选择。"_ 然后进入步骤 2.1。
 
-可按内容调整，不要机械套用。
+获得 DESIGN.md token 后：
 
-### 5. Open In Browser
+1. 询问用户想以哪个预设为基础布局/动画风格（展示 [STYLE_PRESETS.md](STYLE_PRESETS.md) 的预设列表 —— 用户选择的是结构和动画，不是颜色）。
+2. 读取 [brand-tokens-bridge.md](brand-tokens-bridge.md)，将 DESIGN.md token 映射到 frontend-slides `:root` CSS 变量。
+3. 跳到阶段 3，用品牌 token 覆盖预设的默认颜色和字体。
 
-生成最终 HTML 后必须打开浏览器。
+### 步骤 2.1：情绪选择（引导式探索）
 
-执行要求：
+询问（header: "氛围"，multiSelect: true，最多选 2 个）：
+你希望观众有什么感受？选项：
 
-1. 本地命令可用时执行 `open <project-root>/<output-dir>/index.html` 或等价方式。
-2. 如果无法直接打开，必须给出可点击/可复制的本地 HTML 路径。
-3. 告诉用户可以用方向键、空格或页面内控件浏览。
+- 印象深刻/有信心 — 专业、值得信赖
+- 兴奋/充满活力 — 创新、大胆
+- 平静/专注 — 清晰、有条理
+- 受到启发/感动 — 有情感共鸣、令人难忘
+- 直接选预设 — 跳过情绪引导，从预设列表自选
 
-## Brand Token Resolution
+**如果选"直接选预设"：** 展示 [STYLE_PRESETS.md](STYLE_PRESETS.md) 预设列表，用户确认后跳到阶段 3。
 
-品牌风格仍复用 `brand-design-tokens`，但品牌选择服务于 3 个视觉预览，不再是模板选择，也不是抽象情绪选择。
+### 步骤 2.2：生成 3 个风格预览
 
-### 路径 1 · 用户点名品牌
+根据情绪，生成 3 个不同的单张幻灯片 HTML 预览，展示字体、颜色、动画和整体美学。读取 [STYLE_PRESETS.md](STYLE_PRESETS.md) 获取可用预设及其规格。
 
-1. 读取 `../brand-design-tokens/brands.json`。
-2. 按 `id` 或 `name` 匹配品牌。
-3. 不在库中 → 明确告知不在库，不猜近似品牌；请用户改选、浏览或让你推荐。
-4. 命中后全文读取 `design_md` 指向的 `DESIGN.md`。
+| 情绪 | 推荐预设 |
+| --- | --- |
+| 印象深刻/有信心 | Bold Signal、Electric Studio、Dark Botanical |
+| 兴奋/充满活力 | Creative Voltage、Neon Cyber、Split Pastel |
+| 平静/专注 | Notebook Tabs、Paper & Ink、Swiss Modern |
+| 受到启发/感动 | Dark Botanical、Vintage Editorial、Pastel Geometry |
 
-### 路径 2 · 用户想先预览再选
+将预览保存到 `.claude-design/slide-previews/`（style-a.html、style-b.html、style-c.html）。每个预览自包含，约 50-100 行，展示一张带动画的标题幻灯片。
 
-1. 必须把 `../brand-design-tokens/index.html` 直接提供给用户。
-2. 环境允许时直接帮用户打开：`open ../brand-design-tokens/index.html`。
-3. 告诉用户预览页只用于人工挑选风格，生成时仍只读取对应 `DESIGN.md`。
-4. 打开或提供链接后暂停，等待用户选定品牌。不要替用户默认选择。
+自动为用户打开每个预览。
 
-### 路径 3 · 用户描述场景或气质
+### 步骤 2.3：用户选择
 
-1. 读取 `brands.json`。
-2. 按 `scenarios`、`vibe`、`theme` 三个维度筛选。
-3. 推荐 2-3 个品牌，并附上 `blurb` 与推荐理由。
-4. 用户确认品牌后，读取对应 `DESIGN.md`。
+询问（header: "风格"）：
+你更喜欢哪个风格预览？选项：风格 A：[名称] / 风格 B：[名称] / 风格 C：[名称] / 混合元素
 
-## Visual Preview Rules
+如果选择"混合元素"，询问具体需求。
 
-3 个预览必须真的不同，不能只是换名字。
+---
 
-每个预览至少在这些维度中改变 3 项：
+## 阶段 3：生成演示文稿
 
-- 品牌 token 或品牌气质
-- 背景处理：flat / gradient / stage / paper / grid / terminal / editorial
-- 排版节奏：hero-led / editorial / dense report / keynote / technical
-- 构图语言：split / centered / card system / timeline / dashboard / magazine
-- 动效方向：calm / sharp / cinematic / no-frills
+使用阶段 1 的内容（文字，或文字 + 精选图片）和阶段 2 的风格，生成完整演示文稿。
 
-如果用户已经指定品牌，3 个预览应使用同一个品牌 token，但改变 presentation style。不要换品牌。
+如果提供了图片，幻灯片大纲在步骤 1.2 时已经整合了图片。如果没有图片，CSS 生成的视觉效果（渐变、形状、图案）提供视觉趣味 —— 这是完全支持的首选路径。
 
-如果用户没有指定品牌，3 个预览可以推荐 3 个不同品牌方向，但必须说明为什么。
+**生成前，读取以下支持文件：**
 
-## Slide Types
+- [html-template.md](html-template.md) — HTML 架构和 JS 功能
+- [viewport-base.css](viewport-base.css) — 必须包含的 CSS（全文复制）
+- [animation-patterns.md](animation-patterns.md) — 根据所选情绪的动画参考
 
-使用这些内容槽位组织 slides，不要把它们当固定视觉模板：
+**关键要求：**
 
-| type | 内容槽位 |
-|------|----------|
-| `cover` | eyebrow, title, subtitle, footer |
-| `section` | label, title, short statement |
-| `problem` | title, 3 pain points |
-| `insight` | title, supporting quote or contrast |
-| `solution` | title, subtitle, 3 solution pillars |
-| `feature-grid` | title, 3-4 feature cards |
-| `process` | title, 3-5 steps |
-| `comparison` | title, before/after or old/new |
-| `metrics` | title, 3 key numbers |
-| `roadmap` | title, 3-5 milestones |
-| `quote` | quote, attribution |
-| `closing` | title, CTA, contact or next step |
+- 单一自包含 HTML 文件，所有 CSS/JS 内联
+- 在 `<style>` 块中包含 viewport-base.css 的完整内容
+- 字体来自 Fontshare 或 Google Fonts — 不使用系统字体
+- 添加详细注释说明每个部分
+- 每个部分需要清晰的 `/* === 部分名称 === */` 注释块
 
-## Verification
+---
 
-生成后必须人工检查：
+## 阶段 4：交付
 
-- 最终 HTML 浏览器可直接打开。
-- 键盘翻页可用，至少支持 `ArrowRight`、空格、`ArrowLeft`。
-- 当前页进度正确，或滚动模式下页面吸附清楚。
-- 页面没有明显溢出、遮挡或不可读的小字。
-- 视觉方向与用户选定的 Preview A / B / C 一致。
-- 品牌颜色、字体、圆角、边框来自对应 `DESIGN.md`。
-- 不是模板风格，不是所有页同一布局。
-- 内容是用户资料提炼或合理 deck structure，不是品牌官网文案。
+1. **清理** — 删除 `.claude-design/slide-previews/`（如果存在）
+2. **打开** — 使用 `open [filename].html` 在浏览器中启动
+3. **告知用户：**
+   - 文件位置、风格名称、幻灯片数量
+   - 导航方式：方向键、空格键、滚动/滑动、点击导航点
+   - 如何自定义：`:root` CSS 变量（颜色）、字体链接（字体）、`.reveal` 类（动画）
+   - 如果启用了在线编辑：悬停左上角或按 E 进入编辑模式，点击任意文字即可编辑，Ctrl+S 保存
 
-## Common Mistakes
+---
 
-- 从模板开始改。不要，本 skill 没有模板步骤。
-- 还没问 content / design 就生成。必须先确认内容和设计风格。
-- 跳过 3 个视觉预览。必须先让用户比较并选择。
-- 用户选完视觉预览后还保留临时 preview HTML。必须删除临时预览文件。
-- 把最终 HTML 写进 `brand-slides/` skill 目录。默认应在项目根目录新建输出目录。
-- 把 frame、navigation、transition、layout strategy 当成逐项表单让用户确认。不要，这些是内部设计决策。
-- 读取 `examples/*.html` 抄页面。不要读取 examples 作为生成依据。
-- 生成网页而不是 slides。输出必须是演示稿体验。
-- 所有 slides 都用同一种 card grid 或同一种 centered hero。必须随内容变化构图。
-- 复制真实品牌 logo、官网标题或营销文案。只能使用 token 和视觉气质。
-- 在 `brand-slides` 内复制 71 个品牌 token。品牌数据只来自同级 `brand-design-tokens`。
+## 阶段 5：导出为 PDF（可选）
+
+交付后，**询问用户：** _"需要将演示文稿导出为 PDF 吗？"_
+
+如果用户拒绝，在此停止。
+
+### 导出为 PDF
+
+将每张幻灯片截图并合并成 PDF。适合邮件附件、嵌入文档或打印。
+
+**注意：** 动画和交互不会保留 —— PDF 是静态快照。这是正常的，提前告知用户避免惊讶。
+
+1. **运行导出脚本：**
+
+   ```bash
+   bash scripts/export-pdf.sh <HTML路径> [output.pdf]
+   ```
+
+   如未指定输出路径，PDF 保存在 HTML 文件旁边。
+
+2. **简要说明发生了什么：**
+   - 无头浏览器以 1920×1080（标准宽屏）打开演示文稿
+   - 逐张截图
+   - 所有截图合并成单个 PDF
+   - 脚本需要 Playwright（浏览器自动化工具）—— 如未安装会自动安装
+
+3. **如果 Playwright 安装失败：**
+   - 最常见问题是 Chromium 下载失败。运行：`npx playwright install chromium`
+   - 如果仍然失败，可能是网络/防火墙问题。请用户换网络再试。
+
+4. **交付 PDF** — 脚本会自动打开。告知用户：
+   - 文件位置和大小
+   - 可在任何地方使用 —— 邮件、Slack、Notion、Google Docs、打印
+   - 动画替换为最终视觉状态（仍然好看，只是静态的）
+
+**⚠ PDF 导出注意事项：**
+
+- **第一次运行很慢。** 脚本会安装 Playwright 并下载 Chromium 浏览器（~150MB）到临时目录。每次运行都会这样。提前告知用户第一次可能需要 30-60 秒，同一会话内的后续导出会更快。
+- **幻灯片必须使用 `class="slide"`。** 导出脚本通过查询 `.slide` 元素来查找幻灯片。如果演示文稿使用了不同的类名，脚本会报告"找到 0 张幻灯片"并失败。本 skill 生成的所有演示文稿都使用 `.slide`，因此只有外部创建的 HTML 才需要注意这一点。
+- **本地图片必须可通过 HTTP 加载。** 脚本会启动本地服务器并通过它加载 HTML（以便 Google Fonts 和相对图片路径正常工作）。如果图片使用绝对文件系统路径（如 `src="/Users/name/photo.png"`）而非相对路径（如 `src="photo.png"`），则无法加载。生成的演示文稿始终使用相对路径，但转换或用户提供的 Deck 可能不是 —— 需要检查并修复。
+- **只要图片与 HTML 文件在同目录（或相对路径正确），本地图片就会出现在 PDF 中。** 导出脚本通过 HTTP 提供 HTML 父目录，因此相对路径如 `src="photo.png"` 可以正确解析 —— 包括含空格的文件名。如果图片仍未出现，检查：(1) 图片文件是否真实存在于引用路径，(2) 路径是相对路径而非绝对路径。
+- **大型演示文稿会产生大 PDF。** 每张幻灯片以全 1920×1080 PNG 截图。18 张幻灯片的 Deck 可能产生 ~20MB PDF。如果 PDF 超过 10MB，询问用户：_"PDF 大小为 [大小]。需要压缩吗？会稍微降低清晰度，但文件会小很多。"_ 如果需要，用 `--compact` 标志重新导出：
+  ```bash
+  bash scripts/export-pdf.sh <HTML路径> [output.pdf] --compact
+  ```
+  这会以 1280×720 而非 1920×1080 渲染，通常减少 50-70% 文件大小，视觉差异极小。
+
+---
+
+## 支持文件
+
+| 文件 | 用途 | 何时读取 |
+| --- | --- | --- |
+| [STYLE_PRESETS.md](STYLE_PRESETS.md) | 12 个精选视觉预设，包含颜色、字体和特色元素 | 阶段 2（风格选择） |
+| [viewport-base.css](viewport-base.css) | 必须包含的响应式 CSS —— 复制到每份演示文稿 | 阶段 3（生成） |
+| [html-template.md](html-template.md) | HTML 结构、JS 功能、代码质量标准 | 阶段 3（生成） |
+| [animation-patterns.md](animation-patterns.md) | CSS/JS 动画片段和效果-情感对应指南 | 阶段 3（生成） |
+| [scripts/export-pdf.sh](scripts/export-pdf.sh) | 将幻灯片导出为 PDF | 阶段 5（导出） |
+| [brand-tokens-bridge.md](brand-tokens-bridge.md) | 将 DESIGN.md token 映射到 CSS 变量 | 阶段 2 步骤 2.5（品牌 token） |

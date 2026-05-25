@@ -1,76 +1,112 @@
 ---
 name: brand-design-tokens
 description: >
-  当前端、UI、页面或组件需要套用某个品牌风格、设计系统或 DESIGN.md 设计 token
-  时使用。负责从品牌 token 库中按品牌名、场景、气质路由到正确的
-  DESIGN.md,提供配色、字体、排版、圆角、间距等视觉依据。适用于用户提到
-  Claude、Stripe、Linear、Apple、Vercel、Notion 等品牌风格,或要求 brand style、
-  design system、design tokens、DESIGN.md、选择视觉风格。本 skill 不单独生成代码,
-  应配合前端实现继续完成 HTML / React / Vue / Tailwind 等产物。用户已提供完整
-  设计稿或设计系统时不适用。
+  按真实品牌设计系统生成前端页面或组件。用户提到品牌风格（Claude、Stripe、
+  Linear、Apple、Vercel、Notion 等）、design tokens、DESIGN.md、或要求某种
+  视觉风格时触发。负责品牌选择、design 确认、demo 对比，再按用户技术栈生成
+  最终产物（HTML / React / Vue / Tailwind 等）。
 ---
 
 # brand-design-tokens
 
-## Overview
+## 这个 skill 做什么
 
-71 套真实品牌的设计系统 token 库。本 skill **不单独负责代码生成** —— 它先把
-用户的风格意图路由到正确的 `DESIGN.md`,再按用户原始需求继续实现界面。产物
-形态(HTML / React / Vue / Tailwind 等)由当时需求决定。
+从 71 套真实品牌 token 库中选定品牌，读取对应 `DESIGN.md`，生成符合该品牌
+视觉风格的前端产物。技术栈（HTML / React / Vue / Tailwind 等）跟用户需求走，
+不做限定。
 
-它是前端实现 skill 的风格前置层:先选定品牌 token,再继续编码。不要把它当作
-通用 UI 美化 skill,也不要跳过 token 直接凭印象写。
+**铁律：品牌必须由用户确认，不允许替用户默认选择，不允许跳过确认直接生成。**
 
-## When to Use
+---
 
-- 用户点名了某品牌或某设计系统,如 Claude / Stripe / Linear / Apple / Vercel / Notion
-- 用户要求按某种品牌风格、brand style、design system、design tokens 或 `DESIGN.md` 写界面
-- 前端 / UI / 页面 / 组件已经要实现,但需要先选择视觉方向或品牌 token
-- 需要配色 / 字体 / 排版 / 圆角 / 间距方案,且这些方案应来自真实品牌 token
+## 路径判断 — 三选一
 
-**不适用:** 用户已提供完整视觉规范(自带设计稿 / 设计系统)。
+### 路径 1 · 用户点名了品牌
 
-## Data Files
+示例：「用 Stripe 风格做落地页」「按 Linear 风格写 dashboard」
 
-| 文件 | 内容 |
-|------|------|
-| `brands.json` | 71 条路由索引 |
-| `design-md/<brand>/DESIGN.md` | 各品牌完整 token(colors / typography / rounded / spacing) |
-| `examples/<brand>.html` | 各品牌渲染预览页,只用于浏览效果,不要作为生成依据 |
-| `index.html` | 71 套预览总索引,带搜索和分类,只用于选择风格 |
+1. 读 `brands.json`，按 `name` / `id` 定位品牌。
+2. 不在库中 → 告诉用户「该品牌不在库中」，转路径 2，不套近似品牌。
+3. 命中 → 告诉用户也可以再选 1-2 个一起对比，若只选这一个则直接转「确认与生成」流程。
 
-`brands.json` 每条字段:`id` `name` `theme` `vibe`(中文风格词)
-`scenarios`(英文场景标签)`blurb`(一句话描述)`design_md`(token 文档路径)。
+### 路径 2 · 用户没有指定品牌
 
-## Routing — 三选一
+用户没点名品牌时，**立即提供预览链接**：
 
-判断用户属于哪条路径:
+> 「这里有 71 套品牌预览，可以先浏览选一个（或多个）：
+> [https://efun19.github.io/design-skill-pack/](https://efun19.github.io/design-skill-pack/)
+> 选好后告诉我品牌名称。选多个也可以，我会各生成一个轻量 demo 对比，再决定用哪个。
+> 如果你想让我根据你的需求推荐，也可以告诉我。」
 
-**路径 1 · 点名了品牌**(如「按 Claude 风格写 HTML」「用 Stripe 风格写落地页」)
-1. 读 `brands.json`,按 `name` / `id` 定位。
-2. 不在 71 条内 → 告诉用户「该品牌不在库中」,转路径 2 或 3。不猜、不套近似品牌。
-3. 命中 → 把 `design_md` 指向的 `DESIGN.md` **全文**读入,只按该 token 写前端。
-   不要读取或参考 `examples/<id>.html`;预览页只用于人工浏览效果,不是生成依据。
+**2A · 用户浏览后回复了品牌名**
 
-**路径 2 · 不确定风格**
-必须把本 skill 目录的 `index.html` 直接提供给用户,并在环境允许时直接帮用户打开浏览器预览 71 套真实效果。选定后转路径 1 第 3 步。
+转路径 1。
 
-执行要求:
-1. 优先直接打开 `index.html`。本地命令可用时执行 `open docs/index.html` 或等价方式。
-2. 无法直接打开时,提供在线预览地址: https://efun19.github.io/design-skill-pack/ 或本地路径 `docs/index.html`。
-3. 明确告诉用户:预览页只用于人工挑选风格,生成时仍只读取对应 `DESIGN.md`,不要从预览 HTML 抽结构、样式或代码。
-4. 打开或提供链接后暂停,等待用户选定品牌。不要替用户默认选择。
+**2B · 用户要求你推荐**
 
-**路径 3 · 描述了场景或气质**(如「写个博客」「想要暗色编辑感」)
-读 `brands.json`,按三个维度过滤:`scenarios`(用途)、`vibe`(气质)、
-`theme`(用户提到亮/暗时)。推荐 2-3 个品牌并各附 `blurb`。若三维交叉后候选
-不足,放宽到只匹配最强的维度,并向用户说明取舍。用户拍板后转路径 1 第 3 步。
+1. 问用户两件事（可一次问完）：
+   - 页面/组件的**内容和用途**（如果没说清楚）
+   - 想要的**视觉感觉**（亮/暗、轻盈/厚重、极简/有装饰等）
+2. 读 `brands.json`，按 `scenarios`（用途）+ `vibe`（气质）+ `theme`（亮暗）三维过滤。
+3. 推荐 2-3 个品牌，每条格式：**品牌名（brands.json 中的 `name`）** + `blurb` 说明。
+   不要只说风格描述，必须带品牌名。示例格式：
+   ```
+   • Linear — 深色极简，几何感强，适合工具类 SaaS
+   • Vercel — 黑白对比，工程感，适合开发者工具
+   ```
+4. 候选不足时放宽到最强维度，向用户说明取舍。
+5. **告诉用户可以选 1 个或多个**：选 1 个直接生成；选多个先各生成一个轻量 demo 对比，再拍板。
+6. 等用户回复，转「确认与生成」流程。
 
-## Common Mistakes
+---
 
-- **跳过路径直接凭印象写** —— 必须真的读 `DESIGN.md` 全文,token 才准。
-- **品牌不在库时强行套近似品牌** —— 不要。明确告知不在库。
-- **路径 3 只看 `vibe` 不看 `scenarios`** —— 气质和用途两个维度都要过滤。
-- **读取 `examples/<id>.html` 后照着写** —— 不要。生成时只读取对应品牌的 `DESIGN.md`,不要从预览 HTML 抽结构、样式或代码。
-- **把本 skill 当成通用前端实现 skill** —— 不要。它负责品牌 token 路由,实现仍按用户原始技术栈继续。
-- **复刻真实品牌官网 / logo / 文案** —— 不要。只使用品牌 token 和视觉气质,页面内容应服务用户项目。
+## 确认与生成流程
+
+### 1. 确认选定品牌
+
+用户明确说出品牌后，**立即**读取对应 `DESIGN.md` 全文（路径在 `brands.json` 的
+`design_md` 字段）。不读 `examples/<id>.html`，预览页不是生成依据。
+
+### 2. 多品牌对比（可选）
+
+用户选了多个候选但还没拍板时，运行脚本生成对比文件：
+
+**运行前先确定项目根目录：**
+
+```bash
+# git 项目
+PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+# 非 git 项目：根据上下文判断项目根目录的绝对路径
+PROJECT_ROOT=/path/to/project
+```
+
+```bash
+node brand-design-tokens/generate-demo.js <brand1> <brand2> [brand3] \
+  --root "$PROJECT_ROOT" \
+  --title "..." --sub "..." --cta "..." --feat "a,b,c"
+```
+
+内容参数从用户描述中提取。
+
+生成后告知用户文件路径（`$PROJECT_ROOT/.brand-demos/compare-*.html`），等待选定。用户拍板后**立即删除** `.brand-demos/compare-*.html`（不删 `.brand-demos/` 目录），再进入第 3 步。
+
+### 3. 用户确认后再生成
+
+用户明确选定品牌（或对 demo 给出选择）后：
+- 按用户原始需求（HTML / React / Vue / Tailwind 等）生成完整产物。
+- CSS token 全部取自 DESIGN.md 的 colors / typography / rounded / spacing。
+- 先定义 CSS 变量或 design token，再在规则里用变量引用，不写硬编码色值。
+- 专有字体用最接近的 Google Fonts + 系统兜底。
+- 还原品牌专属性格：按钮形状、边框粗细、阴影哲学、字重、装饰元素。
+- 不复刻真实品牌官网 / logo / 营销文案，页面内容服务用户项目。
+
+---
+
+## 禁止行为
+
+- **跳过路径，凭印象写** — 必须真的读 DESIGN.md 全文，不靠记忆。
+- **品牌不在库时套近似品牌** — 明确告知不在库，转路径 2 或 3。
+- **路径 3 只看 vibe 不看 scenarios** — 两个维度都要过滤。
+- **读 examples/*.html 后照着写** — 禁止。预览页只供人工浏览。
+- **未经用户确认就开始生成完整产物** — 必须先确认品牌，demo 对比后再动手。
+- **替用户默认选一个品牌** — 即使你觉得某品牌"显然"最合适，也必须等用户拍板。
