@@ -50,14 +50,25 @@ https://efun19.github.io/design-skill-pack/brands.html
 
 ## 安装
 
-将 Skill 目录复制到项目的 Skill 文件夹（如`.claude/skills/`）：
+将 Skill 目录复制到对应 AI 编程工具的 Skills 目录。支持用户级和项目级两种安装方式：
+
+### 用户级安装（对所有项目生效）
 
 ```bash
-cp -r brand-design-tokens /your-project/.qoder/skills/
-cp -r brand-slides        /your-project/.qoder/skills/
+cp -r brand-design-tokens ~/.claude/skills/
+cp -r brand-slides        ~/.claude/skills/
 ```
 
-通过 Claude Code 的 `Skill` 工具调用。
+### 项目级安装（仅当前项目生效）
+
+```bash
+cp -r brand-design-tokens /path/to/your-project/.claude/skills/
+cp -r brand-slides        /path/to/your-project/.claude/skills/
+```
+
+安装后通过对应 AI 编程工具的 Skill 工具调用。
+
+> 其他 AI 编程工具的目录名可能有所不同，请参考其官方文档。
 
 ## 目录结构
 
