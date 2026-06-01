@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acme — Dell 1996 design preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Arimo:ital,wght@0,400;0,700;1,400&family=Tinos:ital,wght@0,400;0,700;1,400&family=Cousine:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#e91d2a; --primary-active:#b71722; --on-primary:#ffffff;
+  --ink:#000000; --body:#000000; --muted:#555555; --muted-soft:#777777;
+  --frame:#000000; --link:#0000ee;
+  --canvas:#ffffff; --surface-soft:#f1f1f1; --surface-card:#ffffff;
+  --yellow:#fcc20f; --purple:#6a26a4;
+  --t-sage:#b3bd95; --t-salmon:#d77a7a; --t-peri:#8c9ae0; --t-sky:#9ab6c8;
+  --t-lime:#c0d4a7; --t-peach:#e6915d;
+  --success:#4a7d23; --warning:#fcc20f; --error:#e91d2a;
+  --code-bg:#000000; --code-fg:#33ff33;
+  --font-display:"Archivo Black","Arial Black",Helvetica,sans-serif;
+  --font-head:"Arimo",Helvetica,Arial,sans-serif;
+  --font-body:"Tinos","Times New Roman",Times,serif;
+  --font-mono:"Cousine","Courier New",monospace;
+  --bevel:3px 3px 0 var(--frame);
+}
+[data-theme="dark"]{
+  --primary:#ff3b47; --primary-active:#e91d2a; --on-primary:#000000;
+  --ink:#ffffff; --body:#e8e8e8; --muted:#aaaaaa; --muted-soft:#888888;
+  --frame:#ffffff; --link:#6fa8ff;
+  --canvas:#0a0a0a; --surface-soft:#1a1a1a; --surface-card:#121212;
+  --yellow:#fcc20f; --purple:#b07ad8;
+  --t-sage:#5d6647; --t-salmon:#7d3e3e; --t-peri:#454e8a; --t-sky:#3f5a6b;
+  --t-lime:#5a6e3a; --t-peach:#7d5230;
+  --success:#7bb03a; --warning:#fcc20f; --error:#ff3b47;
+  --code-bg:#000000; --code-fg:#33ff33;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--canvas);color:var(--body);font-family:var(--font-body);
+  font-size:16px;line-height:1.5;transition:background .2s,color .2s}
+/* signature literal black page frame */
+body{border:8px solid var(--frame);min-height:100vh}
+h1,h2,h3{font-family:var(--font-display);color:var(--ink);font-weight:400;
+  line-height:1.02;text-transform:uppercase;letter-spacing:0}
+h1{font-size:54px}
+h2{font-size:34px}
+h3{font-size:20px}
+h4{font-family:var(--font-head);color:var(--ink);font-weight:700;font-size:16px;
+  text-transform:uppercase;letter-spacing:.02em;line-height:1.2}
+a{color:var(--link)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 32px}
+section{padding:56px 0;border-bottom:1px solid var(--frame)}
+.eyebrow{display:inline-block;font-family:var(--font-head);font-size:12px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase}
+
+/* buttons — square, hard bevel */
+.btn{font-family:var(--font-head);font-weight:700;text-transform:uppercase;letter-spacing:.03em;
+  border:1px solid var(--frame);border-radius:0;cursor:pointer;display:inline-flex;
+  align-items:center;gap:8px;text-decoration:none;transition:transform .05s,box-shadow .05s;
+  box-shadow:var(--bevel)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--frame)}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-active)}
+.btn-secondary{background:var(--canvas);color:var(--ink)}
+.btn-secondary:hover{background:var(--surface-soft)}
+.btn-ghost{background:transparent;color:var(--link);border:none;padding:0;box-shadow:none;
+  text-decoration:underline}
+.btn-ghost:active{transform:none}
+.btn-md{font-size:12px;padding:8px 16px}
+.btn-lg{font-size:14px;padding:12px 24px}
+.btn:disabled,.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+
+/* badge — GIF sticker */
+.badge{display:inline-block;font-family:var(--font-head);font-size:11px;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--frame);
+  background:var(--yellow);color:#000}
+.badge-primary{background:var(--primary);color:var(--on-primary)}
+.badge-neutral{background:var(--surface-soft);color:var(--ink)}
+
+/* announcement — black top banner */
+.announce{background:var(--frame);color:var(--canvas);font-family:var(--font-head);
+  font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;
+  text-align:center;padding:9px 32px}
+.announce a{color:var(--yellow);text-decoration:underline}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:var(--canvas);border-bottom:1px solid var(--frame)}
+.nav{display:flex;align-items:center;gap:26px;padding:14px 0}
+.logo{font-family:var(--font-display);font-size:26px;color:var(--ink);text-transform:uppercase;
+  letter-spacing:-.5px}
+.nav-links{display:flex;gap:22px;margin-left:8px}
+.nav-links a{color:var(--ink);text-decoration:none;font-family:var(--font-head);font-size:13px;
+  font-weight:700;text-transform:uppercase;letter-spacing:.02em}
+.nav-links a:hover{color:var(--primary)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.theme-btn{background:var(--canvas);border:1px solid var(--frame);color:var(--ink);
+  font-family:var(--font-head);font-size:11px;font-weight:700;text-transform:uppercase;
+  padding:7px 13px;cursor:pointer;box-shadow:var(--bevel)}
+.theme-btn:active{transform:translate(3px,3px);box-shadow:0 0 0}
+
+/* hero */
+.hero{text-align:center;padding:80px 0}
+.hero p.sub{font-size:20px;color:var(--body);max-width:620px;margin:22px auto 32px;line-height:1.45}
+.hero-btns{display:flex;gap:14px;justify-content:center}
+
+/* stats — bordered grid, border-right dividers (avoids gray-seam trap) */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--frame);
+  text-align:center}
+.stat{background:var(--surface-soft);border-right:1px solid var(--frame);padding:26px 16px;
+  transition:background .2s,border-color .2s}
+.stat:last-child{border-right:none}
+.stat .num{font-family:var(--font-display);font-size:42px;color:var(--ink)}
+.stat .lbl{font-family:var(--font-head);color:var(--muted);font-size:13px;text-transform:uppercase;
+  letter-spacing:.03em;margin-top:6px}
+
+/* features — ribbon cards (white title bar + tinted body) */
+.lead{font-size:18px;color:var(--body);max-width:660px;margin:14px 0 40px;line-height:1.45}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{border:1px solid var(--frame);background:var(--canvas);box-shadow:var(--bevel)}
+.card .title-bar{background:var(--canvas);border-bottom:1px solid var(--frame);padding:8px 14px;
+  display:flex;align-items:center;gap:10px}
+.card h3{font-size:18px;margin:0}
+.card-body{padding:18px 16px 20px}
+.card .icon{width:38px;height:38px;border:1px solid var(--frame);background:var(--canvas);
+  display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px;
+  margin-bottom:14px;box-shadow:2px 2px 0 var(--frame)}
+.card p{font-size:15px;margin-bottom:14px;color:#000}
+.card-sage{background:var(--t-sage)} .card-sage .card-body{color:#000}
+.card-salmon{background:var(--t-salmon)} .card-salmon .card-body{color:#000}
+.card-peri{background:var(--t-peri)} .card-peri .card-body{color:#000}
+.card-sage .card-body p,.card-salmon .card-body p,.card-peri .card-body p{color:#000}
+
+/* dev section */
+.prose{max-width:680px}
+.prose p{margin:16px 0;font-size:16px}
+.prose code{font-family:var(--font-mono);font-size:.9em;background:var(--surface-soft);
+  border:1px solid var(--frame);padding:1px 5px;color:var(--ink)}
+pre{background:var(--code-bg);color:var(--code-fg);border:1px solid var(--frame);
+  padding:20px;overflow:auto;margin:20px 0;box-shadow:var(--bevel)}
+pre code{font-family:var(--font-mono);font-size:13.5px;line-height:1.7}
+.lists{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:34px;max-width:680px}
+.lists h4{margin-bottom:12px}
+.lists ul,.lists ol{padding-left:20px}
+.lists li{margin:7px 0;font-size:15px}
+
+/* quote */
+blockquote{max-width:760px;margin:0 auto;text-align:center}
+blockquote p{font-family:var(--font-body);font-style:italic;font-size:28px;line-height:1.35;
+  color:var(--ink)}
+blockquote cite{display:block;margin-top:20px;font-family:var(--font-head);font-style:normal;
+  font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+
+/* tabs */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--frame);margin:22px 0}
+.tab{background:var(--surface-soft);border:1px solid var(--frame);border-bottom:none;
+  padding:9px 18px;font-family:var(--font-head);font-size:13px;font-weight:700;
+  text-transform:uppercase;color:var(--muted);cursor:pointer;margin-bottom:-1px;margin-right:4px}
+.tab.active{background:var(--canvas);color:var(--ink);border-bottom:1px solid var(--canvas)}
+.panel{display:none}
+.panel.active{display:block}
+.panel>p{margin:8px 0;font-size:16px}
+.notice{display:flex;gap:12px;padding:12px 16px;font-size:15px;margin:10px 0;
+  border:1px solid var(--frame)}
+.notice::before{font-family:var(--font-head);font-weight:700}
+.notice-info{background:var(--t-sky);color:#000}
+.notice-info::before{content:"i"}
+.notice-success{background:var(--t-lime);color:#000}
+.notice-success::before{content:"\2713"}
+.notice-warning{background:var(--yellow);color:#000}
+.notice-warning::before{content:"!"}
+.notice-error{background:var(--primary);color:var(--on-primary)}
+.notice-error::before{content:"\00d7"}
+
+/* table */
+table{width:100%;border-collapse:collapse;margin-top:18px;border:1px solid var(--frame)}
+th,td{text-align:left;padding:11px 14px;font-size:15px;border-bottom:1px solid var(--frame);
+  border-right:1px solid var(--frame)}
+th:last-child,td:last-child{border-right:none}
+th{font-family:var(--font-head);background:var(--frame);color:var(--canvas);font-weight:700;
+  font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+tbody tr:hover{background:var(--surface-soft)}
+
+/* form */
+.form{max-width:560px;background:var(--surface-soft);border:1px solid var(--frame);
+  padding:30px;margin-top:30px;box-shadow:var(--bevel)}
+.field{margin-bottom:18px}
+.field label{display:block;font-family:var(--font-head);font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.02em;color:var(--ink);margin-bottom:6px}
+.field input[type=text],.field input[type=email],.field select,.field textarea{
+  width:100%;font-family:var(--font-body);font-size:15px;color:var(--ink);
+  background:var(--canvas);border:1px solid var(--frame);border-radius:0;padding:9px 11px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--primary);
+  outline-offset:-1px}
+.field textarea{min-height:84px;resize:vertical}
+.field.err input{border-color:var(--error);border-width:2px}
+.err-text{color:var(--error);font-family:var(--font-head);font-size:12px;font-weight:700;margin-top:6px}
+.radio-row,.check-row{display:flex;align-items:center;gap:9px;margin:8px 0}
+.radio-row label,.check-row label{margin:0;font-family:var(--font-body);font-weight:400;
+  text-transform:none;letter-spacing:0;color:var(--body);font-size:15px}
+.toggle{position:relative;width:44px;height:24px;flex:none}
+.toggle input{opacity:0;width:0;height:0}
+.toggle .track{position:absolute;inset:0;background:var(--canvas);border:1px solid var(--frame);
+  transition:background .15s}
+.toggle .track::before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;
+  background:var(--frame);transition:transform .15s}
+.toggle input:checked+.track{background:var(--primary)}
+.toggle input:checked+.track::before{transform:translateX(20px);background:#fff}
+.form-actions{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.hint{font-family:var(--font-head);font-size:11px;text-transform:uppercase;color:var(--muted-soft)}
+
+/* cta */
+.cta{text-align:center}
+.cta p{font-size:18px;color:var(--body);margin:14px 0 26px}
+
+/* footer */
+footer{padding:56px 0;border-bottom:none}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px}
+.foot-grid h4{margin-bottom:12px;font-size:12px}
+.foot-grid a{display:block;color:var(--link);text-decoration:none;font-size:14px;margin:7px 0}
+.foot-grid a:hover{text-decoration:underline}
+.foot-tag{color:var(--body);font-size:14px;margin-top:10px;max-width:240px}
+.copyright{margin-top:44px;padding-top:22px;border-top:1px solid var(--frame);
+  font-family:var(--font-head);font-size:12px;text-transform:uppercase;color:var(--muted-soft)}
+
+@media (max-width:860px){
+  body{border-width:4px}
+  h1{font-size:38px}h2{font-size:26px}
+  .nav-links{display:none}
+  .stats,.cards,.lists,.foot-grid{grid-template-columns:1fr}
+  .stat{border-right:none;border-bottom:1px solid var(--frame)}
+  .stat:last-child{border-bottom:none}
+  .hero{padding:48px 0}
+  .hero-btns{flex-direction:column}
+  .wrap{padding:0 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- A. Announcement bar -->
+<div class="announce">Acme 2.5 is now available — explore what's new <a href="#">Read the changelog →</a></div>
+
+<!-- B. Header -->
+<header>
+  <div class="wrap nav">
+    <span class="logo">Acme</span>
+    <nav class="nav-links">
+      <a href="#">Product</a><a href="#">Pricing</a><a href="#">Docs</a><a href="#">Blog</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-btn" id="themeBtn">Dark</button>
+      <a href="#" class="btn btn-primary btn-md">Get started</a>
+    </div>
+  </div>
+</header>
+
+<!-- C. Hero -->
+<section class="hero">
+  <div class="wrap">
+    <span class="badge badge-primary">Now in public beta</span>
+    <h1 style="margin-top:20px">Ship your ideas faster</h1>
+    <p class="sub">Acme is the collaborative workspace where modern teams plan, track, and ship — all in one place.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn btn-primary btn-lg">Start free trial</a>
+      <a href="#" class="btn btn-secondary btn-lg">Watch demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- D. Stats bar -->
+<section>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="num">12,000+</div><div class="lbl">teams onboard</div></div>
+      <div class="stat"><div class="num">99.98%</div><div class="lbl">uptime last year</div></div>
+      <div class="stat"><div class="num">4.9 / 5</div><div class="lbl">average customer rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- E. Features -->
+<section>
+  <div class="wrap">
+    <h2>Everything your team needs</h2>
+    <p class="lead">From the first spec to the final release, Acme keeps every moving piece in one shared, always-current workspace.</p>
+    <div class="cards">
+      <div class="card card-sage">
+        <div class="title-bar"><h3>Plan</h3> <span class="badge badge-primary">New</span></div>
+        <div class="card-body">
+          <div class="icon">◆</div>
+          <p>Break big goals into projects, milestones, and issues your team can act on.</p>
+          <a href="#" class="btn btn-ghost">Learn more →</a>
+        </div>
+      </div>
+      <div class="card card-salmon">
+        <div class="title-bar"><h3>Track</h3> <span class="badge badge-neutral">Beta</span></div>
+        <div class="card-body">
+          <div class="icon">◑</div>
+          <p>See progress in real time with boards, timelines, and automatic status rollups.</p>
+          <a href="#" class="btn btn-ghost">Learn more →</a>
+        </div>
+      </div>
+      <div class="card card-peri">
+        <div class="title-bar"><h3>Ship</h3></div>
+        <div class="card-body">
+          <div class="icon">▲</div>
+          <p>Cut releases with confidence using changelogs, approvals, and release notes.</p>
+          <a href="#" class="btn btn-ghost">Learn more →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- F. Developer section -->
+<section>
+  <div class="wrap">
+    <h2>Built for the way developers work</h2>
+    <div class="prose">
+      <p>Acme keeps your team aligned with a single source of truth. Body text should stay comfortable to read across long passages, with a measure of roughly 65 characters per line and generous line height.</p>
+      <p>Wire it into your stack in minutes — <a href="#">read the documentation</a> to get started.</p>
+      <p>Install the CLI with <code>npm install acme</code> and you're ready to ship.</p>
+      <pre><code>function ship(idea) {
+  return idea.plan().track().release();
+}</code></pre>
+    </div>
+    <div class="lists">
+      <div>
+        <h4>Included in every plan</h4>
+        <ul>
+          <li>Real-time collaboration</li>
+          <li>Keyboard-first navigation</li>
+          <li>Offline support</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get started in three steps</h4>
+        <ol>
+          <li>Create a project</li>
+          <li>Invite your team</li>
+          <li>Ship your first release</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- G. Customer quote -->
+<section>
+  <div class="wrap">
+    <blockquote>
+      <p>"Acme cut our release cycle from three weeks to four days. It's the first tool the whole team actually agreed on."</p>
+      <cite>Jordan Lee · Head of Engineering, Northwind</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- H. Workspace tabs -->
+<section>
+  <div class="wrap">
+    <h2>Explore your workspace</h2>
+    <div class="tabs">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="activity">Activity</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </div>
+    <div class="panel active" id="overview">
+      <p>A snapshot of your workspace — projects, members, and recent activity, all on one page.</p>
+    </div>
+    <div class="panel" id="activity">
+      <p>Every change across your projects, in one chronological feed:</p>
+      <div class="notice notice-info">A new version of Acme is available.</div>
+      <div class="notice notice-success">Your changes have been saved.</div>
+      <div class="notice notice-warning">Your trial ends in 3 days.</div>
+      <div class="notice notice-error">We couldn't process your payment.</div>
+    </div>
+    <div class="panel" id="settings">
+      <p>Manage your workspace name, members, and billing preferences from a single control panel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- I. Releases table -->
+<section>
+  <div class="wrap">
+    <h3>Recent releases</h3>
+    <table>
+      <thead><tr><th>Release</th><th>Owner</th><th>Status</th><th>Date</th></tr></thead>
+      <tbody>
+        <tr><td>v2.5 Borealis</td><td>Priya Shah</td><td><span class="badge badge-primary">Shipped</span></td><td>May 14</td></tr>
+        <tr><td>v2.6 Cosmos</td><td>Marco Diaz</td><td><span class="badge badge-neutral">In review</span></td><td>May 16</td></tr>
+        <tr><td>v2.7 Drift</td><td>Aria Kim</td><td><span class="badge badge-neutral">In progress</span></td><td>May 20</td></tr>
+        <tr><td>v2.8 Ember</td><td>Sam Olsen</td><td><span class="badge badge-neutral">Planned</span></td><td>May 24</td></tr>
+        <tr><td>v1.9 Legacy API</td><td>Jordan Lee</td><td><span class="badge badge-neutral">Deprecated</span></td><td>Apr 02</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- J. Signup form -->
+<section>
+  <div class="wrap">
+    <h2>Create your workspace</h2>
+    <p class="lead" style="margin-bottom:0">Set up your team in under a minute.</p>
+    <form class="form" onsubmit="return false">
+      <div class="field">
+        <label for="fn">Full name</label>
+        <input type="text" id="fn" placeholder="Jane Appleseed">
+      </div>
+      <div class="field">
+        <label for="em">Work email</label>
+        <input type="email" id="em" placeholder="jane@company.com">
+      </div>
+      <div class="field">
+        <label for="ts">Team size</label>
+        <select id="ts">
+          <option>1–10</option><option>11–50</option><option>51–200</option><option>200+</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="ab">What are you building?</label>
+        <textarea id="ab" placeholder="Tell us a little about your project…"></textarea>
+      </div>
+      <div class="field err">
+        <label for="wu">Workspace URL</label>
+        <input type="text" id="wu" value="acme">
+        <div class="err-text">This workspace name is already taken.</div>
+      </div>
+      <div class="field">
+        <label>Plan</label>
+        <div class="radio-row"><input type="radio" name="plan" id="p1"><label for="p1">Starter</label></div>
+        <div class="radio-row"><input type="radio" name="plan" id="p2" checked><label for="p2">Pro</label> <span class="badge badge-primary">Pro</span></div>
+      </div>
+      <div class="field">
+        <div class="check-row"><input type="checkbox" id="upd"><label for="upd">Send me product updates</label></div>
+      </div>
+      <div class="field">
+        <div class="check-row">
+          <span class="toggle"><input type="checkbox" id="tfa" checked><span class="track"></span></span>
+          <label for="tfa">Enable two-factor authentication</label>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary btn-md" type="submit">Create account</button>
+        <button class="btn btn-secondary btn-md" type="button" disabled>Continue with SSO</button>
+        <span class="hint">Available on Enterprise plans.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- K. Closing CTA -->
+<section class="cta">
+  <div class="wrap">
+    <h2>Start shipping with Acme today</h2>
+    <p>Free for up to 10 members. No credit card required.</p>
+    <a href="#" class="btn btn-primary btn-lg">Get started</a>
+  </div>
+</section>
+
+<!-- L. Footer -->
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <span class="logo">Acme</span>
+      <p class="foot-tag">The collaborative workspace for modern teams.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <a href="#">Features</a><a href="#">Pricing</a><a href="#">Changelog</a>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <a href="#">About</a><a href="#">Careers</a><a href="#">Contact</a>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <a href="#">Docs</a><a href="#">Community</a><a href="#">Support</a>
+    </div>
+  </div>
+  <div class="wrap"><div class="copyright">© 2026 Acme, Inc. All rights reserved.</div></div>
+</footer>
+
+<script>
+var root=document.documentElement,tb=document.getElementById('themeBtn');
+function setTheme(t){root.setAttribute('data-theme',t);tb.textContent=t==='dark'?'Light':'Dark';}
+tb.addEventListener('click',function(){
+  setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');
+});
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('active')});
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

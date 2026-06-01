@@ -448,6 +448,22 @@
     "design_md": "design-md/ibm/DESIGN.md"
   },
   {
+    "id": "dell-1996",
+    "name": "Dell 1996",
+    "theme": "light",
+    "scenarios": ["enterprise", "ecommerce", "marketing", "landing", "media", "blog"],
+    "description": "白底画布套黑色页框、Arial Black 巨标 + Times 衬线正文、Dell 红方角 CTA 与彩色 ribbon 卡片，复刻 1996 目录式企业网页。适合复古主题或怀旧营销页——想传递「GIF 时代的厚重、表格排版的拙趣」。",
+    "design_md": "design-md/dell-1996/DESIGN.md"
+  },
+  {
+    "id": "hp",
+    "name": "HP",
+    "theme": "light",
+    "scenarios": ["enterprise", "ecommerce", "landing", "marketing", "saas", "media"],
+    "description": "白纸画布、HP Electric Blue 唯一信号 CTA、Forma 几何无衬线、近黑标题，深色 navy slab 锚定故事与收尾。适合企业消费硬件或 B2B 商城落地页——想传递「科技可信、几何精准、蓝色即行动」。",
+    "design_md": "design-md/hp/DESIGN.md"
+  },
+  {
     "id": "nvidia",
     "name": "NVIDIA",
     "theme": "light",

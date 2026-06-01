@@ -5,9 +5,12 @@
 2. 加 brands.json 条目   → brand-design-tokens/brands.json
 3. 写预览页              → docs/examples/<brand>.html
 4. 接入 brands.html      → docs/brands.html
+5. 更新 README 计数      → README.md、docs/index.html、AGENTS.md 等
 ```
 
 **`<brand>`** = 目录名，用 kebab-case（如 `supabase`、`mistral-ai`）。
+
+⚠️ 品牌目录里**只放 `DESIGN.md`，不要 `README.md`**。上游仓库每个品牌带的 `README.md` 复制后必须删掉。
 
 ⚠️ 不要用脚本批量生成预览页。每个页面必须读完该品牌的 DESIGN.md 再手写。一次只加一个品牌，串行操作。
 
@@ -15,7 +18,7 @@
 
 ## 步骤 1：写 DESIGN.md
 
-创建 `brand-design-tokens/design-md/<brand>/DESIGN.md`，frontmatter 格式：
+创建 `brand-design-tokens/design-md/<brand>/DESIGN.md`（目录里只放这一个文件，不加 `README.md`），frontmatter 格式：
 
 ```yaml
 ---
@@ -102,7 +105,7 @@ rounded:
 7. 还原品牌专属性格：按钮形状、边框粗细、阴影哲学、装饰元素。
 8. 末尾加 `@media (max-width: 860px)` 响应式回退。
 
-参考：`examples/claude.html`（亮·衬线）/ `examples/stripe.html`（亮·细体）/ `examples/linear.html`（暗·几何）。
+参考：`docs/examples/claude.html`（亮·衬线）/ `docs/examples/stripe.html`（亮·细体）/ `docs/examples/linear.html`（暗·几何）。
 
 ---
 
@@ -136,6 +139,27 @@ rounded:
 
 ---
 
+## 步骤 5：更新 README 与品牌总数
+
+全部品牌都加完后，搜索仓库里写死的品牌总数并 +N（一次加几个就 +几）。涉及文件：
+
+- `README.md`
+- `docs/index.html`（含正文文案 + 大数字 `<span class="preview-big-num">`）
+- `AGENTS.md`
+- `brand-design-tokens/SKILL.md`
+- `brand-slides/SKILL.md`
+- `brand-design-tokens/generate-demo.js`（英文文案 `N real brand...`）
+
+排查命令（排除 `1.71` 行高、`#xxx71` 色值、`\2713` 等噪音）：
+
+```bash
+# 把 N 换成旧总数；最后一项匹配 index.html 里独立的大数字 >N<
+grep -rn "N 套\|N 个\|N real\|>N<" \
+  --include='*.md' --include='*.html' --include='*.js' . | grep -v node_modules
+```
+
+---
+
 ## 自检
 
 - [ ] 浏览器打开无报错，主题切换亮 ↔ 暗正常
@@ -145,6 +169,8 @@ rounded:
 - [ ] `brands.html` 卡片链接正确，计数和总数已 +1
 - [ ] 色板背景色与 DESIGN.md `canvas` 一致，小标签用 `primary` 色
 - [ ] 搜索栏输入品牌名能命中新卡片
+- [ ] 品牌目录里只有 `DESIGN.md`，没有 `README.md`
+- [ ] 全部加完后，README 与各文件里的品牌总数已同步更新（步骤 5）
 
 ---
 
@@ -184,6 +210,8 @@ diff <(ls /tmp/awesome-design-md/design-md/ | sort) \
 
 输出即为待新增的品牌列表。
 
+⚠️ **排除重命名重复**：上游可能把已有品牌换目录名（如本地 `linear` ↔ 上游 `linear.app`），diff 会把它当新品牌列出。逐个核对候选品牌的 `colors`（canvas/primary/ink）是否与某个已有品牌一致——一致就是重复，跳过，不要重复新增。
+
 ### 第二步：格式兼容性检查
 
 复制前，抽查上游 DESIGN.md，确认关键字段存在：
@@ -196,10 +224,11 @@ diff <(ls /tmp/awesome-design-md/design-md/ | sort) \
 
 ### 第三步：复制 DESIGN.md
 
-每次只处理一个品牌：
+每次只处理一个品牌。上游目录带 `README.md`，复制后删掉，只保留 `DESIGN.md`：
 
 ```bash
 cp -r /tmp/awesome-design-md/design-md/<brand> brand-design-tokens/design-md/<brand>
+rm -f brand-design-tokens/design-md/<brand>/README.md
 ```
 
 ### 第四步：接入本项目
@@ -207,3 +236,5 @@ cp -r /tmp/awesome-design-md/design-md/<brand> brand-design-tokens/design-md/<br
 对每个新品牌，依次执行本文的**步骤 2–4**（brands.json → docs/examples/ → docs/brands.html）。
 
 ⚠️ 串行操作，一次处理一个品牌，完成自检后再开始下一个。
+
+全部品牌处理完后，统一执行**步骤 5**更新各文件里的品牌总数。

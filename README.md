@@ -9,7 +9,7 @@ Design Skill Pack 提供两个可组合使用的 Skill，以 `DESIGN.md` 为核�
 ```
 brand-design-tokens  ──→  brand-slides
        ↑
-  71 套真实品牌
+  73 套真实品牌
   设计系统
 ```
 
@@ -24,7 +24,7 @@ brand-design-tokens  ──→  brand-slides
 
 将用户意图路由到对应品牌的设计系统，并输出 token 数据。
 
-- 71 套真实品牌 `DESIGN.md`（Claude、Stripe、Linear、Vercel、Notion、Apple 等）
+- 73 套真实品牌 `DESIGN.md`（Claude、Stripe、Linear、Vercel、Notion、Apple 等）
 - `brands.json` 索引，包含 `id`、`name`、`theme`、`vibe`、`scenarios`、`blurb` 字段
 - 三种选品牌方式：点名品牌、浏览[预览站](https://efun19.github.io/design-skill-pack/brands.html)、按场景/气质推荐
 - 多品牌对比：通过 `generate-demo.js` 生成对比 Demo
@@ -42,7 +42,7 @@ brand-design-tokens  ──→  brand-slides
 
 ## 品牌预览
 
-在线浏览全部 71 套品牌效果：
+在线浏览全部 73 套品牌效果：
 
 ```
 https://efun19.github.io/design-skill-pack/brands.html
@@ -78,7 +78,7 @@ design-skill-pack/
 │   ├── SKILL.md
 │   ├── brands.json
 │   ├── generate-demo.js
-│   └── design-md/<brand>/DESIGN.md   （71 套品牌）
+│   └── design-md/<brand>/DESIGN.md   （73 套品牌）
 │
 ├── brand-slides/
 │   ├── SKILL.md
@@ -93,7 +93,7 @@ design-skill-pack/
 │
 └── docs/                             （GitHub Pages 预览站）
     ├── index.html                        （项目介绍演示文稿，GitHub Pages 首页）
-    ├── brands.html                       （71 套品牌卡片，可搜索）
+    ├── brands.html                       （73 套品牌卡片，可搜索）
     └── examples/<brand>.html
 ```
 

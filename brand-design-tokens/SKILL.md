@@ -11,7 +11,7 @@ description: >
 
 ## 这个 skill 做什么
 
-从 71 套真实品牌 token 库中选定品牌，读取对应 `DESIGN.md`，生成符合该品牌
+从 73 套真实品牌 token 库中选定品牌，读取对应 `DESIGN.md`，生成符合该品牌
 视觉风格的前端产物。技术栈（HTML / React / Vue / Tailwind 等）跟用户需求走，
 不做限定。
 
@@ -33,7 +33,7 @@ description: >
 
 用户没点名品牌时，**立即提供预览链接**：
 
-> 「这里有 71 套品牌预览，可以先浏览选一个（或多个）：
+> 「这里有 73 套品牌预览，可以先浏览选一个（或多个）：
 > [https://efun19.github.io/design-skill-pack/brands.html](https://efun19.github.io/design-skill-pack/brands.html)
 > 选好后告诉我品牌名称。选多个也可以，我会各生成一个轻量 demo 对比，再决定用哪个。
 > 如果你想让我根据你的需求推荐，也可以告诉我。」

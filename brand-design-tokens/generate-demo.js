@@ -26,11 +26,11 @@ function parseArgs(argv) {
   const opts = {
     brands: [],
     title: 'Design Skill Pack',
-    sub:   '71 real brand token libraries for AI-assisted front-end generation.',
+    sub:   '73 real brand token libraries for AI-assisted front-end generation.',
     cta:   'Get Started',
     feat:  ['Brand-Accurate Tokens', 'Multi-Brand Compare', 'Any Stack'],
     desc:  [
-      'CSS custom properties sourced directly from 71 real design systems.',
+      'CSS custom properties sourced directly from 73 real design systems.',
       'Generate side-by-side demos to find the right visual style, fast.',
       'Works with HTML, React, Vue, Tailwind — output in any format.',
     ],

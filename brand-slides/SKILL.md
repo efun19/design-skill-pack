@@ -143,7 +143,7 @@ description: 从零创建动效丰富的 HTML 演示文稿，支持品牌设计 
 通过 `Skill` 工具**检查 `brand-design-tokens` skill 是否可用**：
 
 - **可用** → 调用 `Skill("brand-design-tokens")` 处理品牌选择、读取 DESIGN.md、（可选）生成 Demo。等待用户确认品牌后，你将获得该品牌的 DESIGN.md token 内容。
-- **不可用** → 告知用户：_"未安装 `brand-design-tokens` skill。安装后可访问 71 个真实品牌设计系统（Claude、Stripe、Linear 等）。将降级为预设选择。"_ 然后进入步骤 2.1。
+- **不可用** → 告知用户：_"未安装 `brand-design-tokens` skill。安装后可访问 73 个真实品牌设计系统（Claude、Stripe、Linear 等）。将降级为预设选择。"_ 然后进入步骤 2.1。
 
 获得 DESIGN.md token 后：
 
